@@ -6,7 +6,7 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['', '.js', '.coffee', '.cjsx', '.css', '.less']
+    extensions: ['', '.js', '.cjsx', '.less']
   },
   module: {
     loaders: [
