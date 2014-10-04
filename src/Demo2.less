@@ -6,25 +6,28 @@
 
     li {
       background: red;
-      height: 20px;
+      height: 40px;
       width: 200px;
-      margin: 10px 0;
+      margin: 5px 0;
 
       &.example-enter{
         opacity: 0.01;
-        transition: opacity .5s ease-in;
+        transition: all 200ms ease-out;
+        height: 0px;
 
         &.example-enter-active {
           opacity: 1;
+          height: 30px;
         }
       }
 
       &.example-leave {
         opacity: 1;
-        transition: opacity .5s ease-in;
+        transition: all 200ms ease-in;
 
         &.example-leave-active {
           opacity: 0.01;
+          height: 0px;
         }
       }
     }

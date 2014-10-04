@@ -339,7 +339,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(23)();
-	exports.push([module.id, ".demo2 ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.demo2 ul li {\n  background: red;\n  height: 20px;\n  width: 200px;\n  margin: 10px 0;\n}\n.demo2 ul li.example-enter {\n  opacity: 0.01;\n  transition: opacity 0.5s ease-in;\n}\n.demo2 ul li.example-enter.example-enter-active {\n  opacity: 1;\n}\n.demo2 ul li.example-leave {\n  opacity: 1;\n  transition: opacity 0.5s ease-in;\n}\n.demo2 ul li.example-leave.example-leave-active {\n  opacity: 0.01;\n}\n", ""]);
+	exports.push([module.id, ".demo2 ul {\n  list-style: none;\n  padding: 0;\n  margin: 0;\n}\n.demo2 ul li {\n  background: red;\n  height: 40px;\n  width: 200px;\n  margin: 5px 0;\n}\n.demo2 ul li.example-enter {\n  opacity: 0.01;\n  transition: all 200ms ease-out;\n  height: 0px;\n}\n.demo2 ul li.example-enter.example-enter-active {\n  opacity: 1;\n  height: 30px;\n}\n.demo2 ul li.example-leave {\n  opacity: 1;\n  transition: all 200ms ease-in;\n}\n.demo2 ul li.example-leave.example-leave-active {\n  opacity: 0.01;\n  height: 0px;\n}\n", ""]);
 
 /***/ },
 /* 10 */
