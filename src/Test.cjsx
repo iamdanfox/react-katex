@@ -1,7 +1,7 @@
 
 React = require 'react'
 
-require '../css/test'
+require './Test.less'
 
 
 module.exports = Test = React.createClass
