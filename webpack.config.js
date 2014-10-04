@@ -11,7 +11,7 @@ module.exports = {
   module: {
     loaders: [
       { test: /\.cjsx$/, loaders: ['coffee-loader', 'cjsx-loader']},
-      { test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader'] },
+      { test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader'] }
     ]
   }
 };

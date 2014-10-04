@@ -1,6 +1,13 @@
-Test = require './Test.cjsx'
-React = require 'react'
+Demo1 = require './Demo1.cjsx'
+React = require 'react/addons'
 
 window.React = React
 
-React.renderComponent <Test />, document.getElementById('content')
+App = React.createClass
+  render: ->
+    <div>
+      <Demo1 />
+    </div>
+
+window.onload = ->
+  React.renderComponent <App />, document.querySelector('body')
