@@ -1,7 +1,7 @@
 {
-  "name": "react-animation-demo",
+  "name": "katex-react-component",
   "version": "0.1.0",
-  "description": "Some trivial demos",
+  "description": "React wrapper for KaTeX",
   "dependencies": {
     "react": "^0.11.0"
   },

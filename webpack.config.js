@@ -6,12 +6,13 @@ module.exports = {
     filename: 'bundle.js',
   },
   resolve: {
-    extensions: ['', '.js', '.cjsx', '.less']
+    extensions: ['', '.js', '.cjsx', '.css', '.less']
   },
   module: {
     loaders: [
       { test: /\.cjsx$/, loaders: ['coffee-loader', 'cjsx-loader']},
-      { test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader'] }
+      { test: /\.less$/, loaders: ['style-loader', 'css-loader', 'less-loader'] },
+      { test: /\.css$/, loaders: ['style-loader', 'css-loader'] }
     ]
   }
 };
