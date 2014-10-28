@@ -2,8 +2,6 @@ React = require 'react'
 
 window.React = React
 
-katex = window.katex
-
 
 KaTeX = React.createClass
   displayName: 'KaTeX'
@@ -16,7 +14,7 @@ KaTeX = React.createClass
 
   render: ->
     console.log "'#{@props.string}'"
-    rawMarkup = katex.renderToString @props.string
+    rawMarkup = window.katex.renderToString @props.string
     <div className='katex-react-component' ref='container' dangerouslySetInnerHTML={{__html: rawMarkup}}></div>
 
 
@@ -34,10 +32,10 @@ App = React.createClass
   render: ->
     <div>
       <h1>KaTeX React Component</h1>
-      <KaTeX fake={@state.x} string="c = a^2 + b^2"></KaTeX>
+      <KaTeX fake={@state.x} string="c = \\sqrt{a^2 + b^2}"></KaTeX>
     </div>
 
 window.onload = ->
-  React.renderComponent <App />, document.querySelector('#test')
+  # React.renderComponent <App />, document.querySelector('#test')
 
   window.katex.render "c = a^2 + b^2", document.querySelector('#test2')
