@@ -1,4 +1,5 @@
 require '../lib/katex-0.1.1/katex.min.css'
+katex = require '../lib/katex-0.1.1/katex.min.js'
 React = require 'react'
 
 
@@ -13,7 +14,7 @@ module.exports = KaTeX = React.createClass
     @props.tex or @props.children
 
   componentDidMount: ->
-    window.katex.render @getTex(), @refs.container.getDOMNode()
+    katex.render @getTex(), @refs.container.getDOMNode()
 
   render: ->
     <div className='katex-react-component' ref='container'></div>

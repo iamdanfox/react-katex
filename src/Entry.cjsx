@@ -13,4 +13,4 @@ App = React.createClass
     </div>
 
 window.onload = ->
-  React.renderComponent <App />, document.querySelector('#test')
+  React.renderComponent <App />, document.body
