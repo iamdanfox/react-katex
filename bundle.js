@@ -71,7 +71,7 @@
 
 	var KaTeX, React, katex;
 
-	__webpack_require__(4);
+	__webpack_require__(5);
 
 	katex = __webpack_require__(3);
 
@@ -102,41 +102,71 @@
 /* 2 */
 /***/ function(module, exports, __webpack_require__) {
 
-	module.exports = __webpack_require__(6);
+	module.exports = __webpack_require__(4);
 
 
 /***/ },
 /* 3 */
 /***/ function(module, exports, __webpack_require__) {
 
-	var require;var require;(function(e){if("function"==typeof bootstrap)bootstrap("katex",e);else if(true)module.exports=e();else if("function"==typeof define&&define.amd)define(e);else if("undefined"!=typeof ses){if(!ses.ok())return;ses.makeKatex=e}else"undefined"!=typeof window?window.katex=e():global.katex=e()})(function(){var e,t,i,h,a;return function l(e,t,i){function h(s,r){if(!t[s]){if(!e[s]){var p=typeof require=="function"&&require;if(!r&&p)return require(s,!0);if(a)return a(s,!0);throw new Error("Cannot find module '"+s+"'")}var c=t[s]={exports:{}};e[s][0].call(c.exports,function(t){var i=e[s][1][t];return h(i?i:t)},c,c.exports,l,e,t,i)}return t[s].exports}var a=typeof require=="function"&&require;for(var s=0;s<i.length;s++)h(i[s]);return h}({1:[function(e,t,i){var h=e("./src/ParseError");var a=e("./src/buildTree");var l=e("./src/parseTree");var s=e("./src/utils");var r=function(e,t){s.clearNode(t);var i=l(e);var h=a(i).toNode();t.appendChild(h)};if(typeof document!=="undefined"){if(document.compatMode!=="CSS1Compat"){typeof console!=="undefined"&&console.warn("Warning: KaTeX doesn't work in quirks mode. Make sure your "+"website has a suitable doctype.");r=function(){throw new h("KaTeX doesn't work in quirks mode.")}}}var p=function(e){var t=l(e);return a(t).toMarkup()};t.exports={render:r,renderToString:p,ParseError:h}},{"./src/ParseError":4,"./src/buildTree":8,"./src/parseTree":13,"./src/utils":15}],2:[function(e,t,i){var h=e("./ParseError");function a(e){this._input=e}function l(e,t,i){this.text=e;this.data=t;this.position=i}var s=[/^[/|@.""`0-9a-zA-Z]/,/^[*+-]/,/^[=<>:]/,/^[,;]/,/^['\^_{}]/,/^[(\[]/,/^[)\]?!]/,/^~/];var r=[/^[a-zA-Z0-9`!@*()-=+\[\]'";:?\/.,]/,/^[{}]/,/^~/];var p=/^\s*/;var c=/^( +|\\  +)/;var g=/^\\(?:[a-zA-Z]+|.)/;a.prototype._innerLex=function(e,t,i){var a=this._input.slice(e);var s;if(i){s=a.match(p)[0];e+=s.length;a=a.slice(s.length)}else{s=a.match(c);if(s!==null){return new l(" ",null,e+s[0].length)}}if(a.length===0){return new l("EOF",null,e)}var r;if(r=a.match(g)){return new l(r[0],null,e+r[0].length)}else{for(var d=0;d<t.length;d++){var n=t[d];if(r=a.match(n)){return new l(r[0],null,e+r[0].length)}}}throw new h("Unexpected character: '"+a[0]+"'",this,e)};var d=/^(#[a-z0-9]+|[a-z]+)/i;a.prototype._innerLexColor=function(e){var t=this._input.slice(e);var i=t.match(p)[0];e+=i.length;t=t.slice(i.length);var a;if(a=t.match(d)){return new l(a[0],null,e+a[0].length)}else{throw new h("Invalid color",this,e)}};var n=/^(-?)\s*(\d+(?:\.\d*)?|\.\d+)\s*([a-z]{2})/;a.prototype._innerLexSize=function(e){var t=this._input.slice(e);var i=t.match(p)[0];e+=i.length;t=t.slice(i.length);var a;if(a=t.match(n)){var s=a[3];if(s!=="em"&&s!=="ex"){throw new h("Invalid unit: '"+s+"'",this,e)}return new l(a[0],{number:+(a[1]+a[2]),unit:s},e+a[0].length)}throw new h("Invalid size",this,e)};a.prototype._innerLexWhitespace=function(e){var t=this._input.slice(e);var i=t.match(p)[0];e+=i.length;return new l(i,null,e)};a.prototype.lex=function(e,t){if(t==="math"){return this._innerLex(e,s,true)}else if(t==="text"){return this._innerLex(e,r,false)}else if(t==="color"){return this._innerLexColor(e)}else if(t==="size"){return this._innerLexSize(e)}else if(t==="whitespace"){return this._innerLexWhitespace(e)}};t.exports=a},{"./ParseError":4}],3:[function(e,t,i){function h(e,t,i,h,a){this.style=e;this.color=i;this.size=t;if(h===undefined){h=e}this.parentStyle=h;if(a===undefined){a=t}this.parentSize=a}h.prototype.withStyle=function(e){return new h(e,this.size,this.color,this.style,this.size)};h.prototype.withSize=function(e){return new h(this.style,e,this.color,this.style,this.size)};h.prototype.withColor=function(e){return new h(this.style,this.size,e,this.style,this.size)};h.prototype.reset=function(){return new h(this.style,this.size,this.color,this.style,this.size)};var a={"katex-blue":"#6495ed","katex-orange":"#ffa500","katex-pink":"#ff00af","katex-red":"#df0030","katex-green":"#28ae7b","katex-gray":"gray","katex-purple":"#9d38bd"};h.prototype.getColor=function(){return a[this.color]||this.color};t.exports=h},{}],4:[function(e,t,i){function h(e,t,i){var a="KaTeX parse error: "+e;if(t!==undefined&&i!==undefined){a+=" at position "+i+": ";var l=t._input;l=l.slice(0,i)+"\u0332"+l.slice(i);var s=Math.max(0,i-15);var r=i+15;a+=l.slice(s,r)}var p=new Error(a);p.name="ParseError";p.__proto__=h.prototype;p.position=i;return p}h.prototype.__proto__=Error.prototype;t.exports=h},{}],5:[function(e,t,i){var h=e("./functions");var a=e("./Lexer");var l=e("./symbols");var s=e("./utils");var r=e("./ParseError");function p(e){this.lexer=new a(e)}function c(e,t,i){this.type=e;this.value=t;this.mode=i}function g(e,t){this.result=e;this.position=t}function d(e,t,i,h,a,l){this.result=e;this.isFunction=t;this.allowedInText=i;this.numArgs=h;this.numOptionalArgs=a;this.argTypes=l}p.prototype.expect=function(e,t){if(e.text!==t){throw new r("Expected '"+t+"', got '"+e.text+"'",this.lexer,e.position)}};p.prototype.parse=function(e){var t=this.parseInput(0,"math");return t.result};p.prototype.parseInput=function(e,t){var i=this.parseExpression(e,t,false,null);var h=this.lexer.lex(i.position,t);this.expect(h,"EOF");return i};p.prototype.parseExpression=function(e,t,i,h){var a=[];while(true){var l=this.lexer.lex(e,t);if(h!=null&&l.text===h){break}var s=this.parseAtom(e,t);if(!s){break}if(i&&s.result.type==="infix"){break}a.push(s.result);e=s.position}return new g(this.handleInfixNodes(a,t),e)};p.prototype.handleInfixNodes=function(e,t){var i=-1;var a;var l;for(var s=0;s<e.length;s++){var p=e[s];if(p.type==="infix"){if(i!==-1){throw new r("only one infix operator per group",this.lexer,-1)}i=s;l=p.value.replaceWith;a=h.funcs[l]}}if(i!==-1){var g,d;var n=e.slice(0,i);var o=e.slice(i+1);if(n.length===1&&n[0].type==="ordgroup"){g=n[0]}else{g=new c("ordgroup",n,t)}if(o.length===1&&o[0].type==="ordgroup"){d=o[0]}else{d=new c("ordgroup",o,t)}var w=a.handler(l,g,d);return[new c(w.type,w,t)]}else{return e}};var n=1;p.prototype.handleSupSubscript=function(e,t,i,a){var l=this.parseGroup(e,t);if(!l){throw new r("Expected group after '"+i+"'",this.lexer,e)}else if(l.numArgs>0){var s=h.getGreediness(l.result.result);if(s>n){return this.parseFunction(e,t)}else{throw new r("Got function '"+l.result.result+"' with no arguments "+"as "+a,this.lexer,e)}}else{return l.result}};p.prototype.parseAtom=function(e,t){var i=this.parseImplicitGroup(e,t);if(t==="text"){return i}var h;if(!i){h=e;i=undefined}else{h=i.position}var a;var l;var s;while(true){var p=this.lexer.lex(h,t);if(p.text==="^"){if(a){throw new r("Double superscript",this.lexer,h)}s=this.handleSupSubscript(p.position,t,p.text,"superscript");h=s.position;a=s.result}else if(p.text==="_"){if(l){throw new r("Double subscript",this.lexer,h)}s=this.handleSupSubscript(p.position,t,p.text,"subscript");h=s.position;l=s.result}else if(p.text==="'"){var d=new c("textord","\\prime",t);var n=[d];h=p.position;while((p=this.lexer.lex(h,t)).text==="'"){n.push(d);h=p.position}a=new c("ordgroup",n,t)}else{break}}if(a||l){return new g(new c("supsub",{base:i&&i.result,sup:a,sub:l},t),h)}else{return i}};var o=["\\tiny","\\scriptsize","\\footnotesize","\\small","\\normalsize","\\large","\\Large","\\LARGE","\\huge","\\Huge"];var w=["\\displaystyle","\\textstyle","\\scriptstyle","\\scriptscriptstyle"];p.prototype.parseImplicitGroup=function(e,t){var i=this.parseSymbol(e,t);if(!i||!i.result){return this.parseFunction(e,t)}var h=i.result.result;var a;if(h==="\\left"){var l=this.parseFunction(e,t);a=this.parseExpression(l.position,t,false,"}");var p=this.parseSymbol(a.position,t);if(p&&p.result.result==="\\right"){var d=this.parseFunction(a.position,t);return new g(new c("leftright",{body:a.result,left:l.result.value.value,right:d.result.value.value},t),d.position)}else{throw new r("Missing \\right",this.lexer,a.position)}}else if(h==="\\right"){return null}else if(s.contains(o,h)){a=this.parseExpression(i.result.position,t,false,"}");return new g(new c("sizing",{size:"size"+(s.indexOf(o,h)+1),value:a.result},t),a.position)}else if(s.contains(w,h)){a=this.parseExpression(i.result.position,t,true,"}");return new g(new c("styling",{style:h.slice(1,h.length-5),value:a.result},t),a.position)}else{return this.parseFunction(e,t)}};p.prototype.parseFunction=function(e,t){var i=this.parseGroup(e,t);if(i){if(i.isFunction){var a=i.result.result;if(t==="text"&&!i.allowedInText){throw new r("Can't use function '"+a+"' in text mode",this.lexer,i.position)}var l=i.result.position;var s;var p=i.numArgs+i.numOptionalArgs;if(p>0){var d=h.getGreediness(a);var n=[a];var o=[l];for(var w=0;w<p;w++){var k=i.argTypes&&i.argTypes[w];var u;if(w<i.numOptionalArgs){if(k){u=this.parseSpecialGroup(l,k,t,true)}else{u=this.parseOptionalGroup(l,t)}if(!u){n.push(null);o.push(l);continue}}else{if(k){u=this.parseSpecialGroup(l,k,t)}else{u=this.parseGroup(l,t)}if(!u){throw new r("Expected group after '"+i.result.result+"'",this.lexer,l)}}var m;if(u.numArgs>0){var f=h.getGreediness(u.result.result);if(f>d){m=this.parseFunction(l,t)}else{throw new r("Got function '"+u.result.result+"' as "+"argument to function '"+i.result.result+"'",this.lexer,u.result.position-1)}}else{m=u.result}n.push(m.result);o.push(m.position);l=m.position}n.push(o);s=h.funcs[a].handler.apply(this,n)}else{s=h.funcs[a].handler.apply(this,[a])}return new g(new c(s.type,s,t),l)}else{return i.result}}else{return null}};p.prototype.parseSpecialGroup=function(e,t,i,h){if(t==="color"||t==="size"){var a=this.lexer.lex(e,i);if(h&&a.text!=="["){return null}this.expect(a,h?"[":"{");var l=this.lexer.lex(a.position,t);var s;if(t==="color"){s=l.text}else{s=l.data}var r=this.lexer.lex(l.position,i);this.expect(r,h?"]":"}");return new d(new g(new c(t,s,i),r.position),false)}else if(t==="text"){var p=this.lexer.lex(e,"whitespace");e=p.position}if(h){return this.parseOptionalGroup(e,t)}else{return this.parseGroup(e,t)}};p.prototype.parseGroup=function(e,t){var i=this.lexer.lex(e,t);if(i.text==="{"){var h=this.parseExpression(i.position,t,false,"}");var a=this.lexer.lex(h.position,t);this.expect(a,"}");return new d(new g(new c("ordgroup",h.result,t),a.position),false)}else{return this.parseSymbol(e,t)}};p.prototype.parseOptionalGroup=function(e,t){var i=this.lexer.lex(e,t);if(i.text==="["){var h=this.parseExpression(i.position,t,false,"]");var a=this.lexer.lex(h.position,t);this.expect(a,"]");return new d(new g(new c("ordgroup",h.result,t),a.position),false)}else{return null}};p.prototype.parseSymbol=function(e,t){var i=this.lexer.lex(e,t);if(h.funcs[i.text]){var a=h.funcs[i.text];var s=a.argTypes;if(s){s=s.slice();for(var r=0;r<s.length;r++){if(s[r]==="original"){s[r]=t}}}return new d(new g(i.text,i.position),true,a.allowedInText,a.numArgs,a.numOptionalArgs,s)}else if(l[t][i.text]){return new d(new g(new c(l[t][i.text].group,i.text,t),i.position),false)}else{return null}};t.exports=p},{"./Lexer":2,"./ParseError":4,"./functions":12,"./symbols":14,"./utils":15}],6:[function(e,t,i){function h(e,t,i,h){this.id=e;this.size=t;this.cramped=h;this.sizeMultiplier=i}h.prototype.sup=function(){return w[k[this.id]]};h.prototype.sub=function(){return w[u[this.id]]};h.prototype.fracNum=function(){return w[m[this.id]]};h.prototype.fracDen=function(){return w[f[this.id]]};h.prototype.cramp=function(){return w[v[this.id]]};h.prototype.cls=function(){return n[this.size]+(this.cramped?" cramped":" uncramped")};h.prototype.reset=function(){return o[this.size]};var a=0;var l=1;var s=2;var r=3;var p=4;var c=5;var g=6;var d=7;var n=["displaystyle textstyle","textstyle","scriptstyle","scriptscriptstyle"];var o=["reset-textstyle","reset-textstyle","reset-scriptstyle","reset-scriptscriptstyle"];var w=[new h(a,0,1,false),new h(l,0,1,true),new h(s,1,1,false),new h(r,1,1,true),new h(p,2,.7,false),new h(c,2,.7,true),new h(g,3,.5,false),new h(d,3,.5,true)];var k=[p,c,p,c,g,d,g,d];var u=[c,c,c,c,d,d,d,d];var m=[s,r,p,c,g,d,g,d];var f=[r,r,c,c,d,d,d,d];var v=[l,l,r,r,c,c,d,d];t.exports={DISPLAY:w[a],TEXT:w[s],SCRIPT:w[p],SCRIPTSCRIPT:w[g]}},{}],7:[function(e,t,i){var h=e("./domTree");var a=e("./fontMetrics");var l=e("./symbols");var s=function(e,t,i,s,r){if(l[i][e]&&l[i][e].replace){e=l[i][e].replace}var p=a.getCharacterMetrics(e,t);var c;if(p){c=new h.symbolNode(e,p.height,p.depth,p.italic,p.skew,r)}else{typeof console!=="undefined"&&console.warn("No character metrics for '"+e+"' in style '"+t+"'");c=new h.symbolNode(e,0,0,0,0,r)}if(s){c.style.color=s}return c};var r=function(e,t,i,h){return s(e,"Math-Italic",t,i,h.concat(["mathit"]))};var p=function(e,t,i,h){if(l[t][e].font==="main"){return s(e,"Main-Regular",t,i,h)}else{return s(e,"AMS-Regular",t,i,h.concat(["amsrm"]))}};var c=function(e){var t=0;var i=0;var h=0;if(e.children){for(var a=0;a<e.children.length;a++){if(e.children[a].height>t){t=e.children[a].height}if(e.children[a].depth>i){i=e.children[a].depth}if(e.children[a].maxFontSize>h){h=e.children[a].maxFontSize}}}e.height=t;e.depth=i;e.maxFontSize=h};var g=function(e,t,i){var a=new h.span(e,t);c(a);if(i){a.style.color=i}return a};var d=function(e){var t=new h.documentFragment(e);c(t);return t};var n=function(e,t){var i=g([],[new h.symbolNode("\u200b")]);i.style.fontSize=t/e.style.sizeMultiplier+"em";var a=g(["fontsize-ensurer","reset-"+e.size,"size5"],[i]);return a};var o=function(e,t,i,a){var l;var s;var r;if(t==="individualShift"){var p=e;e=[p[0]];l=-p[0].shift-p[0].elem.depth;s=l;for(r=1;r<p.length;r++){var c=-p[r].shift-s-p[r].elem.depth;var d=c-(p[r-1].elem.height+p[r-1].elem.depth);s=s+c;e.push({type:"kern",size:d});e.push(p[r])}}else if(t==="top"){var o=i;for(r=0;r<e.length;r++){if(e[r].type==="kern"){o-=e[r].size}else{o-=e[r].elem.height+e[r].elem.depth}}l=o}else if(t==="bottom"){l=-i}else if(t==="shift"){l=-e[0].elem.depth-i}else if(t==="firstBaseline"){l=-e[0].elem.depth}else{l=0}var w=0;for(r=0;r<e.length;r++){if(e[r].type==="elem"){w=Math.max(w,e[r].elem.maxFontSize)}}var k=n(a,w);var u=[];s=l;for(r=0;r<e.length;r++){if(e[r].type==="kern"){s+=e[r].size}else{var m=e[r].elem;var f=-m.depth-s;s+=m.height+m.depth;var v=g([],[k,m]);v.height-=f;v.depth+=f;v.style.top=f+"em";u.push(v)}}var y=g(["baseline-fix"],[k,new h.symbolNode("\u200b")]);u.push(y);var x=g(["vlist"],u);x.height=Math.max(s,x.height);x.depth=Math.max(-l,x.depth);return x};t.exports={makeSymbol:s,mathit:r,mathrm:p,makeSpan:g,makeFragment:d,makeVList:o}},{"./domTree":10,"./fontMetrics":11,"./symbols":14}],8:[function(e,t,i){var h=e("./Options");var a=e("./ParseError");var l=e("./Style");var s=e("./buildCommon");var r=e("./delimiter");var p=e("./domTree");var c=e("./fontMetrics");var g=e("./utils");var d=s.makeSpan;var n=function(e,t,i){var h=[];for(var a=0;a<e.length;a++){var l=e[a];h.push(y(l,t,i));i=l}return h};var o={mathord:"mord",textord:"mord",bin:"mbin",rel:"mrel",text:"mord",open:"mopen",close:"mclose",inner:"minner",frac:"minner",spacing:"mord",punct:"mpunct",ordgroup:"mord",op:"mop",katex:"mord",overline:"mord",rule:"mord",leftright:"minner",sqrt:"mord",accent:"mord"};var w=function(e){if(e==null){return o.mathord}else if(e.type==="supsub"){return w(e.value.base)}else if(e.type==="llap"||e.type==="rlap"){return w(e.value)}else if(e.type==="color"){return w(e.value.value)}else if(e.type==="sizing"){return w(e.value.value)}else if(e.type==="styling"){return w(e.value.value)}else if(e.type==="delimsizing"){return o[e.value.delimType]}else{return o[e.type]}};var k=function(e,t){if(!e){return false}else if(e.type==="op"){return e.value.limits&&t.style.size===l.DISPLAY.size}else if(e.type==="accent"){return m(e.value.base)}else{return null}};var u=function(e){if(!e){return false}else if(e.type==="ordgroup"){if(e.value.length===1){return u(e.value[0])}else{return e}}else if(e.type==="color"){if(e.value.value.length===1){return u(e.value.value[0])}else{return e}}else{return e}};var m=function(e){var t=u(e);return t.type==="mathord"||t.type==="textord"||t.type==="bin"||t.type==="rel"||t.type==="inner"||t.type==="open"||t.type==="close"||t.type==="punct"};var f={mathord:function(e,t,i){return s.mathit(e.value,e.mode,t.getColor(),["mord"])},textord:function(e,t,i){return s.mathrm(e.value,e.mode,t.getColor(),["mord"])},bin:function(e,t,i){var h="mbin";var a=i;while(a&&a.type=="color"){var l=a.value.value;a=l[l.length-1]}if(!i||g.contains(["mbin","mopen","mrel","mop","mpunct"],w(a))){e.type="textord";h="mord"}return s.mathrm(e.value,e.mode,t.getColor(),[h])},rel:function(e,t,i){return s.mathrm(e.value,e.mode,t.getColor(),["mrel"])},open:function(e,t,i){return s.mathrm(e.value,e.mode,t.getColor(),["mopen"])},close:function(e,t,i){return s.mathrm(e.value,e.mode,t.getColor(),["mclose"])},inner:function(e,t,i){return s.mathrm(e.value,e.mode,t.getColor(),["minner"])},punct:function(e,t,i){return s.mathrm(e.value,e.mode,t.getColor(),["mpunct"])},ordgroup:function(e,t,i){return d(["mord",t.style.cls()],n(e.value,t.reset()))},text:function(e,t,i){return d(["text","mord",t.style.cls()],n(e.value.body,t.reset()))},color:function(e,t,i){var h=n(e.value.value,t.withColor(e.value.color),i);return new s.makeFragment(h)},supsub:function(e,t,i){if(k(e.value.base,t)){return f[e.value.base.type](e,t,i)}var h=y(e.value.base,t.reset());var a,r,g,n;if(e.value.sup){g=y(e.value.sup,t.withStyle(t.style.sup()));a=d([t.style.reset(),t.style.sup().cls()],[g])}if(e.value.sub){n=y(e.value.sub,t.withStyle(t.style.sub()));r=d([t.style.reset(),t.style.sub().cls()],[n])}var o,u;if(m(e.value.base)){o=0;u=0}else{o=h.height-c.metrics.supDrop;u=h.depth+c.metrics.subDrop}var v;if(t.style===l.DISPLAY){v=c.metrics.sup1}else if(t.style.cramped){v=c.metrics.sup3}else{v=c.metrics.sup2}var x=l.TEXT.sizeMultiplier*t.style.sizeMultiplier;var b=.5/c.metrics.ptPerEm/x+"em";var z;if(!e.value.sup){u=Math.max(u,c.metrics.sub1,n.height-.8*c.metrics.xHeight);z=s.makeVList([{type:"elem",elem:r}],"shift",u,t);z.children[0].style.marginRight=b;if(h instanceof p.symbolNode){z.children[0].style.marginLeft=-h.italic+"em"}}else if(!e.value.sub){o=Math.max(o,v,g.depth+.25*c.metrics.xHeight);z=s.makeVList([{type:"elem",elem:a}],"shift",-o,t);z.children[0].style.marginRight=b}else{o=Math.max(o,v,g.depth+.25*c.metrics.xHeight);u=Math.max(u,c.metrics.sub2);var S=c.metrics.defaultRuleThickness;if(o-g.depth-(n.height-u)<4*S){u=4*S-(o-g.depth)+n.height;var T=.8*c.metrics.xHeight-(o-g.depth);if(T>0){o+=T;u-=T}}z=s.makeVList([{type:"elem",elem:r,shift:u},{type:"elem",elem:a,shift:-o}],"individualShift",null,t);if(h instanceof p.symbolNode){z.children[0].style.marginLeft=-h.italic+"em"}z.children[0].style.marginRight=b;z.children[1].style.marginRight=b}return d([w(e.value.base)],[h,z])},genfrac:function(e,t,i){var h=t.style;if(e.value.size==="display"){h=l.DISPLAY}else if(e.value.size==="text"){h=l.TEXT}var a=h.fracNum();var p=h.fracDen();var g=y(e.value.numer,t.withStyle(a));var n=d([h.reset(),a.cls()],[g]);var o=y(e.value.denom,t.withStyle(p));var w=d([h.reset(),p.cls()],[o]);var k;if(e.value.hasBarLine){k=c.metrics.defaultRuleThickness/t.style.sizeMultiplier}else{k=0}var u;var m;var f;if(h.size===l.DISPLAY.size){u=c.metrics.num1;if(k>0){m=3*k}else{m=7*c.metrics.defaultRuleThickness}f=c.metrics.denom1}else{if(k>0){u=c.metrics.num2;m=k}else{u=c.metrics.num3;m=3*c.metrics.defaultRuleThickness}f=c.metrics.denom2}var v;if(k===0){var x=u-g.depth-(o.height-f);if(x<m){u+=.5*(m-x);f+=.5*(m-x)}v=s.makeVList([{type:"elem",elem:w,shift:f},{type:"elem",elem:n,shift:-u}],"individualShift",null,t)}else{var b=c.metrics.axisHeight;if(u-g.depth-(b+.5*k)<m){u+=m-(u-g.depth-(b+.5*k))}if(b-.5*k-(o.height-f)<m){f+=m-(b-.5*k-(o.height-f))}var z=d([t.style.reset(),l.TEXT.cls(),"frac-line"]);z.height=k;var S=-(b-.5*k);v=s.makeVList([{type:"elem",elem:w,shift:f},{type:"elem",elem:z,shift:S},{type:"elem",elem:n,shift:-u}],"individualShift",null,t)}v.height*=h.sizeMultiplier/t.style.sizeMultiplier;v.depth*=h.sizeMultiplier/t.style.sizeMultiplier;var T=[d(["mfrac"],[v])];var M;if(h.size===l.DISPLAY.size){M=c.metrics.delim1}else{M=c.metrics.getDelim2(h)}if(e.value.leftDelim!=null){T.unshift(r.customSizedDelim(e.value.leftDelim,M,true,t.withStyle(h),e.mode))}if(e.value.rightDelim!=null){T.push(r.customSizedDelim(e.value.rightDelim,M,true,t.withStyle(h),e.mode))}return d(["minner",t.style.reset(),h.cls()],T,t.getColor())},spacing:function(e,t,i){if(e.value==="\\ "||e.value==="\\space"||e.value===" "||e.value==="~"){return d(["mord","mspace"],[s.mathrm(e.value,e.mode)])}else{var h={"\\qquad":"qquad","\\quad":"quad","\\enspace":"enspace","\\;":"thickspace","\\:":"mediumspace","\\,":"thinspace","\\!":"negativethinspace"};return d(["mord","mspace",h[e.value]])}},llap:function(e,t,i){var h=d(["inner"],[y(e.value.body,t.reset())]);var a=d(["fix"],[]);return d(["llap",t.style.cls()],[h,a])},rlap:function(e,t,i){var h=d(["inner"],[y(e.value.body,t.reset())]);var a=d(["fix"],[]);return d(["rlap",t.style.cls()],[h,a])},op:function(e,t,i){var h;var a;var r=false;if(e.type==="supsub"){h=e.value.sup;a=e.value.sub;e=e.value.base;r=true}var p=["\\smallint"];var n=false;if(t.style.size===l.DISPLAY.size&&e.value.symbol&&!g.contains(p,e.value.body)){n=true}var o;var w=0;var k=0;if(e.value.symbol){var u=n?"Size2-Regular":"Size1-Regular";o=s.makeSymbol(e.value.body,u,"math",t.getColor(),["op-symbol",n?"large-op":"small-op","mop"]);w=(o.height-o.depth)/2-c.metrics.axisHeight*t.style.sizeMultiplier;k=o.italic}else{var m=[];for(var f=1;f<e.value.body.length;f++){m.push(s.mathrm(e.value.body[f],e.mode))}o=d(["mop"],m,t.getColor())}if(r){o=d([],[o]);var v,x,b,z;if(h){var S=y(h,t.withStyle(t.style.sup()));v=d([t.style.reset(),t.style.sup().cls()],[S]);x=Math.max(c.metrics.bigOpSpacing1,c.metrics.bigOpSpacing3-S.depth)}if(a){var T=y(a,t.withStyle(t.style.sub()));b=d([t.style.reset(),t.style.sub().cls()],[T]);z=Math.max(c.metrics.bigOpSpacing2,c.metrics.bigOpSpacing4-T.height)}var M,R,C;if(!h){R=o.height-w;M=s.makeVList([{type:"kern",size:c.metrics.bigOpSpacing5},{type:"elem",elem:b},{type:"kern",size:z},{type:"elem",elem:o}],"top",R,t);M.children[0].style.marginLeft=-k+"em"}else if(!a){C=o.depth+w;M=s.makeVList([{type:"elem",elem:o},{type:"kern",size:x},{type:"elem",elem:v},{type:"kern",size:c.metrics.bigOpSpacing5}],"bottom",C,t);M.children[1].style.marginLeft=k+"em"}else if(!h&&!a){return o}else{C=c.metrics.bigOpSpacing5+b.height+b.depth+z+o.depth+w;M=s.makeVList([{type:"kern",size:c.metrics.bigOpSpacing5},{type:"elem",elem:b},{type:"kern",size:z},{type:"elem",elem:o},{type:"kern",size:x},{type:"elem",elem:v},{type:"kern",size:c.metrics.bigOpSpacing5}],"bottom",C,t);M.children[0].style.marginLeft=-k+"em";M.children[2].style.marginLeft=k+"em"}return d(["mop","op-limits"],[M])}else{if(e.value.symbol){o.style.top=w+"em"}return o}},katex:function(e,t,i){var h=d(["k"],[s.mathrm("K",e.mode)]);var a=d(["a"],[s.mathrm("A",e.mode)]);a.height=(a.height+.2)*.75;a.depth=(a.height-.2)*.75;var l=d(["t"],[s.mathrm("T",e.mode)]);var r=d(["e"],[s.mathrm("E",e.mode)]);r.height=r.height-.2155;r.depth=r.depth+.2155;var p=d(["x"],[s.mathrm("X",e.mode)]);return d(["katex-logo"],[h,a,l,r,p],t.getColor())},overline:function(e,t,i){var h=y(e.value.body,t.withStyle(t.style.cramp()));var a=c.metrics.defaultRuleThickness/t.style.sizeMultiplier;var r=d([t.style.reset(),l.TEXT.cls(),"overline-line"]);r.height=a;r.maxFontSize=1;var p=s.makeVList([{type:"elem",elem:h},{type:"kern",size:3*a},{type:"elem",elem:r},{type:"kern",size:a}],"firstBaseline",null,t);return d(["overline","mord"],[p],t.getColor())},sqrt:function(e,t,i){var h=y(e.value.body,t.withStyle(t.style.cramp()));var a=c.metrics.defaultRuleThickness/t.style.sizeMultiplier;var p=d([t.style.reset(),l.TEXT.cls(),"sqrt-line"],[],t.getColor());p.height=a;p.maxFontSize=1;var g=a;if(t.style.id<l.TEXT.id){g=c.metrics.xHeight}var n=a+g/4;var o=(h.height+h.depth)*t.style.sizeMultiplier;var w=o+n+a;var k=d(["sqrt-sign"],[r.customSizedDelim("\\surd",w,false,t,e.mode)],t.getColor());var u=k.height+k.depth-a;if(u>h.height+h.depth+n){n=(n+u-h.height-h.depth)/2}var m=-(h.height+n+a)+k.height;k.style.top=m+"em";k.height-=m;k.depth+=m;var f;if(h.height===0&&h.depth===0){f=d()}else{f=s.makeVList([{type:"elem",elem:h},{type:"kern",size:n},{type:"elem",elem:p},{type:"kern",size:a}],"firstBaseline",null,t)}return d(["sqrt","mord"],[k,f])},sizing:function(e,t,i){var h=n(e.value.value,t.withSize(e.value.size),i);var a=d(["mord"],[d(["sizing","reset-"+t.size,e.value.size,t.style.cls()],h)]);var l=v[e.value.size];a.maxFontSize=l*t.style.sizeMultiplier;return a},styling:function(e,t,i){var h={display:l.DISPLAY,text:l.TEXT,script:l.SCRIPT,scriptscript:l.SCRIPTSCRIPT};var a=h[e.value.style];var s=n(e.value.value,t.withStyle(a),i);return d([t.style.reset(),a.cls()],s)},delimsizing:function(e,t,i){var h=e.value.value;if(h==="."){return d([o[e.value.delimType]])}return d([o[e.value.delimType]],[r.sizedDelim(h,e.value.size,t,e.mode)])},leftright:function(e,t,i){var h=n(e.value.body,t.reset());var a=0;var l=0;for(var s=0;s<h.length;s++){a=Math.max(h[s].height,a);l=Math.max(h[s].depth,l)}a*=t.style.sizeMultiplier;l*=t.style.sizeMultiplier;var p;if(e.value.left==="."){p=d(["nulldelimiter"])}else{p=r.leftRightDelim(e.value.left,a,l,t,e.mode)}h.unshift(p);var c;if(e.value.right==="."){c=d(["nulldelimiter"])}else{c=r.leftRightDelim(e.value.right,a,l,t,e.mode)}h.push(c);return d(["minner",t.style.cls()],h,t.getColor())},rule:function(e,t,i){var h=d(["mord","rule"],[],t.getColor());var a=0;if(e.value.shift){a=e.value.shift.number;if(e.value.shift.unit==="ex"){a*=c.metrics.xHeight}}var l=e.value.width.number;if(e.value.width.unit==="ex"){l*=c.metrics.xHeight}var s=e.value.height.number;if(e.value.height.unit==="ex"){s*=c.metrics.xHeight}a/=t.style.sizeMultiplier;l/=t.style.sizeMultiplier;s/=t.style.sizeMultiplier;h.style.borderRightWidth=l+"em";h.style.borderTopWidth=s+"em";h.style.bottom=a+"em";h.width=l;h.height=s+a;h.depth=-a;return h},accent:function(e,t,i){var h=e.value.base;var a;if(e.type==="supsub"){var l=e;e=l.value.base;h=e.value.base;l.value.base=h;a=y(l,t.reset(),i)}var r=y(h,t.withStyle(t.style.cramp()));var p;if(m(h)){var g=u(h);var n=y(g,t.withStyle(t.style.cramp()));p=n.skew}else{p=0}var o=Math.min(r.height,c.metrics.xHeight);var w=s.makeSymbol(e.value.accent,"Main-Regular","math",t.getColor());w.italic=0;var k=e.value.accent==="\\vec"?"accent-vec":null;var f=d(["accent-body",k],[d([],[w])]);f=s.makeVList([{type:"elem",elem:r},{type:"kern",size:-o},{type:"elem",elem:f}],"firstBaseline",null,t);f.children[1].style.marginLeft=2*p+"em";var v=d(["mord","accent"],[f]);if(a){a.children[0]=v;a.height=Math.max(v.height,a.height);a.classes[0]="mord";return a}else{return v}}};var v={size1:.5,size2:.7,size3:.8,size4:.9,size5:1,size6:1.2,size7:1.44,size8:1.73,size9:2.07,size10:2.49};var y=function(e,t,i){if(!e){return d()}if(f[e.type]){var h=f[e.type](e,t,i);var l;if(t.style!==t.parentStyle){l=t.style.sizeMultiplier/t.parentStyle.sizeMultiplier;h.height*=l;h.depth*=l}if(t.size!==t.parentSize){l=v[t.size]/v[t.parentSize];h.height*=l;h.depth*=l}return h}else{throw new a("Got group of unknown type: '"+e.type+"'")}};var x=function(e){var t=new h(l.TEXT,"size5","");var i=n(e,t);var a=d(["base",t.style.cls()],i);var s=d(["strut"]);var r=d(["strut","bottom"]);s.style.height=a.height+"em";r.style.height=a.height+a.depth+"em";r.style.verticalAlign=-a.depth+"em";var p=d(["katex"],[d(["katex-inner"],[s,r,a])]);return p};t.exports=x},{"./Options":3,"./ParseError":4,"./Style":6,"./buildCommon":7,"./delimiter":9,"./domTree":10,"./fontMetrics":11,"./utils":15}],9:[function(e,t,i){var h=e("./ParseError");var a=e("./Style");var l=e("./buildCommon");var s=e("./fontMetrics");var r=e("./symbols");var p=e("./utils");var c=l.makeSpan;var g=function(e,t){if(r.math[e]&&r.math[e].replace){return s.getCharacterMetrics(r.math[e].replace,t)}else{return s.getCharacterMetrics(e,t)}};var d=function(e,t,i){return l.makeSymbol(e,"Size"+t+"-Regular",i)};var n=function(e,t,i){var h=c(["style-wrap",i.style.reset(),t.cls()],[e]);var a=t.sizeMultiplier/i.style.sizeMultiplier;h.height*=a;h.depth*=a;h.maxFontSize=t.sizeMultiplier;return h};var o=function(e,t,i,h,a){var r=l.makeSymbol(e,"Main-Regular",a);var p=n(r,t,h);if(i){var c=(1-h.style.sizeMultiplier/t.sizeMultiplier)*s.metrics.axisHeight;p.style.top=c+"em";p.height-=c;p.depth+=c}return p};var w=function(e,t,i,h,l){var r=d(e,t,l);var p=n(c(["delimsizing","size"+t],[r],h.getColor()),a.TEXT,h);if(i){var g=(1-h.style.sizeMultiplier)*s.metrics.axisHeight;p.style.top=g+"em";p.height-=g;p.depth+=g}return p};var k=function(e,t,i){var h;if(t==="Size1-Regular"){h="delim-size1"}else if(t==="Size4-Regular"){h="delim-size4"}var a=c(["delimsizinginner",h],[c([],[l.makeSymbol(e,t,i)])]);return{type:"elem",elem:a}};var u=function(e,t,i,h,r){var p,d,o,w;p=o=w=e;d=null;var u="Size1-Regular";if(e==="\\uparrow"){o=w="\u23d0"}else if(e==="\\Uparrow"){o=w="\u2016"}else if(e==="\\downarrow"){p=o="\u23d0"}else if(e==="\\Downarrow"){p=o="\u2016"}else if(e==="\\updownarrow"){p="\\uparrow";o="\u23d0";w="\\downarrow"}else if(e==="\\Updownarrow"){p="\\Uparrow";o="\u2016";w="\\Downarrow"}else if(e==="["||e==="\\lbrack"){p="\u23a1";o="\u23a2";w="\u23a3";u="Size4-Regular"}else if(e==="]"||e==="\\rbrack"){p="\u23a4";o="\u23a5";w="\u23a6";u="Size4-Regular"}else if(e==="\\lfloor"){o=p="\u23a2";w="\u23a3";u="Size4-Regular"}else if(e==="\\lceil"){p="\u23a1";o=w="\u23a2";u="Size4-Regular"}else if(e==="\\rfloor"){o=p="\u23a5";w="\u23a6";u="Size4-Regular"}else if(e==="\\rceil"){p="\u23a4";o=w="\u23a5";u="Size4-Regular"}else if(e==="("){p="\u239b";o="\u239c";w="\u239d";u="Size4-Regular"}else if(e===")"){p="\u239e";o="\u239f";w="\u23a0";u="Size4-Regular"}else if(e==="\\{"||e==="\\lbrace"){p="\u23a7";d="\u23a8";w="\u23a9";o="\u23aa";u="Size4-Regular"}else if(e==="\\}"||e==="\\rbrace"){p="\u23ab";d="\u23ac";w="\u23ad";o="\u23aa";u="Size4-Regular"}else if(e==="\\surd"){p="\ue001";w="\u23b7";o="\ue000";u="Size4-Regular"}var m=g(p,u);var f=m.height+m.depth;var v=g(o,u);var y=v.height+v.depth;var x=g(w,u);var b=x.height+x.depth;var z,S;if(d!==null){z=g(d,u);S=z.height+z.depth}var T=f+b;if(d!==null){T+=S}while(T<t){T+=y;if(d!==null){T+=y}}var M=s.metrics.axisHeight;if(i){M*=h.style.sizeMultiplier}var R=T/2-M;var C=[];C.push(k(w,u,r));var A;if(d===null){var E=T-f-b;var P=Math.ceil(E/y);for(A=0;A<P;A++){C.push(k(o,u,r))}}else{var I=T/2-f-S/2;var L=Math.ceil(I/y);var O=T/2-f-S/2;var D=Math.ceil(O/y);for(A=0;A<L;A++){C.push(k(o,u,r))}C.push(k(d,u,r));for(A=0;A<D;A++){C.push(k(o,u,r))}}C.push(k(p,u,r));var q=l.makeVList(C,"bottom",R,h);return n(c(["delimsizing","mult"],[q],h.getColor()),a.TEXT,h)};var m=["(",")","[","\\lbrack","]","\\rbrack","\\{","\\lbrace","\\}","\\rbrace","\\lfloor","\\rfloor","\\lceil","\\rceil","\\surd"];var f=["\\uparrow","\\downarrow","\\updownarrow","\\Uparrow","\\Downarrow","\\Updownarrow","|","\\|","\\vert","\\Vert"];var v=["<",">","\\langle","\\rangle","/","\\backslash"];var y=[0,1.2,1.8,2.4,3];var x=function(e,t,i,a){if(e==="<"){e="\\langle"}else if(e===">"){e="\\rangle"}if(p.contains(m,e)||p.contains(v,e)){return w(e,t,false,i,a)}else if(p.contains(f,e)){return u(e,y[t],false,i,a)}else{throw new h("Illegal delimiter: '"+e+"'")}};var b=[{type:"small",style:a.SCRIPTSCRIPT},{type:"small",style:a.SCRIPT},{type:"small",style:a.TEXT},{type:"large",size:1},{type:"large",size:2},{type:"large",size:3},{type:"large",size:4}];var z=[{type:"small",style:a.SCRIPTSCRIPT},{type:"small",style:a.SCRIPT},{type:"small",style:a.TEXT},{type:"stack"}];var S=[{type:"small",style:a.SCRIPTSCRIPT},{type:"small",style:a.SCRIPT},{type:"small",style:a.TEXT},{type:"large",size:1},{type:"large",size:2},{type:"large",size:3},{type:"large",size:4},{type:"stack"}];var T=function(e){if(e.type==="small"){return"Main-Regular"}else if(e.type==="large"){return"Size"+e.size+"-Regular"}else if(e.type==="stack"){return"Size4-Regular"}};var M=function(e,t,i,h){var a=Math.min(2,3-h.style.size);for(var l=a;l<i.length;l++){if(i[l].type==="stack"){break}var s=g(e,T(i[l]));var r=s.height+s.depth;if(i[l].type==="small"){r*=i[l].style.sizeMultiplier
-	}if(r>t){return i[l]}}return i[i.length-1]};var R=function(e,t,i,h,a){if(e==="<"){e="\\langle"}else if(e===">"){e="\\rangle"}var l;if(p.contains(v,e)){l=b}else if(p.contains(m,e)){l=S}else{l=z}var s=M(e,t,l,h);if(s.type==="small"){return o(e,s.style,i,h,a)}else if(s.type==="large"){return w(e,s.size,i,h,a)}else if(s.type==="stack"){return u(e,t,i,h,a)}};var C=function(e,t,i,h,a){var l=s.metrics.axisHeight*h.style.sizeMultiplier;var r=901;var p=5/s.metrics.ptPerEm;var c=Math.max(t-l,i+l);var g=Math.max(c/500*r,2*c-p);return R(e,g,true,h,a)};t.exports={sizedDelim:x,customSizedDelim:R,leftRightDelim:C}},{"./ParseError":4,"./Style":6,"./buildCommon":7,"./fontMetrics":11,"./symbols":14,"./utils":15}],10:[function(e,t,i){var h=e("./utils");var a=function(e){e=e.slice();for(var t=e.length-1;t>=0;t--){if(!e[t]){e.splice(t,1)}}return e.join(" ")};function l(e,t,i,h,a,l){this.classes=e||[];this.children=t||[];this.height=i||0;this.depth=h||0;this.maxFontSize=a||0;this.style=l||{}}l.prototype.toNode=function(){var e=document.createElement("span");e.className=a(this.classes);for(var t in this.style){if(this.style.hasOwnProperty(t)){e.style[t]=this.style[t]}}for(var i=0;i<this.children.length;i++){e.appendChild(this.children[i].toNode())}return e};l.prototype.toMarkup=function(){var e="<span";if(this.classes.length){e+=' class="';e+=h.escape(a(this.classes));e+='"'}var t="";for(var i in this.style){if(this.style.hasOwnProperty(i)){t+=h.hyphenate(i)+":"+this.style[i]+";"}}if(t){e+=' style="'+h.escape(t)+'"'}e+=">";for(var l=0;l<this.children.length;l++){e+=this.children[l].toMarkup()}e+="</span>";return e};function s(e,t,i,h){this.children=e||[];this.height=t||0;this.depth=i||0;this.maxFontSize=h||0}s.prototype.toNode=function(){var e=document.createDocumentFragment();for(var t=0;t<this.children.length;t++){e.appendChild(this.children[t].toNode())}return e};s.prototype.toMarkup=function(){var e="";for(var t=0;t<this.children.length;t++){e+=this.children[t].toMarkup()}return e};function r(e,t,i,h,a,l,s){this.value=e||"";this.height=t||0;this.depth=i||0;this.italic=h||0;this.skew=a||0;this.classes=l||[];this.style=s||{};this.maxFontSize=0}r.prototype.toNode=function(){var e=document.createTextNode(this.value);var t=null;if(this.italic>0){t=document.createElement("span");t.style.marginRight=this.italic+"em"}if(this.classes.length>0){t=t||document.createElement("span");t.className=a(this.classes)}for(var i in this.style){if(this.style.hasOwnProperty(i)){t=t||document.createElement("span");t.style[i]=this.style[i]}}if(t){t.appendChild(e);return t}else{return e}};r.prototype.toMarkup=function(){var e=false;var t="<span";if(this.classes.length){e=true;t+=' class="';t+=h.escape(a(this.classes));t+='"'}var i="";if(this.italic>0){i+="margin-right:"+this.italic+"em;"}for(var l in this.style){if(this.style.hasOwnProperty(l)){i+=h.hyphenate(l)+":"+this.style[l]+";"}}if(i){e=true;t+=' style="'+h.escape(i)+'"'}var s=h.escape(this.value);if(e){t+=">";t+=s;t+="</span>";return t}else{return s}};t.exports={span:l,documentFragment:s,symbolNode:r}},{"./utils":15}],11:[function(e,t,i){var h=e("./Style");var a=.025;var l=0;var s=0;var r=0;var p=.431;var c=1;var g=0;var d=.677;var n=.394;var o=.444;var w=.686;var k=.345;var u=.413;var m=.363;var f=.289;var v=.15;var y=.247;var x=.386;var b=.05;var z=2.39;var S=1.01;var T=.81;var M=.71;var R=.25;var C=0;var A=0;var E=0;var P=0;var I=.431;var L=1;var O=0;var D=.04;var q=.111;var F=.166;var _=.2;var B=.6;var G=.1;var N=10;var X={xHeight:p,quad:c,num1:d,num2:n,num3:o,denom1:w,denom2:k,sup1:u,sup2:m,sup3:f,sub1:v,sub2:y,supDrop:x,subDrop:b,axisHeight:R,defaultRuleThickness:D,bigOpSpacing1:q,bigOpSpacing2:F,bigOpSpacing3:_,bigOpSpacing4:B,bigOpSpacing5:G,ptPerEm:N,delim1:z,getDelim2:function(e){if(e.size===h.TEXT.size){return S}else if(e.size===h.SCRIPT.size){return T}else if(e.size===h.SCRIPTSCRIPT.size){return M}throw new Error("Unexpected style size: "+e.size)}};var H={"AMS-Regular":{10003:{depth:0,height:.69224,italic:0,skew:0},10016:{depth:0,height:.69224,italic:0,skew:0},1008:{depth:0,height:.43056,italic:.04028,skew:0},107:{depth:0,height:.68889,italic:0,skew:0},10731:{depth:.11111,height:.69224,italic:0,skew:0},10846:{depth:.19444,height:.75583,italic:0,skew:0},10877:{depth:.13667,height:.63667,italic:0,skew:0},10878:{depth:.13667,height:.63667,italic:0,skew:0},10885:{depth:.25583,height:.75583,italic:0,skew:0},10886:{depth:.25583,height:.75583,italic:0,skew:0},10887:{depth:.13597,height:.63597,italic:0,skew:0},10888:{depth:.13597,height:.63597,italic:0,skew:0},10889:{depth:.26167,height:.75726,italic:0,skew:0},10890:{depth:.26167,height:.75726,italic:0,skew:0},10891:{depth:.48256,height:.98256,italic:0,skew:0},10892:{depth:.48256,height:.98256,italic:0,skew:0},10901:{depth:.13667,height:.63667,italic:0,skew:0},10902:{depth:.13667,height:.63667,italic:0,skew:0},10933:{depth:.25142,height:.75726,italic:0,skew:0},10934:{depth:.25142,height:.75726,italic:0,skew:0},10935:{depth:.26167,height:.75726,italic:0,skew:0},10936:{depth:.26167,height:.75726,italic:0,skew:0},10937:{depth:.26167,height:.75726,italic:0,skew:0},10938:{depth:.26167,height:.75726,italic:0,skew:0},10949:{depth:.25583,height:.75583,italic:0,skew:0},10950:{depth:.25583,height:.75583,italic:0,skew:0},10955:{depth:.28481,height:.79383,italic:0,skew:0},10956:{depth:.28481,height:.79383,italic:0,skew:0},165:{depth:0,height:.675,italic:.025,skew:0},174:{depth:.15559,height:.69224,italic:0,skew:0},240:{depth:0,height:.68889,italic:0,skew:0},295:{depth:0,height:.68889,italic:0,skew:0},57350:{depth:.08167,height:.58167,italic:0,skew:0},57351:{depth:.08167,height:.58167,italic:0,skew:0},57352:{depth:.08167,height:.58167,italic:0,skew:0},57353:{depth:0,height:.43056,italic:.04028,skew:0},57356:{depth:.25142,height:.75726,italic:0,skew:0},57357:{depth:.25142,height:.75726,italic:0,skew:0},57358:{depth:.41951,height:.91951,italic:0,skew:0},57359:{depth:.30274,height:.79383,italic:0,skew:0},57360:{depth:.30274,height:.79383,italic:0,skew:0},57361:{depth:.41951,height:.91951,italic:0,skew:0},57366:{depth:.25142,height:.75726,italic:0,skew:0},57367:{depth:.25142,height:.75726,italic:0,skew:0},57368:{depth:.25142,height:.75726,italic:0,skew:0},57369:{depth:.25142,height:.75726,italic:0,skew:0},57370:{depth:.13597,height:.63597,italic:0,skew:0},57371:{depth:.13597,height:.63597,italic:0,skew:0},65:{depth:0,height:.68889,italic:0,skew:0},66:{depth:0,height:.68889,italic:0,skew:0},67:{depth:0,height:.68889,italic:0,skew:0},68:{depth:0,height:.68889,italic:0,skew:0},69:{depth:0,height:.68889,italic:0,skew:0},70:{depth:0,height:.68889,italic:0,skew:0},71:{depth:0,height:.68889,italic:0,skew:0},710:{depth:0,height:.825,italic:0,skew:0},72:{depth:0,height:.68889,italic:0,skew:0},73:{depth:0,height:.68889,italic:0,skew:0},732:{depth:0,height:.9,italic:0,skew:0},74:{depth:.16667,height:.68889,italic:0,skew:0},75:{depth:0,height:.68889,italic:0,skew:0},76:{depth:0,height:.68889,italic:0,skew:0},77:{depth:0,height:.68889,italic:0,skew:0},770:{depth:0,height:.825,italic:0,skew:0},771:{depth:0,height:.9,italic:0,skew:0},78:{depth:0,height:.68889,italic:0,skew:0},79:{depth:.16667,height:.68889,italic:0,skew:0},80:{depth:0,height:.68889,italic:0,skew:0},81:{depth:.16667,height:.68889,italic:0,skew:0},82:{depth:0,height:.68889,italic:0,skew:0},8245:{depth:0,height:.54986,italic:0,skew:0},83:{depth:0,height:.68889,italic:0,skew:0},84:{depth:0,height:.68889,italic:0,skew:0},8463:{depth:0,height:.68889,italic:0,skew:0},8487:{depth:0,height:.68889,italic:0,skew:0},8498:{depth:0,height:.68889,italic:0,skew:0},85:{depth:0,height:.68889,italic:0,skew:0},8502:{depth:0,height:.68889,italic:0,skew:0},8503:{depth:0,height:.68889,italic:0,skew:0},8504:{depth:0,height:.68889,italic:0,skew:0},8513:{depth:0,height:.68889,italic:0,skew:0},8592:{depth:-.03598,height:.46402,italic:0,skew:0},8594:{depth:-.03598,height:.46402,italic:0,skew:0},86:{depth:0,height:.68889,italic:0,skew:0},8602:{depth:-.13313,height:.36687,italic:0,skew:0},8603:{depth:-.13313,height:.36687,italic:0,skew:0},8606:{depth:.01354,height:.52239,italic:0,skew:0},8608:{depth:.01354,height:.52239,italic:0,skew:0},8610:{depth:.01354,height:.52239,italic:0,skew:0},8611:{depth:.01354,height:.52239,italic:0,skew:0},8619:{depth:0,height:.54986,italic:0,skew:0},8620:{depth:0,height:.54986,italic:0,skew:0},8621:{depth:-.13313,height:.37788,italic:0,skew:0},8622:{depth:-.13313,height:.36687,italic:0,skew:0},8624:{depth:0,height:.69224,italic:0,skew:0},8625:{depth:0,height:.69224,italic:0,skew:0},8630:{depth:0,height:.43056,italic:0,skew:0},8631:{depth:0,height:.43056,italic:0,skew:0},8634:{depth:.08198,height:.58198,italic:0,skew:0},8635:{depth:.08198,height:.58198,italic:0,skew:0},8638:{depth:.19444,height:.69224,italic:0,skew:0},8639:{depth:.19444,height:.69224,italic:0,skew:0},8642:{depth:.19444,height:.69224,italic:0,skew:0},8643:{depth:.19444,height:.69224,italic:0,skew:0},8644:{depth:.1808,height:.675,italic:0,skew:0},8646:{depth:.1808,height:.675,italic:0,skew:0},8647:{depth:.1808,height:.675,italic:0,skew:0},8648:{depth:.19444,height:.69224,italic:0,skew:0},8649:{depth:.1808,height:.675,italic:0,skew:0},8650:{depth:.19444,height:.69224,italic:0,skew:0},8651:{depth:.01354,height:.52239,italic:0,skew:0},8652:{depth:.01354,height:.52239,italic:0,skew:0},8653:{depth:-.13313,height:.36687,italic:0,skew:0},8654:{depth:-.13313,height:.36687,italic:0,skew:0},8655:{depth:-.13313,height:.36687,italic:0,skew:0},8666:{depth:.13667,height:.63667,italic:0,skew:0},8667:{depth:.13667,height:.63667,italic:0,skew:0},8669:{depth:-.13313,height:.37788,italic:0,skew:0},87:{depth:0,height:.68889,italic:0,skew:0},8705:{depth:0,height:.825,italic:0,skew:0},8708:{depth:0,height:.68889,italic:0,skew:0},8709:{depth:.08167,height:.58167,italic:0,skew:0},8717:{depth:0,height:.43056,italic:0,skew:0},8722:{depth:-.03598,height:.46402,italic:0,skew:0},8724:{depth:.08198,height:.69224,italic:0,skew:0},8726:{depth:.08167,height:.58167,italic:0,skew:0},8733:{depth:0,height:.69224,italic:0,skew:0},8736:{depth:0,height:.69224,italic:0,skew:0},8737:{depth:0,height:.69224,italic:0,skew:0},8738:{depth:.03517,height:.52239,italic:0,skew:0},8739:{depth:.08167,height:.58167,italic:0,skew:0},8740:{depth:.25142,height:.74111,italic:0,skew:0},8741:{depth:.08167,height:.58167,italic:0,skew:0},8742:{depth:.25142,height:.74111,italic:0,skew:0},8756:{depth:0,height:.69224,italic:0,skew:0},8757:{depth:0,height:.69224,italic:0,skew:0},8764:{depth:-.13313,height:.36687,italic:0,skew:0},8765:{depth:-.13313,height:.37788,italic:0,skew:0},8769:{depth:-.13313,height:.36687,italic:0,skew:0},8770:{depth:-.03625,height:.46375,italic:0,skew:0},8774:{depth:.30274,height:.79383,italic:0,skew:0},8776:{depth:-.01688,height:.48312,italic:0,skew:0},8778:{depth:.08167,height:.58167,italic:0,skew:0},8782:{depth:.06062,height:.54986,italic:0,skew:0},8783:{depth:.06062,height:.54986,italic:0,skew:0},8785:{depth:.08198,height:.58198,italic:0,skew:0},8786:{depth:.08198,height:.58198,italic:0,skew:0},8787:{depth:.08198,height:.58198,italic:0,skew:0},8790:{depth:0,height:.69224,italic:0,skew:0},8791:{depth:.22958,height:.72958,italic:0,skew:0},8796:{depth:.08198,height:.91667,italic:0,skew:0},88:{depth:0,height:.68889,italic:0,skew:0},8806:{depth:.25583,height:.75583,italic:0,skew:0},8807:{depth:.25583,height:.75583,italic:0,skew:0},8808:{depth:.25142,height:.75726,italic:0,skew:0},8809:{depth:.25142,height:.75726,italic:0,skew:0},8812:{depth:.25583,height:.75583,italic:0,skew:0},8814:{depth:.20576,height:.70576,italic:0,skew:0},8815:{depth:.20576,height:.70576,italic:0,skew:0},8816:{depth:.30274,height:.79383,italic:0,skew:0},8817:{depth:.30274,height:.79383,italic:0,skew:0},8818:{depth:.22958,height:.72958,italic:0,skew:0},8819:{depth:.22958,height:.72958,italic:0,skew:0},8822:{depth:.1808,height:.675,italic:0,skew:0},8823:{depth:.1808,height:.675,italic:0,skew:0},8828:{depth:.13667,height:.63667,italic:0,skew:0},8829:{depth:.13667,height:.63667,italic:0,skew:0},8830:{depth:.22958,height:.72958,italic:0,skew:0},8831:{depth:.22958,height:.72958,italic:0,skew:0},8832:{depth:.20576,height:.70576,italic:0,skew:0},8833:{depth:.20576,height:.70576,italic:0,skew:0},8840:{depth:.30274,height:.79383,italic:0,skew:0},8841:{depth:.30274,height:.79383,italic:0,skew:0},8842:{depth:.13597,height:.63597,italic:0,skew:0},8843:{depth:.13597,height:.63597,italic:0,skew:0},8847:{depth:.03517,height:.54986,italic:0,skew:0},8848:{depth:.03517,height:.54986,italic:0,skew:0},8858:{depth:.08198,height:.58198,italic:0,skew:0},8859:{depth:.08198,height:.58198,italic:0,skew:0},8861:{depth:.08198,height:.58198,italic:0,skew:0},8862:{depth:0,height:.675,italic:0,skew:0},8863:{depth:0,height:.675,italic:0,skew:0},8864:{depth:0,height:.675,italic:0,skew:0},8865:{depth:0,height:.675,italic:0,skew:0},8872:{depth:0,height:.69224,italic:0,skew:0},8873:{depth:0,height:.69224,italic:0,skew:0},8874:{depth:0,height:.69224,italic:0,skew:0},8876:{depth:0,height:.68889,italic:0,skew:0},8877:{depth:0,height:.68889,italic:0,skew:0},8878:{depth:0,height:.68889,italic:0,skew:0},8879:{depth:0,height:.68889,italic:0,skew:0},8882:{depth:.03517,height:.54986,italic:0,skew:0},8883:{depth:.03517,height:.54986,italic:0,skew:0},8884:{depth:.13667,height:.63667,italic:0,skew:0},8885:{depth:.13667,height:.63667,italic:0,skew:0},8888:{depth:0,height:.54986,italic:0,skew:0},8890:{depth:.19444,height:.43056,italic:0,skew:0},8891:{depth:.19444,height:.69224,italic:0,skew:0},8892:{depth:.19444,height:.69224,italic:0,skew:0},89:{depth:0,height:.68889,italic:0,skew:0},8901:{depth:0,height:.54986,italic:0,skew:0},8903:{depth:.08167,height:.58167,italic:0,skew:0},8905:{depth:.08167,height:.58167,italic:0,skew:0},8906:{depth:.08167,height:.58167,italic:0,skew:0},8907:{depth:0,height:.69224,italic:0,skew:0},8908:{depth:0,height:.69224,italic:0,skew:0},8909:{depth:-.03598,height:.46402,italic:0,skew:0},8910:{depth:0,height:.54986,italic:0,skew:0},8911:{depth:0,height:.54986,italic:0,skew:0},8912:{depth:.03517,height:.54986,italic:0,skew:0},8913:{depth:.03517,height:.54986,italic:0,skew:0},8914:{depth:0,height:.54986,italic:0,skew:0},8915:{depth:0,height:.54986,italic:0,skew:0},8916:{depth:0,height:.69224,italic:0,skew:0},8918:{depth:.0391,height:.5391,italic:0,skew:0},8919:{depth:.0391,height:.5391,italic:0,skew:0},8920:{depth:.03517,height:.54986,italic:0,skew:0},8921:{depth:.03517,height:.54986,italic:0,skew:0},8922:{depth:.38569,height:.88569,italic:0,skew:0},8923:{depth:.38569,height:.88569,italic:0,skew:0},8926:{depth:.13667,height:.63667,italic:0,skew:0},8927:{depth:.13667,height:.63667,italic:0,skew:0},8928:{depth:.30274,height:.79383,italic:0,skew:0},8929:{depth:.30274,height:.79383,italic:0,skew:0},8934:{depth:.23222,height:.74111,italic:0,skew:0},8935:{depth:.23222,height:.74111,italic:0,skew:0},8936:{depth:.23222,height:.74111,italic:0,skew:0},8937:{depth:.23222,height:.74111,italic:0,skew:0},8938:{depth:.20576,height:.70576,italic:0,skew:0},8939:{depth:.20576,height:.70576,italic:0,skew:0},8940:{depth:.30274,height:.79383,italic:0,skew:0},8941:{depth:.30274,height:.79383,italic:0,skew:0},8994:{depth:.19444,height:.69224,italic:0,skew:0},8995:{depth:.19444,height:.69224,italic:0,skew:0},90:{depth:0,height:.68889,italic:0,skew:0},9416:{depth:.15559,height:.69224,italic:0,skew:0},9484:{depth:0,height:.69224,italic:0,skew:0},9488:{depth:0,height:.69224,italic:0,skew:0},9492:{depth:0,height:.37788,italic:0,skew:0},9496:{depth:0,height:.37788,italic:0,skew:0},9585:{depth:.19444,height:.68889,italic:0,skew:0},9586:{depth:.19444,height:.74111,italic:0,skew:0},9632:{depth:0,height:.675,italic:0,skew:0},9633:{depth:0,height:.675,italic:0,skew:0},9650:{depth:0,height:.54986,italic:0,skew:0},9651:{depth:0,height:.54986,italic:0,skew:0},9654:{depth:.03517,height:.54986,italic:0,skew:0},9660:{depth:0,height:.54986,italic:0,skew:0},9661:{depth:0,height:.54986,italic:0,skew:0},9664:{depth:.03517,height:.54986,italic:0,skew:0},9674:{depth:.11111,height:.69224,italic:0,skew:0},9733:{depth:.19444,height:.69224,italic:0,skew:0},989:{depth:.08167,height:.58167,italic:0,skew:0}},"Main-Bold":{100:{depth:0,height:.69444,italic:0,skew:0},101:{depth:0,height:.44444,italic:0,skew:0},102:{depth:0,height:.69444,italic:.10903,skew:0},10216:{depth:.25,height:.75,italic:0,skew:0},10217:{depth:.25,height:.75,italic:0,skew:0},103:{depth:.19444,height:.44444,italic:.01597,skew:0},104:{depth:0,height:.69444,italic:0,skew:0},105:{depth:0,height:.69444,italic:0,skew:0},106:{depth:.19444,height:.69444,italic:0,skew:0},107:{depth:0,height:.69444,italic:0,skew:0},108:{depth:0,height:.69444,italic:0,skew:0},10815:{depth:0,height:.68611,italic:0,skew:0},109:{depth:0,height:.44444,italic:0,skew:0},10927:{depth:.19667,height:.69667,italic:0,skew:0},10928:{depth:.19667,height:.69667,italic:0,skew:0},110:{depth:0,height:.44444,italic:0,skew:0},111:{depth:0,height:.44444,italic:0,skew:0},112:{depth:.19444,height:.44444,italic:0,skew:0},113:{depth:.19444,height:.44444,italic:0,skew:0},114:{depth:0,height:.44444,italic:0,skew:0},115:{depth:0,height:.44444,italic:0,skew:0},116:{depth:0,height:.63492,italic:0,skew:0},117:{depth:0,height:.44444,italic:0,skew:0},118:{depth:0,height:.44444,italic:.01597,skew:0},119:{depth:0,height:.44444,italic:.01597,skew:0},120:{depth:0,height:.44444,italic:0,skew:0},121:{depth:.19444,height:.44444,italic:.01597,skew:0},122:{depth:0,height:.44444,italic:0,skew:0},123:{depth:.25,height:.75,italic:0,skew:0},124:{depth:.25,height:.75,italic:0,skew:0},125:{depth:.25,height:.75,italic:0,skew:0},126:{depth:.35,height:.34444,italic:0,skew:0},168:{depth:0,height:.69444,italic:0,skew:0},172:{depth:0,height:.44444,italic:0,skew:0},175:{depth:0,height:.59611,italic:0,skew:0},176:{depth:0,height:.69444,italic:0,skew:0},177:{depth:.13333,height:.63333,italic:0,skew:0},180:{depth:0,height:.69444,italic:0,skew:0},215:{depth:.13333,height:.63333,italic:0,skew:0},247:{depth:.13333,height:.63333,italic:0,skew:0},305:{depth:0,height:.44444,italic:0,skew:0},33:{depth:0,height:.69444,italic:0,skew:0},34:{depth:0,height:.69444,italic:0,skew:0},35:{depth:.19444,height:.69444,italic:0,skew:0},36:{depth:.05556,height:.75,italic:0,skew:0},37:{depth:.05556,height:.75,italic:0,skew:0},38:{depth:0,height:.69444,italic:0,skew:0},39:{depth:0,height:.69444,italic:0,skew:0},40:{depth:.25,height:.75,italic:0,skew:0},41:{depth:.25,height:.75,italic:0,skew:0},42:{depth:0,height:.75,italic:0,skew:0},43:{depth:.13333,height:.63333,italic:0,skew:0},44:{depth:.19444,height:.15556,italic:0,skew:0},45:{depth:0,height:.44444,italic:0,skew:0},46:{depth:0,height:.15556,italic:0,skew:0},47:{depth:.25,height:.75,italic:0,skew:0},48:{depth:0,height:.64444,italic:0,skew:0},49:{depth:0,height:.64444,italic:0,skew:0},50:{depth:0,height:.64444,italic:0,skew:0},51:{depth:0,height:.64444,italic:0,skew:0},52:{depth:0,height:.64444,italic:0,skew:0},53:{depth:0,height:.64444,italic:0,skew:0},54:{depth:0,height:.64444,italic:0,skew:0},55:{depth:0,height:.64444,italic:0,skew:0},56:{depth:0,height:.64444,italic:0,skew:0},567:{depth:.19444,height:.44444,italic:0,skew:0},57:{depth:0,height:.64444,italic:0,skew:0},58:{depth:0,height:.44444,italic:0,skew:0},59:{depth:.19444,height:.44444,italic:0,skew:0},60:{depth:.08556,height:.58556,italic:0,skew:0},61:{depth:-.10889,height:.39111,italic:0,skew:0},62:{depth:.08556,height:.58556,italic:0,skew:0},63:{depth:0,height:.69444,italic:0,skew:0},64:{depth:0,height:.69444,italic:0,skew:0},65:{depth:0,height:.68611,italic:0,skew:0},66:{depth:0,height:.68611,italic:0,skew:0},67:{depth:0,height:.68611,italic:0,skew:0},68:{depth:0,height:.68611,italic:0,skew:0},69:{depth:0,height:.68611,italic:0,skew:0},70:{depth:0,height:.68611,italic:0,skew:0},71:{depth:0,height:.68611,italic:0,skew:0},710:{depth:0,height:.69444,italic:0,skew:0},711:{depth:0,height:.63194,italic:0,skew:0},713:{depth:0,height:.59611,italic:0,skew:0},714:{depth:0,height:.69444,italic:0,skew:0},715:{depth:0,height:.69444,italic:0,skew:0},72:{depth:0,height:.68611,italic:0,skew:0},728:{depth:0,height:.69444,italic:0,skew:0},729:{depth:0,height:.69444,italic:0,skew:0},73:{depth:0,height:.68611,italic:0,skew:0},730:{depth:0,height:.69444,italic:0,skew:0},732:{depth:0,height:.69444,italic:0,skew:0},74:{depth:0,height:.68611,italic:0,skew:0},75:{depth:0,height:.68611,italic:0,skew:0},76:{depth:0,height:.68611,italic:0,skew:0},768:{depth:0,height:.69444,italic:0,skew:0},769:{depth:0,height:.69444,italic:0,skew:0},77:{depth:0,height:.68611,italic:0,skew:0},770:{depth:0,height:.69444,italic:0,skew:0},771:{depth:0,height:.69444,italic:0,skew:0},772:{depth:0,height:.59611,italic:0,skew:0},774:{depth:0,height:.69444,italic:0,skew:0},775:{depth:0,height:.69444,italic:0,skew:0},776:{depth:0,height:.69444,italic:0,skew:0},778:{depth:0,height:.69444,italic:0,skew:0},779:{depth:0,height:.69444,italic:0,skew:0},78:{depth:0,height:.68611,italic:0,skew:0},780:{depth:0,height:.63194,italic:0,skew:0},79:{depth:0,height:.68611,italic:0,skew:0},80:{depth:0,height:.68611,italic:0,skew:0},81:{depth:.19444,height:.68611,italic:0,skew:0},82:{depth:0,height:.68611,italic:0,skew:0},8211:{depth:0,height:.44444,italic:.03194,skew:0},8212:{depth:0,height:.44444,italic:.03194,skew:0},8216:{depth:0,height:.69444,italic:0,skew:0},8217:{depth:0,height:.69444,italic:0,skew:0},8220:{depth:0,height:.69444,italic:0,skew:0},8221:{depth:0,height:.69444,italic:0,skew:0},8224:{depth:.19444,height:.69444,italic:0,skew:0},8225:{depth:.19444,height:.69444,italic:0,skew:0},824:{depth:.19444,height:.69444,italic:0,skew:0},8242:{depth:0,height:.55556,italic:0,skew:0},83:{depth:0,height:.68611,italic:0,skew:0},84:{depth:0,height:.68611,italic:0,skew:0},8407:{depth:0,height:.72444,italic:.15486,skew:0},8463:{depth:0,height:.69444,italic:0,skew:0},8465:{depth:0,height:.69444,italic:0,skew:0},8467:{depth:0,height:.69444,italic:0,skew:0},8472:{depth:.19444,height:.44444,italic:0,skew:0},8476:{depth:0,height:.69444,italic:0,skew:0},85:{depth:0,height:.68611,italic:0,skew:0},8501:{depth:0,height:.69444,italic:0,skew:0},8592:{depth:-.10889,height:.39111,italic:0,skew:0},8593:{depth:.19444,height:.69444,italic:0,skew:0},8594:{depth:-.10889,height:.39111,italic:0,skew:0},8595:{depth:.19444,height:.69444,italic:0,skew:0},8596:{depth:-.10889,height:.39111,italic:0,skew:0},8597:{depth:.25,height:.75,italic:0,skew:0},8598:{depth:.19444,height:.69444,italic:0,skew:0},8599:{depth:.19444,height:.69444,italic:0,skew:0},86:{depth:0,height:.68611,italic:.01597,skew:0},8600:{depth:.19444,height:.69444,italic:0,skew:0},8601:{depth:.19444,height:.69444,italic:0,skew:0},8636:{depth:-.10889,height:.39111,italic:0,skew:0},8637:{depth:-.10889,height:.39111,italic:0,skew:0},8640:{depth:-.10889,height:.39111,italic:0,skew:0},8641:{depth:-.10889,height:.39111,italic:0,skew:0},8656:{depth:-.10889,height:.39111,italic:0,skew:0},8657:{depth:.19444,height:.69444,italic:0,skew:0},8658:{depth:-.10889,height:.39111,italic:0,skew:0},8659:{depth:.19444,height:.69444,italic:0,skew:0},8660:{depth:-.10889,height:.39111,italic:0,skew:0},8661:{depth:.25,height:.75,italic:0,skew:0},87:{depth:0,height:.68611,italic:.01597,skew:0},8704:{depth:0,height:.69444,italic:0,skew:0},8706:{depth:0,height:.69444,italic:.06389,skew:0},8707:{depth:0,height:.69444,italic:0,skew:0},8709:{depth:.05556,height:.75,italic:0,skew:0},8711:{depth:0,height:.68611,italic:0,skew:0},8712:{depth:.08556,height:.58556,italic:0,skew:0},8715:{depth:.08556,height:.58556,italic:0,skew:0},8722:{depth:.13333,height:.63333,italic:0,skew:0},8723:{depth:.13333,height:.63333,italic:0,skew:0},8725:{depth:.25,height:.75,italic:0,skew:0},8726:{depth:.25,height:.75,italic:0,skew:0},8727:{depth:-.02778,height:.47222,italic:0,skew:0},8728:{depth:-.02639,height:.47361,italic:0,skew:0},8729:{depth:-.02639,height:.47361,italic:0,skew:0},8730:{depth:.18,height:.82,italic:0,skew:0},8733:{depth:0,height:.44444,italic:0,skew:0},8734:{depth:0,height:.44444,italic:0,skew:0},8736:{depth:0,height:.69224,italic:0,skew:0},8739:{depth:.25,height:.75,italic:0,skew:0},8741:{depth:.25,height:.75,italic:0,skew:0},8743:{depth:0,height:.55556,italic:0,skew:0},8744:{depth:0,height:.55556,italic:0,skew:0},8745:{depth:0,height:.55556,italic:0,skew:0},8746:{depth:0,height:.55556,italic:0,skew:0},8747:{depth:.19444,height:.69444,italic:.12778,skew:0},8764:{depth:-.10889,height:.39111,italic:0,skew:0},8768:{depth:.19444,height:.69444,italic:0,skew:0},8771:{depth:.00222,height:.50222,italic:0,skew:0},8776:{depth:.02444,height:.52444,italic:0,skew:0},8781:{depth:.00222,height:.50222,italic:0,skew:0},88:{depth:0,height:.68611,italic:0,skew:0},8801:{depth:.00222,height:.50222,italic:0,skew:0},8804:{depth:.19667,height:.69667,italic:0,skew:0},8805:{depth:.19667,height:.69667,italic:0,skew:0},8810:{depth:.08556,height:.58556,italic:0,skew:0},8811:{depth:.08556,height:.58556,italic:0,skew:0},8826:{depth:.08556,height:.58556,italic:0,skew:0},8827:{depth:.08556,height:.58556,italic:0,skew:0},8834:{depth:.08556,height:.58556,italic:0,skew:0},8835:{depth:.08556,height:.58556,italic:0,skew:0},8838:{depth:.19667,height:.69667,italic:0,skew:0},8839:{depth:.19667,height:.69667,italic:0,skew:0},8846:{depth:0,height:.55556,italic:0,skew:0},8849:{depth:.19667,height:.69667,italic:0,skew:0},8850:{depth:.19667,height:.69667,italic:0,skew:0},8851:{depth:0,height:.55556,italic:0,skew:0},8852:{depth:0,height:.55556,italic:0,skew:0},8853:{depth:.13333,height:.63333,italic:0,skew:0},8854:{depth:.13333,height:.63333,italic:0,skew:0},8855:{depth:.13333,height:.63333,italic:0,skew:0},8856:{depth:.13333,height:.63333,italic:0,skew:0},8857:{depth:.13333,height:.63333,italic:0,skew:0},8866:{depth:0,height:.69444,italic:0,skew:0},8867:{depth:0,height:.69444,italic:0,skew:0},8868:{depth:0,height:.69444,italic:0,skew:0},8869:{depth:0,height:.69444,italic:0,skew:0},89:{depth:0,height:.68611,italic:.02875,skew:0},8900:{depth:-.02639,height:.47361,italic:0,skew:0},8901:{depth:-.02639,height:.47361,italic:0,skew:0},8902:{depth:-.02778,height:.47222,italic:0,skew:0},8968:{depth:.25,height:.75,italic:0,skew:0},8969:{depth:.25,height:.75,italic:0,skew:0},8970:{depth:.25,height:.75,italic:0,skew:0},8971:{depth:.25,height:.75,italic:0,skew:0},8994:{depth:-.13889,height:.36111,italic:0,skew:0},8995:{depth:-.13889,height:.36111,italic:0,skew:0},90:{depth:0,height:.68611,italic:0,skew:0},91:{depth:.25,height:.75,italic:0,skew:0},915:{depth:0,height:.68611,italic:0,skew:0},916:{depth:0,height:.68611,italic:0,skew:0},92:{depth:.25,height:.75,italic:0,skew:0},920:{depth:0,height:.68611,italic:0,skew:0},923:{depth:0,height:.68611,italic:0,skew:0},926:{depth:0,height:.68611,italic:0,skew:0},928:{depth:0,height:.68611,italic:0,skew:0},93:{depth:.25,height:.75,italic:0,skew:0},931:{depth:0,height:.68611,italic:0,skew:0},933:{depth:0,height:.68611,italic:0,skew:0},934:{depth:0,height:.68611,italic:0,skew:0},936:{depth:0,height:.68611,italic:0,skew:0},937:{depth:0,height:.68611,italic:0,skew:0},94:{depth:0,height:.69444,italic:0,skew:0},95:{depth:.31,height:.13444,italic:.03194,skew:0},96:{depth:0,height:.69444,italic:0,skew:0},9651:{depth:.19444,height:.69444,italic:0,skew:0},9657:{depth:-.02778,height:.47222,italic:0,skew:0},9661:{depth:.19444,height:.69444,italic:0,skew:0},9667:{depth:-.02778,height:.47222,italic:0,skew:0},97:{depth:0,height:.44444,italic:0,skew:0},9711:{depth:.19444,height:.69444,italic:0,skew:0},98:{depth:0,height:.69444,italic:0,skew:0},9824:{depth:.12963,height:.69444,italic:0,skew:0},9825:{depth:.12963,height:.69444,italic:0,skew:0},9826:{depth:.12963,height:.69444,italic:0,skew:0},9827:{depth:.12963,height:.69444,italic:0,skew:0},9837:{depth:0,height:.75,italic:0,skew:0},9838:{depth:.19444,height:.69444,italic:0,skew:0},9839:{depth:.19444,height:.69444,italic:0,skew:0},99:{depth:0,height:.44444,italic:0,skew:0}},"Main-Italic":{100:{depth:0,height:.69444,italic:.10333,skew:0},101:{depth:0,height:.43056,italic:.07514,skew:0},102:{depth:.19444,height:.69444,italic:.21194,skew:0},103:{depth:.19444,height:.43056,italic:.08847,skew:0},104:{depth:0,height:.69444,italic:.07671,skew:0},105:{depth:0,height:.65536,italic:.1019,skew:0},106:{depth:.19444,height:.65536,italic:.14467,skew:0},107:{depth:0,height:.69444,italic:.10764,skew:0},108:{depth:0,height:.69444,italic:.10333,skew:0},109:{depth:0,height:.43056,italic:.07671,skew:0},110:{depth:0,height:.43056,italic:.07671,skew:0},111:{depth:0,height:.43056,italic:.06312,skew:0},112:{depth:.19444,height:.43056,italic:.06312,skew:0},113:{depth:.19444,height:.43056,italic:.08847,skew:0},114:{depth:0,height:.43056,italic:.10764,skew:0},115:{depth:0,height:.43056,italic:.08208,skew:0},116:{depth:0,height:.61508,italic:.09486,skew:0},117:{depth:0,height:.43056,italic:.07671,skew:0},118:{depth:0,height:.43056,italic:.10764,skew:0},119:{depth:0,height:.43056,italic:.10764,skew:0},120:{depth:0,height:.43056,italic:.12042,skew:0},121:{depth:.19444,height:.43056,italic:.08847,skew:0},122:{depth:0,height:.43056,italic:.12292,skew:0},126:{depth:.35,height:.31786,italic:.11585,skew:0},163:{depth:0,height:.69444,italic:0,skew:0},305:{depth:0,height:.43056,italic:.07671,skew:0},33:{depth:0,height:.69444,italic:.12417,skew:0},34:{depth:0,height:.69444,italic:.06961,skew:0},35:{depth:.19444,height:.69444,italic:.06616,skew:0},37:{depth:.05556,height:.75,italic:.13639,skew:0},38:{depth:0,height:.69444,italic:.09694,skew:0},39:{depth:0,height:.69444,italic:.12417,skew:0},40:{depth:.25,height:.75,italic:.16194,skew:0},41:{depth:.25,height:.75,italic:.03694,skew:0},42:{depth:0,height:.75,italic:.14917,skew:0},43:{depth:.05667,height:.56167,italic:.03694,skew:0},44:{depth:.19444,height:.10556,italic:0,skew:0},45:{depth:0,height:.43056,italic:.02826,skew:0},46:{depth:0,height:.10556,italic:0,skew:0},47:{depth:.25,height:.75,italic:.16194,skew:0},48:{depth:0,height:.64444,italic:.13556,skew:0},49:{depth:0,height:.64444,italic:.13556,skew:0},50:{depth:0,height:.64444,italic:.13556,skew:0},51:{depth:0,height:.64444,italic:.13556,skew:0},52:{depth:.19444,height:.64444,italic:.13556,skew:0},53:{depth:0,height:.64444,italic:.13556,skew:0},54:{depth:0,height:.64444,italic:.13556,skew:0},55:{depth:.19444,height:.64444,italic:.13556,skew:0},56:{depth:0,height:.64444,italic:.13556,skew:0},567:{depth:.19444,height:.43056,italic:.03736,skew:0},57:{depth:0,height:.64444,italic:.13556,skew:0},58:{depth:0,height:.43056,italic:.0582,skew:0},59:{depth:.19444,height:.43056,italic:.0582,skew:0},61:{depth:-.13313,height:.36687,italic:.06616,skew:0},63:{depth:0,height:.69444,italic:.1225,skew:0},64:{depth:0,height:.69444,italic:.09597,skew:0},65:{depth:0,height:.68333,italic:0,skew:0},66:{depth:0,height:.68333,italic:.10257,skew:0},67:{depth:0,height:.68333,italic:.14528,skew:0},68:{depth:0,height:.68333,italic:.09403,skew:0},69:{depth:0,height:.68333,italic:.12028,skew:0},70:{depth:0,height:.68333,italic:.13305,skew:0},71:{depth:0,height:.68333,italic:.08722,skew:0},72:{depth:0,height:.68333,italic:.16389,skew:0},73:{depth:0,height:.68333,italic:.15806,skew:0},74:{depth:0,height:.68333,italic:.14028,skew:0},75:{depth:0,height:.68333,italic:.14528,skew:0},76:{depth:0,height:.68333,italic:0,skew:0},768:{depth:0,height:.69444,italic:0,skew:0},769:{depth:0,height:.69444,italic:.09694,skew:0},77:{depth:0,height:.68333,italic:.16389,skew:0},770:{depth:0,height:.69444,italic:.06646,skew:0},771:{depth:0,height:.66786,italic:.11585,skew:0},772:{depth:0,height:.56167,italic:.10333,skew:0},774:{depth:0,height:.69444,italic:.10806,skew:0},775:{depth:0,height:.66786,italic:.11752,skew:0},776:{depth:0,height:.66786,italic:.10474,skew:0},778:{depth:0,height:.69444,italic:0,skew:0},779:{depth:0,height:.69444,italic:.1225,skew:0},78:{depth:0,height:.68333,italic:.16389,skew:0},780:{depth:0,height:.62847,italic:.08295,skew:0},79:{depth:0,height:.68333,italic:.09403,skew:0},80:{depth:0,height:.68333,italic:.10257,skew:0},81:{depth:.19444,height:.68333,italic:.09403,skew:0},82:{depth:0,height:.68333,italic:.03868,skew:0},8211:{depth:0,height:.43056,italic:.09208,skew:0},8212:{depth:0,height:.43056,italic:.09208,skew:0},8216:{depth:0,height:.69444,italic:.12417,skew:0},8217:{depth:0,height:.69444,italic:.12417,skew:0},8220:{depth:0,height:.69444,italic:.1685,skew:0},8221:{depth:0,height:.69444,italic:.06961,skew:0},83:{depth:0,height:.68333,italic:.11972,skew:0},84:{depth:0,height:.68333,italic:.13305,skew:0},8463:{depth:0,height:.68889,italic:0,skew:0},85:{depth:0,height:.68333,italic:.16389,skew:0},86:{depth:0,height:.68333,italic:.18361,skew:0},87:{depth:0,height:.68333,italic:.18361,skew:0},88:{depth:0,height:.68333,italic:.15806,skew:0},89:{depth:0,height:.68333,italic:.19383,skew:0},90:{depth:0,height:.68333,italic:.14528,skew:0},91:{depth:.25,height:.75,italic:.1875,skew:0},915:{depth:0,height:.68333,italic:.13305,skew:0},916:{depth:0,height:.68333,italic:0,skew:0},920:{depth:0,height:.68333,italic:.09403,skew:0},923:{depth:0,height:.68333,italic:0,skew:0},926:{depth:0,height:.68333,italic:.15294,skew:0},928:{depth:0,height:.68333,italic:.16389,skew:0},93:{depth:.25,height:.75,italic:.10528,skew:0},931:{depth:0,height:.68333,italic:.12028,skew:0},933:{depth:0,height:.68333,italic:.11111,skew:0},934:{depth:0,height:.68333,italic:.05986,skew:0},936:{depth:0,height:.68333,italic:.11111,skew:0},937:{depth:0,height:.68333,italic:.10257,skew:0},94:{depth:0,height:.69444,italic:.06646,skew:0},95:{depth:.31,height:.12056,italic:.09208,skew:0},97:{depth:0,height:.43056,italic:.07671,skew:0},98:{depth:0,height:.69444,italic:.06312,skew:0},99:{depth:0,height:.43056,italic:.05653,skew:0}},"Main-Regular":{32:{depth:-0,height:0,italic:0,skew:0},160:{depth:-0,height:0,italic:0,skew:0},8230:{depth:-0,height:.12,italic:0,skew:0},8773:{depth:-.022,height:.589,italic:0,skew:0},8800:{depth:.215,height:.716,italic:0,skew:0},8942:{depth:.03,height:.9,italic:0,skew:0},8943:{depth:-.19,height:.31,italic:0,skew:0},8945:{depth:-.1,height:.82,italic:0,skew:0},100:{depth:0,height:.69444,italic:0,skew:0},101:{depth:0,height:.43056,italic:0,skew:0},102:{depth:0,height:.69444,italic:.07778,skew:0},10216:{depth:.25,height:.75,italic:0,skew:0},10217:{depth:.25,height:.75,italic:0,skew:0},103:{depth:.19444,height:.43056,italic:.01389,skew:0},104:{depth:0,height:.69444,italic:0,skew:0},105:{depth:0,height:.66786,italic:0,skew:0},106:{depth:.19444,height:.66786,italic:0,skew:0},107:{depth:0,height:.69444,italic:0,skew:0},108:{depth:0,height:.69444,italic:0,skew:0},10815:{depth:0,height:.68333,italic:0,skew:0},109:{depth:0,height:.43056,italic:0,skew:0},10927:{depth:.13597,height:.63597,italic:0,skew:0},10928:{depth:.13597,height:.63597,italic:0,skew:0},110:{depth:0,height:.43056,italic:0,skew:0},111:{depth:0,height:.43056,italic:0,skew:0},112:{depth:.19444,height:.43056,italic:0,skew:0},113:{depth:.19444,height:.43056,italic:0,skew:0},114:{depth:0,height:.43056,italic:0,skew:0},115:{depth:0,height:.43056,italic:0,skew:0},116:{depth:0,height:.61508,italic:0,skew:0},117:{depth:0,height:.43056,italic:0,skew:0},118:{depth:0,height:.43056,italic:.01389,skew:0},119:{depth:0,height:.43056,italic:.01389,skew:0},120:{depth:0,height:.43056,italic:0,skew:0},121:{depth:.19444,height:.43056,italic:.01389,skew:0},122:{depth:0,height:.43056,italic:0,skew:0},123:{depth:.25,height:.75,italic:0,skew:0},124:{depth:.25,height:.75,italic:0,skew:0},125:{depth:.25,height:.75,italic:0,skew:0},126:{depth:.35,height:.31786,italic:0,skew:0},168:{depth:0,height:.66786,italic:0,skew:0},172:{depth:0,height:.43056,italic:0,skew:0},175:{depth:0,height:.56778,italic:0,skew:0},176:{depth:0,height:.69444,italic:0,skew:0},177:{depth:.08333,height:.58333,italic:0,skew:0},180:{depth:0,height:.69444,italic:0,skew:0},215:{depth:.08333,height:.58333,italic:0,skew:0},247:{depth:.08333,height:.58333,italic:0,skew:0},305:{depth:0,height:.43056,italic:0,skew:0},33:{depth:0,height:.69444,italic:0,skew:0},34:{depth:0,height:.69444,italic:0,skew:0},35:{depth:.19444,height:.69444,italic:0,skew:0},36:{depth:.05556,height:.75,italic:0,skew:0},37:{depth:.05556,height:.75,italic:0,skew:0},38:{depth:0,height:.69444,italic:0,skew:0},39:{depth:0,height:.69444,italic:0,skew:0},40:{depth:.25,height:.75,italic:0,skew:0},41:{depth:.25,height:.75,italic:0,skew:0},42:{depth:0,height:.75,italic:0,skew:0},43:{depth:.08333,height:.58333,italic:0,skew:0},44:{depth:.19444,height:.10556,italic:0,skew:0},45:{depth:0,height:.43056,italic:0,skew:0},46:{depth:0,height:.10556,italic:0,skew:0},47:{depth:.25,height:.75,italic:0,skew:0},48:{depth:0,height:.64444,italic:0,skew:0},49:{depth:0,height:.64444,italic:0,skew:0},50:{depth:0,height:.64444,italic:0,skew:0},51:{depth:0,height:.64444,italic:0,skew:0},52:{depth:0,height:.64444,italic:0,skew:0},53:{depth:0,height:.64444,italic:0,skew:0},54:{depth:0,height:.64444,italic:0,skew:0},55:{depth:0,height:.64444,italic:0,skew:0},56:{depth:0,height:.64444,italic:0,skew:0},567:{depth:.19444,height:.43056,italic:0,skew:0},57:{depth:0,height:.64444,italic:0,skew:0},58:{depth:0,height:.43056,italic:0,skew:0},59:{depth:.19444,height:.43056,italic:0,skew:0},60:{depth:.0391,height:.5391,italic:0,skew:0},61:{depth:-.13313,height:.36687,italic:0,skew:0},62:{depth:.0391,height:.5391,italic:0,skew:0},63:{depth:0,height:.69444,italic:0,skew:0},64:{depth:0,height:.69444,italic:0,skew:0},65:{depth:0,height:.68333,italic:0,skew:0},66:{depth:0,height:.68333,italic:0,skew:0},67:{depth:0,height:.68333,italic:0,skew:0},68:{depth:0,height:.68333,italic:0,skew:0},69:{depth:0,height:.68333,italic:0,skew:0},70:{depth:0,height:.68333,italic:0,skew:0},71:{depth:0,height:.68333,italic:0,skew:0},710:{depth:0,height:.69444,italic:0,skew:0},711:{depth:0,height:.62847,italic:0,skew:0},713:{depth:0,height:.56778,italic:0,skew:0},714:{depth:0,height:.69444,italic:0,skew:0},715:{depth:0,height:.69444,italic:0,skew:0},72:{depth:0,height:.68333,italic:0,skew:0},728:{depth:0,height:.69444,italic:0,skew:0},729:{depth:0,height:.66786,italic:0,skew:0},73:{depth:0,height:.68333,italic:0,skew:0},730:{depth:0,height:.69444,italic:0,skew:0},732:{depth:0,height:.66786,italic:0,skew:0},74:{depth:0,height:.68333,italic:0,skew:0},75:{depth:0,height:.68333,italic:0,skew:0},76:{depth:0,height:.68333,italic:0,skew:0},768:{depth:0,height:.69444,italic:0,skew:0},769:{depth:0,height:.69444,italic:0,skew:0},77:{depth:0,height:.68333,italic:0,skew:0},770:{depth:0,height:.69444,italic:0,skew:0},771:{depth:0,height:.66786,italic:0,skew:0},772:{depth:0,height:.56778,italic:0,skew:0},774:{depth:0,height:.69444,italic:0,skew:0},775:{depth:0,height:.66786,italic:0,skew:0},776:{depth:0,height:.66786,italic:0,skew:0},778:{depth:0,height:.69444,italic:0,skew:0},779:{depth:0,height:.69444,italic:0,skew:0},78:{depth:0,height:.68333,italic:0,skew:0},780:{depth:0,height:.62847,italic:0,skew:0},79:{depth:0,height:.68333,italic:0,skew:0},80:{depth:0,height:.68333,italic:0,skew:0},81:{depth:.19444,height:.68333,italic:0,skew:0},82:{depth:0,height:.68333,italic:0,skew:0},8211:{depth:0,height:.43056,italic:.02778,skew:0},8212:{depth:0,height:.43056,italic:.02778,skew:0},8216:{depth:0,height:.69444,italic:0,skew:0},8217:{depth:0,height:.69444,italic:0,skew:0},8220:{depth:0,height:.69444,italic:0,skew:0},8221:{depth:0,height:.69444,italic:0,skew:0},8224:{depth:.19444,height:.69444,italic:0,skew:0},8225:{depth:.19444,height:.69444,italic:0,skew:0},824:{depth:.19444,height:.69444,italic:0,skew:0},8242:{depth:0,height:.55556,italic:0,skew:0},83:{depth:0,height:.68333,italic:0,skew:0},84:{depth:0,height:.68333,italic:0,skew:0},8407:{depth:0,height:.71444,italic:.15382,skew:0},8463:{depth:0,height:.68889,italic:0,skew:0},8465:{depth:0,height:.69444,italic:0,skew:0},8467:{depth:0,height:.69444,italic:0,skew:.11111},8472:{depth:.19444,height:.43056,italic:0,skew:.11111},8476:{depth:0,height:.69444,italic:0,skew:0},85:{depth:0,height:.68333,italic:0,skew:0},8501:{depth:0,height:.69444,italic:0,skew:0},8592:{depth:-.13313,height:.36687,italic:0,skew:0},8593:{depth:.19444,height:.69444,italic:0,skew:0},8594:{depth:-.13313,height:.36687,italic:0,skew:0},8595:{depth:.19444,height:.69444,italic:0,skew:0},8596:{depth:-.13313,height:.36687,italic:0,skew:0},8597:{depth:.25,height:.75,italic:0,skew:0},8598:{depth:.19444,height:.69444,italic:0,skew:0},8599:{depth:.19444,height:.69444,italic:0,skew:0},86:{depth:0,height:.68333,italic:.01389,skew:0},8600:{depth:.19444,height:.69444,italic:0,skew:0},8601:{depth:.19444,height:.69444,italic:0,skew:0},8636:{depth:-.13313,height:.36687,italic:0,skew:0},8637:{depth:-.13313,height:.36687,italic:0,skew:0},8640:{depth:-.13313,height:.36687,italic:0,skew:0},8641:{depth:-.13313,height:.36687,italic:0,skew:0},8656:{depth:-.13313,height:.36687,italic:0,skew:0},8657:{depth:.19444,height:.69444,italic:0,skew:0},8658:{depth:-.13313,height:.36687,italic:0,skew:0},8659:{depth:.19444,height:.69444,italic:0,skew:0},8660:{depth:-.13313,height:.36687,italic:0,skew:0},8661:{depth:.25,height:.75,italic:0,skew:0},87:{depth:0,height:.68333,italic:.01389,skew:0},8704:{depth:0,height:.69444,italic:0,skew:0},8706:{depth:0,height:.69444,italic:.05556,skew:.08334},8707:{depth:0,height:.69444,italic:0,skew:0},8709:{depth:.05556,height:.75,italic:0,skew:0},8711:{depth:0,height:.68333,italic:0,skew:0},8712:{depth:.0391,height:.5391,italic:0,skew:0},8715:{depth:.0391,height:.5391,italic:0,skew:0},8722:{depth:.08333,height:.58333,italic:0,skew:0},8723:{depth:.08333,height:.58333,italic:0,skew:0},8725:{depth:.25,height:.75,italic:0,skew:0},8726:{depth:.25,height:.75,italic:0,skew:0},8727:{depth:-.03472,height:.46528,italic:0,skew:0},8728:{depth:-.05555,height:.44445,italic:0,skew:0},8729:{depth:-.05555,height:.44445,italic:0,skew:0},8730:{depth:.2,height:.8,italic:0,skew:0},8733:{depth:0,height:.43056,italic:0,skew:0},8734:{depth:0,height:.43056,italic:0,skew:0},8736:{depth:0,height:.69224,italic:0,skew:0},8739:{depth:.25,height:.75,italic:0,skew:0},8741:{depth:.25,height:.75,italic:0,skew:0},8743:{depth:0,height:.55556,italic:0,skew:0},8744:{depth:0,height:.55556,italic:0,skew:0},8745:{depth:0,height:.55556,italic:0,skew:0},8746:{depth:0,height:.55556,italic:0,skew:0},8747:{depth:.19444,height:.69444,italic:.11111,skew:0},8764:{depth:-.13313,height:.36687,italic:0,skew:0},8768:{depth:.19444,height:.69444,italic:0,skew:0},8771:{depth:-.03625,height:.46375,italic:0,skew:0},8776:{depth:-.01688,height:.48312,italic:0,skew:0},8781:{depth:-.03625,height:.46375,italic:0,skew:0},88:{depth:0,height:.68333,italic:0,skew:0},8801:{depth:-.03625,height:.46375,italic:0,skew:0},8804:{depth:.13597,height:.63597,italic:0,skew:0},8805:{depth:.13597,height:.63597,italic:0,skew:0},8810:{depth:.0391,height:.5391,italic:0,skew:0},8811:{depth:.0391,height:.5391,italic:0,skew:0},8826:{depth:.0391,height:.5391,italic:0,skew:0},8827:{depth:.0391,height:.5391,italic:0,skew:0},8834:{depth:.0391,height:.5391,italic:0,skew:0},8835:{depth:.0391,height:.5391,italic:0,skew:0},8838:{depth:.13597,height:.63597,italic:0,skew:0},8839:{depth:.13597,height:.63597,italic:0,skew:0},8846:{depth:0,height:.55556,italic:0,skew:0},8849:{depth:.13597,height:.63597,italic:0,skew:0},8850:{depth:.13597,height:.63597,italic:0,skew:0},8851:{depth:0,height:.55556,italic:0,skew:0},8852:{depth:0,height:.55556,italic:0,skew:0},8853:{depth:.08333,height:.58333,italic:0,skew:0},8854:{depth:.08333,height:.58333,italic:0,skew:0},8855:{depth:.08333,height:.58333,italic:0,skew:0},8856:{depth:.08333,height:.58333,italic:0,skew:0},8857:{depth:.08333,height:.58333,italic:0,skew:0},8866:{depth:0,height:.69444,italic:0,skew:0},8867:{depth:0,height:.69444,italic:0,skew:0},8868:{depth:0,height:.69444,italic:0,skew:0},8869:{depth:0,height:.69444,italic:0,skew:0},89:{depth:0,height:.68333,italic:.025,skew:0},8900:{depth:-.05555,height:.44445,italic:0,skew:0},8901:{depth:-.05555,height:.44445,italic:0,skew:0},8902:{depth:-.03472,height:.46528,italic:0,skew:0},8968:{depth:.25,height:.75,italic:0,skew:0},8969:{depth:.25,height:.75,italic:0,skew:0},8970:{depth:.25,height:.75,italic:0,skew:0},8971:{depth:.25,height:.75,italic:0,skew:0},8994:{depth:-.14236,height:.35764,italic:0,skew:0},8995:{depth:-.14236,height:.35764,italic:0,skew:0},90:{depth:0,height:.68333,italic:0,skew:0},91:{depth:.25,height:.75,italic:0,skew:0},915:{depth:0,height:.68333,italic:0,skew:0},916:{depth:0,height:.68333,italic:0,skew:0},92:{depth:.25,height:.75,italic:0,skew:0},920:{depth:0,height:.68333,italic:0,skew:0},923:{depth:0,height:.68333,italic:0,skew:0},926:{depth:0,height:.68333,italic:0,skew:0},928:{depth:0,height:.68333,italic:0,skew:0},93:{depth:.25,height:.75,italic:0,skew:0},931:{depth:0,height:.68333,italic:0,skew:0},933:{depth:0,height:.68333,italic:0,skew:0},934:{depth:0,height:.68333,italic:0,skew:0},936:{depth:0,height:.68333,italic:0,skew:0},937:{depth:0,height:.68333,italic:0,skew:0},94:{depth:0,height:.69444,italic:0,skew:0},95:{depth:.31,height:.12056,italic:.02778,skew:0},96:{depth:0,height:.69444,italic:0,skew:0},9651:{depth:.19444,height:.69444,italic:0,skew:0},9657:{depth:-.03472,height:.46528,italic:0,skew:0},9661:{depth:.19444,height:.69444,italic:0,skew:0},9667:{depth:-.03472,height:.46528,italic:0,skew:0},97:{depth:0,height:.43056,italic:0,skew:0},9711:{depth:.19444,height:.69444,italic:0,skew:0},98:{depth:0,height:.69444,italic:0,skew:0},9824:{depth:.12963,height:.69444,italic:0,skew:0},9825:{depth:.12963,height:.69444,italic:0,skew:0},9826:{depth:.12963,height:.69444,italic:0,skew:0},9827:{depth:.12963,height:.69444,italic:0,skew:0},9837:{depth:0,height:.75,italic:0,skew:0},9838:{depth:.19444,height:.69444,italic:0,skew:0},9839:{depth:.19444,height:.69444,italic:0,skew:0},99:{depth:0,height:.43056,italic:0,skew:0}},"Math-BoldItalic":{100:{depth:0,height:.69444,italic:0,skew:0},1009:{depth:.19444,height:.44444,italic:0,skew:0},101:{depth:0,height:.44444,italic:0,skew:0},1013:{depth:0,height:.44444,italic:0,skew:0},102:{depth:.19444,height:.69444,italic:.11042,skew:0},103:{depth:.19444,height:.44444,italic:.03704,skew:0},104:{depth:0,height:.69444,italic:0,skew:0},105:{depth:0,height:.69326,italic:0,skew:0},106:{depth:.19444,height:.69326,italic:.0622,skew:0},107:{depth:0,height:.69444,italic:.01852,skew:0},108:{depth:0,height:.69444,italic:.0088,skew:0},109:{depth:0,height:.44444,italic:0,skew:0},110:{depth:0,height:.44444,italic:0,skew:0},111:{depth:0,height:.44444,italic:0,skew:0},112:{depth:.19444,height:.44444,italic:0,skew:0},113:{depth:.19444,height:.44444,italic:.03704,skew:0},114:{depth:0,height:.44444,italic:.03194,skew:0},115:{depth:0,height:.44444,italic:0,skew:0},116:{depth:0,height:.63492,italic:0,skew:0},117:{depth:0,height:.44444,italic:0,skew:0},118:{depth:0,height:.44444,italic:.03704,skew:0},119:{depth:0,height:.44444,italic:.02778,skew:0},120:{depth:0,height:.44444,italic:0,skew:0},121:{depth:.19444,height:.44444,italic:.03704,skew:0},122:{depth:0,height:.44444,italic:.04213,skew:0},47:{depth:.19444,height:.69444,italic:0,skew:0},65:{depth:0,height:.68611,italic:0,skew:0},66:{depth:0,height:.68611,italic:.04835,skew:0},67:{depth:0,height:.68611,italic:.06979,skew:0},68:{depth:0,height:.68611,italic:.03194,skew:0},69:{depth:0,height:.68611,italic:.05451,skew:0},70:{depth:0,height:.68611,italic:.15972,skew:0},71:{depth:0,height:.68611,italic:0,skew:0},72:{depth:0,height:.68611,italic:.08229,skew:0},73:{depth:0,height:.68611,italic:.07778,skew:0},74:{depth:0,height:.68611,italic:.10069,skew:0},75:{depth:0,height:.68611,italic:.06979,skew:0},76:{depth:0,height:.68611,italic:0,skew:0},77:{depth:0,height:.68611,italic:.11424,skew:0},78:{depth:0,height:.68611,italic:.11424,skew:0},79:{depth:0,height:.68611,italic:.03194,skew:0},80:{depth:0,height:.68611,italic:.15972,skew:0},81:{depth:.19444,height:.68611,italic:0,skew:0},82:{depth:0,height:.68611,italic:.00421,skew:0},83:{depth:0,height:.68611,italic:.05382,skew:0},84:{depth:0,height:.68611,italic:.15972,skew:0},85:{depth:0,height:.68611,italic:.11424,skew:0},86:{depth:0,height:.68611,italic:.25555,skew:0},87:{depth:0,height:.68611,italic:.15972,skew:0},88:{depth:0,height:.68611,italic:.07778,skew:0},89:{depth:0,height:.68611,italic:.25555,skew:0},90:{depth:0,height:.68611,italic:.06979,skew:0},915:{depth:0,height:.68611,italic:.15972,skew:0},916:{depth:0,height:.68611,italic:0,skew:0},920:{depth:0,height:.68611,italic:.03194,skew:0},923:{depth:0,height:.68611,italic:0,skew:0},926:{depth:0,height:.68611,italic:.07458,skew:0},928:{depth:0,height:.68611,italic:.08229,skew:0},931:{depth:0,height:.68611,italic:.05451,skew:0},933:{depth:0,height:.68611,italic:.15972,skew:0},934:{depth:0,height:.68611,italic:0,skew:0},936:{depth:0,height:.68611,italic:.11653,skew:0},937:{depth:0,height:.68611,italic:.04835,skew:0},945:{depth:0,height:.44444,italic:0,skew:0},946:{depth:.19444,height:.69444,italic:.03403,skew:0},947:{depth:.19444,height:.44444,italic:.06389,skew:0},948:{depth:0,height:.69444,italic:.03819,skew:0},949:{depth:0,height:.44444,italic:0,skew:0},950:{depth:.19444,height:.69444,italic:.06215,skew:0},951:{depth:.19444,height:.44444,italic:.03704,skew:0},952:{depth:0,height:.69444,italic:.03194,skew:0},953:{depth:0,height:.44444,italic:0,skew:0},954:{depth:0,height:.44444,italic:0,skew:0},955:{depth:0,height:.69444,italic:0,skew:0},956:{depth:.19444,height:.44444,italic:0,skew:0},957:{depth:0,height:.44444,italic:.06898,skew:0},958:{depth:.19444,height:.69444,italic:.03021,skew:0},959:{depth:0,height:.44444,italic:0,skew:0},960:{depth:0,height:.44444,italic:.03704,skew:0},961:{depth:.19444,height:.44444,italic:0,skew:0},962:{depth:.09722,height:.44444,italic:.07917,skew:0},963:{depth:0,height:.44444,italic:.03704,skew:0},964:{depth:0,height:.44444,italic:.13472,skew:0},965:{depth:0,height:.44444,italic:.03704,skew:0},966:{depth:.19444,height:.44444,italic:0,skew:0},967:{depth:.19444,height:.44444,italic:0,skew:0},968:{depth:.19444,height:.69444,italic:.03704,skew:0},969:{depth:0,height:.44444,italic:.03704,skew:0},97:{depth:0,height:.44444,italic:0,skew:0},977:{depth:0,height:.69444,italic:0,skew:0},98:{depth:0,height:.69444,italic:0,skew:0},981:{depth:.19444,height:.69444,italic:0,skew:0},982:{depth:0,height:.44444,italic:.03194,skew:0},99:{depth:0,height:.44444,italic:0,skew:0}},"Math-Italic":{100:{depth:0,height:.69444,italic:0,skew:.16667},1009:{depth:.19444,height:.43056,italic:0,skew:.08334},101:{depth:0,height:.43056,italic:0,skew:.05556},1013:{depth:0,height:.43056,italic:0,skew:.05556},102:{depth:.19444,height:.69444,italic:.10764,skew:.16667},103:{depth:.19444,height:.43056,italic:.03588,skew:.02778},104:{depth:0,height:.69444,italic:0,skew:0},105:{depth:0,height:.65952,italic:0,skew:0},106:{depth:.19444,height:.65952,italic:.05724,skew:0},107:{depth:0,height:.69444,italic:.03148,skew:0},108:{depth:0,height:.69444,italic:.01968,skew:.08334},109:{depth:0,height:.43056,italic:0,skew:0},110:{depth:0,height:.43056,italic:0,skew:0},111:{depth:0,height:.43056,italic:0,skew:.05556},112:{depth:.19444,height:.43056,italic:0,skew:.08334},113:{depth:.19444,height:.43056,italic:.03588,skew:.08334},114:{depth:0,height:.43056,italic:.02778,skew:.05556},115:{depth:0,height:.43056,italic:0,skew:.05556},116:{depth:0,height:.61508,italic:0,skew:.08334},117:{depth:0,height:.43056,italic:0,skew:.02778},118:{depth:0,height:.43056,italic:.03588,skew:.02778},119:{depth:0,height:.43056,italic:.02691,skew:.08334},120:{depth:0,height:.43056,italic:0,skew:.02778},121:{depth:.19444,height:.43056,italic:.03588,skew:.05556},122:{depth:0,height:.43056,italic:.04398,skew:.05556},47:{depth:.19444,height:.69444,italic:0,skew:0},65:{depth:0,height:.68333,italic:0,skew:.13889},66:{depth:0,height:.68333,italic:.05017,skew:.08334},67:{depth:0,height:.68333,italic:.07153,skew:.08334},68:{depth:0,height:.68333,italic:.02778,skew:.05556},69:{depth:0,height:.68333,italic:.05764,skew:.08334},70:{depth:0,height:.68333,italic:.13889,skew:.08334},71:{depth:0,height:.68333,italic:0,skew:.08334},72:{depth:0,height:.68333,italic:.08125,skew:.05556},73:{depth:0,height:.68333,italic:.07847,skew:.11111},74:{depth:0,height:.68333,italic:.09618,skew:.16667},75:{depth:0,height:.68333,italic:.07153,skew:.05556},76:{depth:0,height:.68333,italic:0,skew:.02778},77:{depth:0,height:.68333,italic:.10903,skew:.08334},78:{depth:0,height:.68333,italic:.10903,skew:.08334},79:{depth:0,height:.68333,italic:.02778,skew:.08334},80:{depth:0,height:.68333,italic:.13889,skew:.08334},81:{depth:.19444,height:.68333,italic:0,skew:.08334},82:{depth:0,height:.68333,italic:.00773,skew:.08334},83:{depth:0,height:.68333,italic:.05764,skew:.08334},84:{depth:0,height:.68333,italic:.13889,skew:.08334},85:{depth:0,height:.68333,italic:.10903,skew:.02778},86:{depth:0,height:.68333,italic:.22222,skew:0},87:{depth:0,height:.68333,italic:.13889,skew:0},88:{depth:0,height:.68333,italic:.07847,skew:.08334},89:{depth:0,height:.68333,italic:.22222,skew:0},90:{depth:0,height:.68333,italic:.07153,skew:.08334},915:{depth:0,height:.68333,italic:.13889,skew:.08334},916:{depth:0,height:.68333,italic:0,skew:.16667},920:{depth:0,height:.68333,italic:.02778,skew:.08334},923:{depth:0,height:.68333,italic:0,skew:.16667},926:{depth:0,height:.68333,italic:.07569,skew:.08334},928:{depth:0,height:.68333,italic:.08125,skew:.05556},931:{depth:0,height:.68333,italic:.05764,skew:.08334},933:{depth:0,height:.68333,italic:.13889,skew:.05556},934:{depth:0,height:.68333,italic:0,skew:.08334},936:{depth:0,height:.68333,italic:.11,skew:.05556},937:{depth:0,height:.68333,italic:.05017,skew:.08334},945:{depth:0,height:.43056,italic:.0037,skew:.02778},946:{depth:.19444,height:.69444,italic:.05278,skew:.08334},947:{depth:.19444,height:.43056,italic:.05556,skew:0},948:{depth:0,height:.69444,italic:.03785,skew:.05556},949:{depth:0,height:.43056,italic:0,skew:.08334},950:{depth:.19444,height:.69444,italic:.07378,skew:.08334},951:{depth:.19444,height:.43056,italic:.03588,skew:.05556},952:{depth:0,height:.69444,italic:.02778,skew:.08334},953:{depth:0,height:.43056,italic:0,skew:.05556},954:{depth:0,height:.43056,italic:0,skew:0},955:{depth:0,height:.69444,italic:0,skew:0},956:{depth:.19444,height:.43056,italic:0,skew:.02778},957:{depth:0,height:.43056,italic:.06366,skew:.02778},958:{depth:.19444,height:.69444,italic:.04601,skew:.11111},959:{depth:0,height:.43056,italic:0,skew:.05556},960:{depth:0,height:.43056,italic:.03588,skew:0},961:{depth:.19444,height:.43056,italic:0,skew:.08334},962:{depth:.09722,height:.43056,italic:.07986,skew:.08334},963:{depth:0,height:.43056,italic:.03588,skew:0},964:{depth:0,height:.43056,italic:.1132,skew:.02778},965:{depth:0,height:.43056,italic:.03588,skew:.02778},966:{depth:.19444,height:.43056,italic:0,skew:.08334},967:{depth:.19444,height:.43056,italic:0,skew:.05556},968:{depth:.19444,height:.69444,italic:.03588,skew:.11111},969:{depth:0,height:.43056,italic:.03588,skew:0},97:{depth:0,height:.43056,italic:0,skew:0},977:{depth:0,height:.69444,italic:0,skew:.08334},98:{depth:0,height:.69444,italic:0,skew:0},981:{depth:.19444,height:.69444,italic:0,skew:.08334},982:{depth:0,height:.43056,italic:.02778,skew:0},99:{depth:0,height:.43056,italic:0,skew:.05556}},"Math-Regular":{100:{depth:0,height:.69444,italic:0,skew:.16667},1009:{depth:.19444,height:.43056,italic:0,skew:.08334},101:{depth:0,height:.43056,italic:0,skew:.05556},1013:{depth:0,height:.43056,italic:0,skew:.05556},102:{depth:.19444,height:.69444,italic:.10764,skew:.16667},103:{depth:.19444,height:.43056,italic:.03588,skew:.02778},104:{depth:0,height:.69444,italic:0,skew:0},105:{depth:0,height:.65952,italic:0,skew:0},106:{depth:.19444,height:.65952,italic:.05724,skew:0},107:{depth:0,height:.69444,italic:.03148,skew:0},108:{depth:0,height:.69444,italic:.01968,skew:.08334},109:{depth:0,height:.43056,italic:0,skew:0},110:{depth:0,height:.43056,italic:0,skew:0},111:{depth:0,height:.43056,italic:0,skew:.05556},112:{depth:.19444,height:.43056,italic:0,skew:.08334},113:{depth:.19444,height:.43056,italic:.03588,skew:.08334},114:{depth:0,height:.43056,italic:.02778,skew:.05556},115:{depth:0,height:.43056,italic:0,skew:.05556},116:{depth:0,height:.61508,italic:0,skew:.08334},117:{depth:0,height:.43056,italic:0,skew:.02778},118:{depth:0,height:.43056,italic:.03588,skew:.02778},119:{depth:0,height:.43056,italic:.02691,skew:.08334},120:{depth:0,height:.43056,italic:0,skew:.02778},121:{depth:.19444,height:.43056,italic:.03588,skew:.05556},122:{depth:0,height:.43056,italic:.04398,skew:.05556},65:{depth:0,height:.68333,italic:0,skew:.13889},66:{depth:0,height:.68333,italic:.05017,skew:.08334},67:{depth:0,height:.68333,italic:.07153,skew:.08334},68:{depth:0,height:.68333,italic:.02778,skew:.05556},69:{depth:0,height:.68333,italic:.05764,skew:.08334},70:{depth:0,height:.68333,italic:.13889,skew:.08334},71:{depth:0,height:.68333,italic:0,skew:.08334},72:{depth:0,height:.68333,italic:.08125,skew:.05556},73:{depth:0,height:.68333,italic:.07847,skew:.11111},74:{depth:0,height:.68333,italic:.09618,skew:.16667},75:{depth:0,height:.68333,italic:.07153,skew:.05556},76:{depth:0,height:.68333,italic:0,skew:.02778},77:{depth:0,height:.68333,italic:.10903,skew:.08334},78:{depth:0,height:.68333,italic:.10903,skew:.08334},79:{depth:0,height:.68333,italic:.02778,skew:.08334},80:{depth:0,height:.68333,italic:.13889,skew:.08334},81:{depth:.19444,height:.68333,italic:0,skew:.08334},82:{depth:0,height:.68333,italic:.00773,skew:.08334},83:{depth:0,height:.68333,italic:.05764,skew:.08334},84:{depth:0,height:.68333,italic:.13889,skew:.08334},85:{depth:0,height:.68333,italic:.10903,skew:.02778},86:{depth:0,height:.68333,italic:.22222,skew:0},87:{depth:0,height:.68333,italic:.13889,skew:0},88:{depth:0,height:.68333,italic:.07847,skew:.08334},89:{depth:0,height:.68333,italic:.22222,skew:0},90:{depth:0,height:.68333,italic:.07153,skew:.08334},915:{depth:0,height:.68333,italic:.13889,skew:.08334},916:{depth:0,height:.68333,italic:0,skew:.16667},920:{depth:0,height:.68333,italic:.02778,skew:.08334},923:{depth:0,height:.68333,italic:0,skew:.16667},926:{depth:0,height:.68333,italic:.07569,skew:.08334},928:{depth:0,height:.68333,italic:.08125,skew:.05556},931:{depth:0,height:.68333,italic:.05764,skew:.08334},933:{depth:0,height:.68333,italic:.13889,skew:.05556},934:{depth:0,height:.68333,italic:0,skew:.08334},936:{depth:0,height:.68333,italic:.11,skew:.05556},937:{depth:0,height:.68333,italic:.05017,skew:.08334},945:{depth:0,height:.43056,italic:.0037,skew:.02778},946:{depth:.19444,height:.69444,italic:.05278,skew:.08334},947:{depth:.19444,height:.43056,italic:.05556,skew:0},948:{depth:0,height:.69444,italic:.03785,skew:.05556},949:{depth:0,height:.43056,italic:0,skew:.08334},950:{depth:.19444,height:.69444,italic:.07378,skew:.08334},951:{depth:.19444,height:.43056,italic:.03588,skew:.05556},952:{depth:0,height:.69444,italic:.02778,skew:.08334},953:{depth:0,height:.43056,italic:0,skew:.05556},954:{depth:0,height:.43056,italic:0,skew:0},955:{depth:0,height:.69444,italic:0,skew:0},956:{depth:.19444,height:.43056,italic:0,skew:.02778},957:{depth:0,height:.43056,italic:.06366,skew:.02778},958:{depth:.19444,height:.69444,italic:.04601,skew:.11111},959:{depth:0,height:.43056,italic:0,skew:.05556},960:{depth:0,height:.43056,italic:.03588,skew:0},961:{depth:.19444,height:.43056,italic:0,skew:.08334},962:{depth:.09722,height:.43056,italic:.07986,skew:.08334},963:{depth:0,height:.43056,italic:.03588,skew:0},964:{depth:0,height:.43056,italic:.1132,skew:.02778},965:{depth:0,height:.43056,italic:.03588,skew:.02778},966:{depth:.19444,height:.43056,italic:0,skew:.08334},967:{depth:.19444,height:.43056,italic:0,skew:.05556},968:{depth:.19444,height:.69444,italic:.03588,skew:.11111},969:{depth:0,height:.43056,italic:.03588,skew:0},97:{depth:0,height:.43056,italic:0,skew:0},977:{depth:0,height:.69444,italic:0,skew:.08334},98:{depth:0,height:.69444,italic:0,skew:0},981:{depth:.19444,height:.69444,italic:0,skew:.08334},982:{depth:0,height:.43056,italic:.02778,skew:0},99:{depth:0,height:.43056,italic:0,skew:.05556}},"Size1-Regular":{8748:{depth:.306,height:.805,italic:.19445,skew:0},8749:{depth:.306,height:.805,italic:.19445,skew:0},10216:{depth:.35001,height:.85,italic:0,skew:0},10217:{depth:.35001,height:.85,italic:0,skew:0},10752:{depth:.25001,height:.75,italic:0,skew:0},10753:{depth:.25001,height:.75,italic:0,skew:0},10754:{depth:.25001,height:.75,italic:0,skew:0},10756:{depth:.25001,height:.75,italic:0,skew:0},10758:{depth:.25001,height:.75,italic:0,skew:0},123:{depth:.35001,height:.85,italic:0,skew:0},125:{depth:.35001,height:.85,italic:0,skew:0},40:{depth:.35001,height:.85,italic:0,skew:0},41:{depth:.35001,height:.85,italic:0,skew:0},47:{depth:.35001,height:.85,italic:0,skew:0},710:{depth:0,height:.72222,italic:0,skew:0},732:{depth:0,height:.72222,italic:0,skew:0},770:{depth:0,height:.72222,italic:0,skew:0},771:{depth:0,height:.72222,italic:0,skew:0},8214:{depth:-99e-5,height:.601,italic:0,skew:0},8593:{depth:1e-5,height:.6,italic:0,skew:0},8595:{depth:1e-5,height:.6,italic:0,skew:0},8657:{depth:1e-5,height:.6,italic:0,skew:0},8659:{depth:1e-5,height:.6,italic:0,skew:0},8719:{depth:.25001,height:.75,italic:0,skew:0},8720:{depth:.25001,height:.75,italic:0,skew:0},8721:{depth:.25001,height:.75,italic:0,skew:0},8730:{depth:.35001,height:.85,italic:0,skew:0},8739:{depth:-.00599,height:.606,italic:0,skew:0},8741:{depth:-.00599,height:.606,italic:0,skew:0},8747:{depth:.30612,height:.805,italic:.19445,skew:0},8750:{depth:.30612,height:.805,italic:.19445,skew:0},8896:{depth:.25001,height:.75,italic:0,skew:0},8897:{depth:.25001,height:.75,italic:0,skew:0},8898:{depth:.25001,height:.75,italic:0,skew:0},8899:{depth:.25001,height:.75,italic:0,skew:0},8968:{depth:.35001,height:.85,italic:0,skew:0},8969:{depth:.35001,height:.85,italic:0,skew:0},8970:{depth:.35001,height:.85,italic:0,skew:0},8971:{depth:.35001,height:.85,italic:0,skew:0},91:{depth:.35001,height:.85,italic:0,skew:0},9168:{depth:-99e-5,height:.601,italic:0,skew:0},92:{depth:.35001,height:.85,italic:0,skew:0},93:{depth:.35001,height:.85,italic:0,skew:0}},"Size2-Regular":{8748:{depth:.862,height:1.36,italic:.44445,skew:0},8749:{depth:.862,height:1.36,italic:.44445,skew:0},10216:{depth:.65002,height:1.15,italic:0,skew:0},10217:{depth:.65002,height:1.15,italic:0,skew:0},10752:{depth:.55001,height:1.05,italic:0,skew:0},10753:{depth:.55001,height:1.05,italic:0,skew:0},10754:{depth:.55001,height:1.05,italic:0,skew:0},10756:{depth:.55001,height:1.05,italic:0,skew:0},10758:{depth:.55001,height:1.05,italic:0,skew:0},123:{depth:.65002,height:1.15,italic:0,skew:0},125:{depth:.65002,height:1.15,italic:0,skew:0},40:{depth:.65002,height:1.15,italic:0,skew:0},41:{depth:.65002,height:1.15,italic:0,skew:0},47:{depth:.65002,height:1.15,italic:0,skew:0},710:{depth:0,height:.75,italic:0,skew:0},732:{depth:0,height:.75,italic:0,skew:0},770:{depth:0,height:.75,italic:0,skew:0},771:{depth:0,height:.75,italic:0,skew:0},8719:{depth:.55001,height:1.05,italic:0,skew:0},8720:{depth:.55001,height:1.05,italic:0,skew:0},8721:{depth:.55001,height:1.05,italic:0,skew:0},8730:{depth:.65002,height:1.15,italic:0,skew:0},8747:{depth:.86225,height:1.36,italic:.44445,skew:0},8750:{depth:.86225,height:1.36,italic:.44445,skew:0},8896:{depth:.55001,height:1.05,italic:0,skew:0},8897:{depth:.55001,height:1.05,italic:0,skew:0},8898:{depth:.55001,height:1.05,italic:0,skew:0},8899:{depth:.55001,height:1.05,italic:0,skew:0},8968:{depth:.65002,height:1.15,italic:0,skew:0},8969:{depth:.65002,height:1.15,italic:0,skew:0},8970:{depth:.65002,height:1.15,italic:0,skew:0},8971:{depth:.65002,height:1.15,italic:0,skew:0},91:{depth:.65002,height:1.15,italic:0,skew:0},92:{depth:.65002,height:1.15,italic:0,skew:0},93:{depth:.65002,height:1.15,italic:0,skew:0}},"Size3-Regular":{10216:{depth:.95003,height:1.45,italic:0,skew:0},10217:{depth:.95003,height:1.45,italic:0,skew:0},123:{depth:.95003,height:1.45,italic:0,skew:0},125:{depth:.95003,height:1.45,italic:0,skew:0},40:{depth:.95003,height:1.45,italic:0,skew:0},41:{depth:.95003,height:1.45,italic:0,skew:0},47:{depth:.95003,height:1.45,italic:0,skew:0},710:{depth:0,height:.75,italic:0,skew:0},732:{depth:0,height:.75,italic:0,skew:0},770:{depth:0,height:.75,italic:0,skew:0},771:{depth:0,height:.75,italic:0,skew:0},8730:{depth:.95003,height:1.45,italic:0,skew:0},8968:{depth:.95003,height:1.45,italic:0,skew:0},8969:{depth:.95003,height:1.45,italic:0,skew:0},8970:{depth:.95003,height:1.45,italic:0,skew:0},8971:{depth:.95003,height:1.45,italic:0,skew:0},91:{depth:.95003,height:1.45,italic:0,skew:0},92:{depth:.95003,height:1.45,italic:0,skew:0},93:{depth:.95003,height:1.45,italic:0,skew:0}},"Size4-Regular":{10216:{depth:1.25003,height:1.75,italic:0,skew:0},10217:{depth:1.25003,height:1.75,italic:0,skew:0},123:{depth:1.25003,height:1.75,italic:0,skew:0},125:{depth:1.25003,height:1.75,italic:0,skew:0},40:{depth:1.25003,height:1.75,italic:0,skew:0},41:{depth:1.25003,height:1.75,italic:0,skew:0},47:{depth:1.25003,height:1.75,italic:0,skew:0},57344:{depth:-.00499,height:.605,italic:0,skew:0},57345:{depth:-.00499,height:.605,italic:0,skew:0},57680:{depth:0,height:.12,italic:0,skew:0},57681:{depth:0,height:.12,italic:0,skew:0},57682:{depth:0,height:.12,italic:0,skew:0},57683:{depth:0,height:.12,italic:0,skew:0},710:{depth:0,height:.825,italic:0,skew:0},732:{depth:0,height:.825,italic:0,skew:0},770:{depth:0,height:.825,italic:0,skew:0},771:{depth:0,height:.825,italic:0,skew:0},8730:{depth:1.25003,height:1.75,italic:0,skew:0},8968:{depth:1.25003,height:1.75,italic:0,skew:0},8969:{depth:1.25003,height:1.75,italic:0,skew:0},8970:{depth:1.25003,height:1.75,italic:0,skew:0},8971:{depth:1.25003,height:1.75,italic:0,skew:0},91:{depth:1.25003,height:1.75,italic:0,skew:0},9115:{depth:.64502,height:1.155,italic:0,skew:0},9116:{depth:1e-5,height:.6,italic:0,skew:0},9117:{depth:.64502,height:1.155,italic:0,skew:0},9118:{depth:.64502,height:1.155,italic:0,skew:0},9119:{depth:1e-5,height:.6,italic:0,skew:0},9120:{depth:.64502,height:1.155,italic:0,skew:0},9121:{depth:.64502,height:1.155,italic:0,skew:0},9122:{depth:-99e-5,height:.601,italic:0,skew:0},9123:{depth:.64502,height:1.155,italic:0,skew:0},9124:{depth:.64502,height:1.155,italic:0,skew:0},9125:{depth:-99e-5,height:.601,italic:0,skew:0},9126:{depth:.64502,height:1.155,italic:0,skew:0},9127:{depth:1e-5,height:.9,italic:0,skew:0},9128:{depth:.65002,height:1.15,italic:0,skew:0},9129:{depth:.90001,height:0,italic:0,skew:0},9130:{depth:0,height:.3,italic:0,skew:0},9131:{depth:1e-5,height:.9,italic:0,skew:0},9132:{depth:.65002,height:1.15,italic:0,skew:0},9133:{depth:.90001,height:0,italic:0,skew:0},9143:{depth:.88502,height:.915,italic:0,skew:0},92:{depth:1.25003,height:1.75,italic:0,skew:0},93:{depth:1.25003,height:1.75,italic:0,skew:0}}};
-	var V=function(e,t){return H[t][e.charCodeAt(0)]};t.exports={metrics:X,getCharacterMetrics:V}},{"./Style":6}],12:[function(e,t,i){var h=e("./utils");var a=e("./ParseError");var l={"\\sqrt":{numArgs:1,numOptionalArgs:1,handler:function(e,t,i,h){if(t!=null){throw new a("Optional arguments to \\sqrt aren't supported yet",this.lexer,h[1]-1)}return{type:"sqrt",body:i}}},"\\text":{numArgs:1,argTypes:["text"],greediness:2,handler:function(e,t){var i;if(t.type==="ordgroup"){i=t.value}else{i=[t]}return{type:"text",body:i}}},"\\color":{numArgs:2,allowedInText:true,argTypes:["color","original"],handler:function(e,t,i){var h;if(i.type==="ordgroup"){h=i.value}else{h=[i]}return{type:"color",color:t.value,value:h}}},"\\overline":{numArgs:1,handler:function(e,t){return{type:"overline",body:t}}},"\\rule":{numArgs:2,numOptionalArgs:1,argTypes:["size","size","size"],handler:function(e,t,i,h){return{type:"rule",shift:t&&t.value,width:i.value,height:h.value}}},"\\KaTeX":{numArgs:0,handler:function(e){return{type:"katex"}}}};var s={"\\bigl":{type:"open",size:1},"\\Bigl":{type:"open",size:2},"\\biggl":{type:"open",size:3},"\\Biggl":{type:"open",size:4},"\\bigr":{type:"close",size:1},"\\Bigr":{type:"close",size:2},"\\biggr":{type:"close",size:3},"\\Biggr":{type:"close",size:4},"\\bigm":{type:"rel",size:1},"\\Bigm":{type:"rel",size:2},"\\biggm":{type:"rel",size:3},"\\Biggm":{type:"rel",size:4},"\\big":{type:"textord",size:1},"\\Big":{type:"textord",size:2},"\\bigg":{type:"textord",size:3},"\\Bigg":{type:"textord",size:4}};var r=["(",")","[","\\lbrack","]","\\rbrack","\\{","\\lbrace","\\}","\\rbrace","\\lfloor","\\rfloor","\\lceil","\\rceil","<",">","\\langle","\\rangle","/","\\backslash","|","\\vert","\\|","\\Vert","\\uparrow","\\Uparrow","\\downarrow","\\Downarrow","\\updownarrow","\\Updownarrow","."];var p=[{funcs:["\\blue","\\orange","\\pink","\\red","\\green","\\gray","\\purple"],data:{numArgs:1,allowedInText:true,handler:function(e,t){var i;if(t.type==="ordgroup"){i=t.value}else{i=[t]}return{type:"color",color:"katex-"+e.slice(1),value:i}}}},{funcs:["\\arcsin","\\arccos","\\arctan","\\arg","\\cos","\\cosh","\\cot","\\coth","\\csc","\\deg","\\dim","\\exp","\\hom","\\ker","\\lg","\\ln","\\log","\\sec","\\sin","\\sinh","\\tan","\\tanh"],data:{numArgs:0,handler:function(e){return{type:"op",limits:false,symbol:false,body:e}}}},{funcs:["\\det","\\gcd","\\inf","\\lim","\\liminf","\\limsup","\\max","\\min","\\Pr","\\sup"],data:{numArgs:0,handler:function(e){return{type:"op",limits:true,symbol:false,body:e}}}},{funcs:["\\int","\\iint","\\iiint","\\oint"],data:{numArgs:0,handler:function(e){return{type:"op",limits:false,symbol:true,body:e}}}},{funcs:["\\coprod","\\bigvee","\\bigwedge","\\biguplus","\\bigcap","\\bigcup","\\intop","\\prod","\\sum","\\bigotimes","\\bigoplus","\\bigodot","\\bigsqcup","\\smallint"],data:{numArgs:0,handler:function(e){return{type:"op",limits:true,symbol:true,body:e}}}},{funcs:["\\dfrac","\\frac","\\tfrac","\\dbinom","\\binom","\\tbinom"],data:{numArgs:2,greediness:2,handler:function(e,t,i){var h;var a=null;var l=null;var s="auto";switch(e){case"\\dfrac":case"\\frac":case"\\tfrac":h=true;break;case"\\dbinom":case"\\binom":case"\\tbinom":h=false;a="(";l=")";break;default:throw new Error("Unrecognized genfrac command")}switch(e){case"\\dfrac":case"\\dbinom":s="display";break;case"\\tfrac":case"\\tbinom":s="text";break}return{type:"genfrac",numer:t,denom:i,hasBarLine:h,leftDelim:a,rightDelim:l,size:s}}}},{funcs:["\\llap","\\rlap"],data:{numArgs:1,allowedInText:true,handler:function(e,t){return{type:e.slice(1),body:t}}}},{funcs:["\\bigl","\\Bigl","\\biggl","\\Biggl","\\bigr","\\Bigr","\\biggr","\\Biggr","\\bigm","\\Bigm","\\biggm","\\Biggm","\\big","\\Big","\\bigg","\\Bigg","\\left","\\right"],data:{numArgs:1,handler:function(e,t,i){if(!h.contains(r,t.value)){throw new a("Invalid delimiter: '"+t.value+"' after '"+e+"'",this.lexer,i[1])}if(e==="\\left"||e==="\\right"){return{type:"leftright",value:t.value}}else{return{type:"delimsizing",size:s[e].size,delimType:s[e].type,value:t.value}}}}},{funcs:["\\tiny","\\scriptsize","\\footnotesize","\\small","\\normalsize","\\large","\\Large","\\LARGE","\\huge","\\Huge"],data:{numArgs:0}},{funcs:["\\displaystyle","\\textstyle","\\scriptstyle","\\scriptscriptstyle"],data:{numArgs:0}},{funcs:["\\acute","\\grave","\\ddot","\\tilde","\\bar","\\breve","\\check","\\hat","\\vec","\\dot"],data:{numArgs:1,handler:function(e,t){return{type:"accent",accent:e,base:t}}}},{funcs:["\\over","\\choose"],data:{numArgs:0,handler:function(e){var t;switch(e){case"\\over":t="\\frac";break;case"\\choose":t="\\binom";break;default:throw new Error("Unrecognized infix genfrac command")}return{type:"infix",replaceWith:t}}}}];var c=function(e,t){for(var i=0;i<e.length;i++){l[e[i]]=t}};for(var g=0;g<p.length;g++){c(p[g].funcs,p[g].data)}var d=function(e){if(l[e].greediness===undefined){return 1}else{return l[e].greediness}};for(var n in l){if(l.hasOwnProperty(n)){var o=l[n];l[n]={numArgs:o.numArgs,argTypes:o.argTypes,greediness:o.greediness===undefined?1:o.greediness,allowedInText:o.allowedInText?o.allowedInText:false,numOptionalArgs:o.numOptionalArgs===undefined?0:o.numOptionalArgs,handler:o.handler}}}t.exports={funcs:l,getGreediness:d}},{"./ParseError":4,"./utils":15}],13:[function(e,t,i){var h=e("./Parser");var a=function(e){var t=new h(e);return t.parse()};t.exports=a},{"./Parser":5}],14:[function(e,t,i){var h={math:{"`":{font:"main",group:"textord",replace:"\u2018"},"\\$":{font:"main",group:"textord",replace:"$"},"\\%":{font:"main",group:"textord",replace:"%"},"\\_":{font:"main",group:"textord",replace:"_"},"\\angle":{font:"main",group:"textord",replace:"\u2220"},"\\infty":{font:"main",group:"textord",replace:"\u221e"},"\\prime":{font:"main",group:"textord",replace:"\u2032"},"\\triangle":{font:"main",group:"textord",replace:"\u25b3"},"\\Gamma":{font:"main",group:"textord",replace:"\u0393"},"\\Delta":{font:"main",group:"textord",replace:"\u0394"},"\\Theta":{font:"main",group:"textord",replace:"\u0398"},"\\Lambda":{font:"main",group:"textord",replace:"\u039b"},"\\Xi":{font:"main",group:"textord",replace:"\u039e"},"\\Pi":{font:"main",group:"textord",replace:"\u03a0"},"\\Sigma":{font:"main",group:"textord",replace:"\u03a3"},"\\Upsilon":{font:"main",group:"textord",replace:"\u03a5"},"\\Phi":{font:"main",group:"textord",replace:"\u03a6"},"\\Psi":{font:"main",group:"textord",replace:"\u03a8"},"\\Omega":{font:"main",group:"textord",replace:"\u03a9"},"\\neg":{font:"main",group:"textord",replace:"\xac"},"\\lnot":{font:"main",group:"textord",replace:"\xac"},"\\top":{font:"main",group:"textord",replace:"\u22a4"},"\\bot":{font:"main",group:"textord",replace:"\u22a5"},"\\emptyset":{font:"main",group:"textord",replace:"\u2205"},"\\varnothing":{font:"ams",group:"textord",replace:"\u2205"},"\\alpha":{font:"main",group:"mathord",replace:"\u03b1"},"\\beta":{font:"main",group:"mathord",replace:"\u03b2"},"\\gamma":{font:"main",group:"mathord",replace:"\u03b3"},"\\delta":{font:"main",group:"mathord",replace:"\u03b4"},"\\epsilon":{font:"main",group:"mathord",replace:"\u03f5"},"\\zeta":{font:"main",group:"mathord",replace:"\u03b6"},"\\eta":{font:"main",group:"mathord",replace:"\u03b7"},"\\theta":{font:"main",group:"mathord",replace:"\u03b8"},"\\iota":{font:"main",group:"mathord",replace:"\u03b9"},"\\kappa":{font:"main",group:"mathord",replace:"\u03ba"},"\\lambda":{font:"main",group:"mathord",replace:"\u03bb"},"\\mu":{font:"main",group:"mathord",replace:"\u03bc"},"\\nu":{font:"main",group:"mathord",replace:"\u03bd"},"\\xi":{font:"main",group:"mathord",replace:"\u03be"},"\\omicron":{font:"main",group:"mathord",replace:"o"},"\\pi":{font:"main",group:"mathord",replace:"\u03c0"},"\\rho":{font:"main",group:"mathord",replace:"\u03c1"},"\\sigma":{font:"main",group:"mathord",replace:"\u03c3"},"\\tau":{font:"main",group:"mathord",replace:"\u03c4"},"\\upsilon":{font:"main",group:"mathord",replace:"\u03c5"},"\\phi":{font:"main",group:"mathord",replace:"\u03d5"},"\\chi":{font:"main",group:"mathord",replace:"\u03c7"},"\\psi":{font:"main",group:"mathord",replace:"\u03c8"},"\\omega":{font:"main",group:"mathord",replace:"\u03c9"},"\\varepsilon":{font:"main",group:"mathord",replace:"\u03b5"},"\\vartheta":{font:"main",group:"mathord",replace:"\u03d1"},"\\varpi":{font:"main",group:"mathord",replace:"\u03d6"},"\\varrho":{font:"main",group:"mathord",replace:"\u03f1"},"\\varsigma":{font:"main",group:"mathord",replace:"\u03c2"},"\\varphi":{font:"main",group:"mathord",replace:"\u03c6"},"*":{font:"main",group:"bin",replace:"\u2217"},"+":{font:"main",group:"bin"},"-":{font:"main",group:"bin",replace:"\u2212"},"\\cdot":{font:"main",group:"bin",replace:"\u22c5"},"\\circ":{font:"main",group:"bin",replace:"\u2218"},"\\div":{font:"main",group:"bin",replace:"\xf7"},"\\pm":{font:"main",group:"bin",replace:"\xb1"},"\\times":{font:"main",group:"bin",replace:"\xd7"},"\\cap":{font:"main",group:"bin",replace:"\u2229"},"\\cup":{font:"main",group:"bin",replace:"\u222a"},"\\setminus":{font:"main",group:"bin",replace:"\u2216"},"\\land":{font:"main",group:"bin",replace:"\u2227"},"\\lor":{font:"main",group:"bin",replace:"\u2228"},"\\wedge":{font:"main",group:"bin",replace:"\u2227"},"\\vee":{font:"main",group:"bin",replace:"\u2228"},"\\surd":{font:"main",group:"textord",replace:"\u221a"},"(":{font:"main",group:"open"},"[":{font:"main",group:"open"},"\\langle":{font:"main",group:"open",replace:"\u27e8"},"\\lvert":{font:"main",group:"open",replace:"\u2223"},")":{font:"main",group:"close"},"]":{font:"main",group:"close"},"?":{font:"main",group:"close"},"!":{font:"main",group:"close"},"\\rangle":{font:"main",group:"close",replace:"\u27e9"},"\\rvert":{font:"main",group:"close",replace:"\u2223"},"=":{font:"main",group:"rel"},"<":{font:"main",group:"rel"},">":{font:"main",group:"rel"},":":{font:"main",group:"rel"},"\\approx":{font:"main",group:"rel",replace:"\u2248"},"\\cong":{font:"main",group:"rel",replace:"\u2245"},"\\ge":{font:"main",group:"rel",replace:"\u2265"},"\\geq":{font:"main",group:"rel",replace:"\u2265"},"\\gets":{font:"main",group:"rel",replace:"\u2190"},"\\in":{font:"main",group:"rel",replace:"\u2208"},"\\notin":{font:"main",group:"rel",replace:"\u2209"},"\\subset":{font:"main",group:"rel",replace:"\u2282"},"\\supset":{font:"main",group:"rel",replace:"\u2283"},"\\subseteq":{font:"main",group:"rel",replace:"\u2286"},"\\supseteq":{font:"main",group:"rel",replace:"\u2287"},"\\nsubseteq":{font:"ams",group:"rel",replace:"\u2288"},"\\nsupseteq":{font:"ams",group:"rel",replace:"\u2289"},"\\models":{font:"main",group:"rel",replace:"\u22a8"},"\\leftarrow":{font:"main",group:"rel",replace:"\u2190"},"\\le":{font:"main",group:"rel",replace:"\u2264"},"\\leq":{font:"main",group:"rel",replace:"\u2264"},"\\ne":{font:"main",group:"rel",replace:"\u2260"},"\\neq":{font:"main",group:"rel",replace:"\u2260"},"\\rightarrow":{font:"main",group:"rel",replace:"\u2192"},"\\to":{font:"main",group:"rel",replace:"\u2192"},"\\ngeq":{font:"ams",group:"rel",replace:"\u2271"},"\\nleq":{font:"ams",group:"rel",replace:"\u2270"},"\\!":{font:"main",group:"spacing"},"\\ ":{font:"main",group:"spacing",replace:"\xa0"},"~":{font:"main",group:"spacing",replace:"\xa0"},"\\,":{font:"main",group:"spacing"},"\\:":{font:"main",group:"spacing"},"\\;":{font:"main",group:"spacing"},"\\enspace":{font:"main",group:"spacing"},"\\qquad":{font:"main",group:"spacing"},"\\quad":{font:"main",group:"spacing"},"\\space":{font:"main",group:"spacing",replace:"\xa0"},",":{font:"main",group:"punct"},";":{font:"main",group:"punct"},"\\colon":{font:"main",group:"punct",replace:":"},"\\barwedge":{font:"ams",group:"textord",replace:"\u22bc"},"\\veebar":{font:"ams",group:"textord",replace:"\u22bb"},"\\odot":{font:"main",group:"textord",replace:"\u2299"},"\\oplus":{font:"main",group:"textord",replace:"\u2295"},"\\otimes":{font:"main",group:"textord",replace:"\u2297"},"\\partial":{font:"main",group:"textord",replace:"\u2202"},"\\oslash":{font:"main",group:"textord",replace:"\u2298"},"\\circledcirc":{font:"ams",group:"textord",replace:"\u229a"},"\\boxdot":{font:"ams",group:"textord",replace:"\u22a1"},"\\bigtriangleup":{font:"main",group:"textord",replace:"\u25b3"},"\\bigtriangledown":{font:"main",group:"textord",replace:"\u25bd"},"\\dagger":{font:"main",group:"textord",replace:"\u2020"},"\\diamond":{font:"main",group:"textord",replace:"\u22c4"},"\\star":{font:"main",group:"textord",replace:"\u22c6"},"\\triangleleft":{font:"main",group:"textord",replace:"\u25c3"},"\\triangleright":{font:"main",group:"textord",replace:"\u25b9"},"\\{":{font:"main",group:"open",replace:"{"},"\\}":{font:"main",group:"close",replace:"}"},"\\lbrace":{font:"main",group:"open",replace:"{"},"\\rbrace":{font:"main",group:"close",replace:"}"},"\\lbrack":{font:"main",group:"open",replace:"["},"\\rbrack":{font:"main",group:"close",replace:"]"},"\\lfloor":{font:"main",group:"open",replace:"\u230a"},"\\rfloor":{font:"main",group:"close",replace:"\u230b"},"\\lceil":{font:"main",group:"open",replace:"\u2308"},"\\rceil":{font:"main",group:"close",replace:"\u2309"},"\\backslash":{font:"main",group:"textord",replace:"\\"},"|":{font:"main",group:"textord",replace:"\u2223"},"\\vert":{font:"main",group:"textord",replace:"\u2223"},"\\|":{font:"main",group:"textord",replace:"\u2225"},"\\Vert":{font:"main",group:"textord",replace:"\u2225"},"\\uparrow":{font:"main",group:"textord",replace:"\u2191"},"\\Uparrow":{font:"main",group:"textord",replace:"\u21d1"},"\\downarrow":{font:"main",group:"textord",replace:"\u2193"},"\\Downarrow":{font:"main",group:"textord",replace:"\u21d3"},"\\updownarrow":{font:"main",group:"textord",replace:"\u2195"},"\\Updownarrow":{font:"main",group:"textord",replace:"\u21d5"},"\\coprod":{font:"math",group:"op",replace:"\u2210"},"\\bigvee":{font:"math",group:"op",replace:"\u22c1"},"\\bigwedge":{font:"math",group:"op",replace:"\u22c0"},"\\biguplus":{font:"math",group:"op",replace:"\u2a04"},"\\bigcap":{font:"math",group:"op",replace:"\u22c2"},"\\bigcup":{font:"math",group:"op",replace:"\u22c3"},"\\int":{font:"math",group:"op",replace:"\u222b"},"\\intop":{font:"math",group:"op",replace:"\u222b"},"\\iint":{font:"math",group:"op",replace:"\u222c"},"\\iiint":{font:"math",group:"op",replace:"\u222d"},"\\prod":{font:"math",group:"op",replace:"\u220f"},"\\sum":{font:"math",group:"op",replace:"\u2211"},"\\bigotimes":{font:"math",group:"op",replace:"\u2a02"},"\\bigoplus":{font:"math",group:"op",replace:"\u2a01"},"\\bigodot":{font:"math",group:"op",replace:"\u2a00"},"\\oint":{font:"math",group:"op",replace:"\u222e"},"\\bigsqcup":{font:"math",group:"op",replace:"\u2a06"},"\\smallint":{font:"math",group:"op",replace:"\u222b"},"\\ldots":{font:"main",group:"punct",replace:"\u2026"},"\\cdots":{font:"main",group:"inner",replace:"\u22ef"},"\\ddots":{font:"main",group:"inner",replace:"\u22f1"},"\\vdots":{font:"main",group:"textord",replace:"\u22ee"},"\\acute":{font:"main",group:"accent",replace:"\xb4"},"\\grave":{font:"main",group:"accent",replace:"`"},"\\ddot":{font:"main",group:"accent",replace:"\xa8"},"\\tilde":{font:"main",group:"accent",replace:"~"},"\\bar":{font:"main",group:"accent",replace:"\xaf"},"\\breve":{font:"main",group:"accent",replace:"\u02d8"},"\\check":{font:"main",group:"accent",replace:"\u02c7"},"\\hat":{font:"main",group:"accent",replace:"^"},"\\vec":{font:"main",group:"accent",replace:"\u20d7"},"\\dot":{font:"main",group:"accent",replace:"\u02d9"}},text:{"\\ ":{font:"main",group:"spacing",replace:"\xa0"}," ":{font:"main",group:"spacing",replace:"\xa0"},"~":{font:"main",group:"spacing",replace:"\xa0"}}};var a='0123456789/@."';for(var l=0;l<a.length;l++){var s=a.charAt(l);h.math[s]={font:"main",group:"textord"}}var r="0123456789`!@*()-=+[]'\";:?/.,";for(var l=0;l<r.length;l++){var s=r.charAt(l);h.text[s]={font:"main",group:"textord"}}var p="abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";for(var l=0;l<p.length;l++){var s=p.charAt(l);h.math[s]={font:"main",group:"mathord"};h.text[s]={font:"main",group:"textord"}}t.exports=h},{}],15:[function(e,t,i){var h=Array.prototype.indexOf;var a=function(e,t){if(e==null){return-1}if(h&&e.indexOf===h){return e.indexOf(t)}var i=0,a=e.length;for(;i<a;i++){if(e[i]===t){return i}}return-1};var l=function(e,t){return a(e,t)!==-1};var s=/([A-Z])/g;var r=function(e){return e.replace(s,"-$1").toLowerCase()};var p={"&":"&amp;",">":"&gt;","<":"&lt;",'"':"&quot;","'":"&#x27;"};var c=/[&><"']/g;function g(e){return p[e]}function d(e){return(""+e).replace(c,g)}var n;if(typeof document!=="undefined"){var o=document.createElement("span");if("textContent"in o){n=function(e,t){e.textContent=t}}else{n=function(e,t){e.innerText=t}}}function w(e){n(e,"")}t.exports={contains:l,escape:d,hyphenate:r,indexOf:a,setTextContent:n,clearNode:w}},{}]},{},[1])(1)});
+	/**
+	 * This is the main entry point for KaTeX. Here, we expose functions for
+	 * rendering expressions either to DOM nodes or to markup strings.
+	 *
+	 * We also expose the ParseError class to check if errors thrown from KaTeX are
+	 * errors in the expression, or errors in javascript handling.
+	 */
+
+	var ParseError = __webpack_require__(28);
+
+	var buildTree = __webpack_require__(29);
+	var parseTree = __webpack_require__(30);
+	var utils = __webpack_require__(31);
+
+	/**
+	 * Parse and build an expression, and place that expression in the DOM node
+	 * given.
+	 */
+	var render = function(toParse, baseNode) {
+	    utils.clearNode(baseNode);
+
+	    var tree = parseTree(toParse);
+	    var node = buildTree(tree).toNode();
+
+	    baseNode.appendChild(node);
+	};
+
+	// KaTeX's styles don't work properly in quirks mode. Print out an error, and
+	// disable rendering.
+	if (typeof document !== "undefined") {
+	    if (document.compatMode !== "CSS1Compat") {
+	        typeof console !== "undefined" && console.warn(
+	            "Warning: KaTeX doesn't work in quirks mode. Make sure your " +
+	                "website has a suitable doctype.");
+
+	        render = function() {
+	            throw new ParseError("KaTeX doesn't work in quirks mode.");
+	        };
+	    }
+	}
+
+	/**
+	 * Parse and build an expression, and return the markup for that.
+	 */
+	var renderToString = function(toParse) {
+	    var tree = parseTree(toParse);
+	    return buildTree(tree).toMarkup();
+	};
+
+	module.exports = {
+	    render: render,
+	    renderToString: renderToString,
+	    ParseError: ParseError
+	};
+
 
 /***/ },
 /* 4 */
-/***/ function(module, exports, __webpack_require__) {
-
-	// style-loader: Adds some reference to a css file to the DOM by adding a <link> tag
-	var update = __webpack_require__(7)(
-		__webpack_require__(5)
-	);
-	// Hot Module Replacement
-	if(false) {
-		module.hot.accept("!!/Users/danfox/katex-react-component/node_modules/file-loader/index.js?name=[path][name].[ext]?[hash]!/Users/danfox/katex-react-component/lib/katex-0.1.1/katex.min.css", function() {
-			update(require("!!/Users/danfox/katex-react-component/node_modules/file-loader/index.js?name=[path][name].[ext]?[hash]!/Users/danfox/katex-react-component/lib/katex-0.1.1/katex.min.css"));
-		});
-		module.hot.dispose(function() { update(); });
-	}
-
-/***/ },
-/* 5 */
-/***/ function(module, exports, __webpack_require__) {
-
-	module.exports = __webpack_require__.p + "lib/katex-0.1.1/katex.min.css?600f6f48e29a1d9f89c368d43f665d07"
-
-/***/ },
-/* 6 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -159,27 +189,27 @@
 
 	"use strict";
 
-	var DOMPropertyOperations = __webpack_require__(8);
-	var EventPluginUtils = __webpack_require__(9);
-	var ReactChildren = __webpack_require__(10);
-	var ReactComponent = __webpack_require__(11);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactContext = __webpack_require__(13);
-	var ReactCurrentOwner = __webpack_require__(14);
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactDOM = __webpack_require__(16);
-	var ReactDOMComponent = __webpack_require__(17);
-	var ReactDefaultInjection = __webpack_require__(18);
-	var ReactInstanceHandles = __webpack_require__(19);
-	var ReactMount = __webpack_require__(20);
-	var ReactMultiChild = __webpack_require__(21);
-	var ReactPerf = __webpack_require__(22);
-	var ReactPropTypes = __webpack_require__(23);
-	var ReactServerRendering = __webpack_require__(24);
-	var ReactTextComponent = __webpack_require__(25);
+	var DOMPropertyOperations = __webpack_require__(7);
+	var EventPluginUtils = __webpack_require__(8);
+	var ReactChildren = __webpack_require__(9);
+	var ReactComponent = __webpack_require__(10);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactContext = __webpack_require__(12);
+	var ReactCurrentOwner = __webpack_require__(13);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactDOM = __webpack_require__(15);
+	var ReactDOMComponent = __webpack_require__(16);
+	var ReactDefaultInjection = __webpack_require__(17);
+	var ReactInstanceHandles = __webpack_require__(18);
+	var ReactMount = __webpack_require__(19);
+	var ReactMultiChild = __webpack_require__(20);
+	var ReactPerf = __webpack_require__(21);
+	var ReactPropTypes = __webpack_require__(22);
+	var ReactServerRendering = __webpack_require__(23);
+	var ReactTextComponent = __webpack_require__(24);
 
-	var onlyChild = __webpack_require__(26);
-	var warning = __webpack_require__(27);
+	var onlyChild = __webpack_require__(25);
+	var warning = __webpack_require__(26);
 
 	ReactDefaultInjection.inject();
 
@@ -246,7 +276,7 @@
 	};
 
 	if ("production" !== process.env.NODE_ENV) {
-	  var ExecutionEnvironment = __webpack_require__(28);
+	  var ExecutionEnvironment = __webpack_require__(27);
 	  if (ExecutionEnvironment.canUseDOM &&
 	      window.top === window.self &&
 	      navigator.userAgent.indexOf('Chrome') > -1) {
@@ -291,39 +321,32 @@
 
 	module.exports = React;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 7 */
+/* 5 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/*
-		MIT License http://www.opensource.org/licenses/mit-license.php
-		Author Tobias Koppers @sokra
-	*/
-	module.exports = function addStyleUrl(cssUrl) {
-		if(false) {
-			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
-		}
-		var styleElement = document.createElement("link");
-		styleElement.rel = "stylesheet";
-		styleElement.type = "text/css";
-		styleElement.href = cssUrl;
-		var head = document.getElementsByTagName("head")[0];
-		head.appendChild(styleElement);
-		if(false) {
-			return function(cssUrl) {
-				if(typeof cssUrl === "string") {
-					styleElement.href = cssUrl;
-				} else {
-					head.removeChild(styleElement);
-				}
-			};
-		}
+	// style-loader: Adds some reference to a css file to the DOM by adding a <link> tag
+	var update = __webpack_require__(33)(
+		__webpack_require__(6)
+	);
+	// Hot Module Replacement
+	if(false) {
+		module.hot.accept("!!/Users/danfox/react-katex/node_modules/file-loader/index.js?name=build/[name].[ext]?[hash]!/Users/danfox/react-katex/node_modules/less-loader/index.js!/Users/danfox/react-katex/lib/KaTeX/static/katex.less", function() {
+			update(require("!!/Users/danfox/react-katex/node_modules/file-loader/index.js?name=build/[name].[ext]?[hash]!/Users/danfox/react-katex/node_modules/less-loader/index.js!/Users/danfox/react-katex/lib/KaTeX/static/katex.less"));
+		});
+		module.hot.dispose(function() { update(); });
 	}
 
 /***/ },
-/* 8 */
+/* 6 */
+/***/ function(module, exports, __webpack_require__) {
+
+	module.exports = __webpack_require__.p + "build/katex.less?82923e2848122b734129be9e91526cf8"
+
+/***/ },
+/* 7 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -347,11 +370,11 @@
 
 	"use strict";
 
-	var DOMProperty = __webpack_require__(29);
+	var DOMProperty = __webpack_require__(34);
 
-	var escapeTextForBrowser = __webpack_require__(30);
-	var memoizeStringOnly = __webpack_require__(31);
-	var warning = __webpack_require__(27);
+	var escapeTextForBrowser = __webpack_require__(35);
+	var memoizeStringOnly = __webpack_require__(36);
+	var warning = __webpack_require__(26);
 
 	function shouldIgnoreValue(name, value) {
 	  return value == null ||
@@ -520,10 +543,10 @@
 
 	module.exports = DOMPropertyOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 9 */
+/* 8 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -546,9 +569,9 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
+	var EventConstants = __webpack_require__(37);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Injected dependencies:
@@ -751,10 +774,10 @@
 
 	module.exports = EventPluginUtils;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 10 */
+/* 9 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -777,10 +800,10 @@
 
 	"use strict";
 
-	var PooledClass = __webpack_require__(34);
+	var PooledClass = __webpack_require__(39);
 
-	var traverseAllChildren = __webpack_require__(35);
-	var warning = __webpack_require__(27);
+	var traverseAllChildren = __webpack_require__(40);
+	var warning = __webpack_require__(26);
 
 	var twoArgumentPooler = PooledClass.twoArgumentPooler;
 	var threeArgumentPooler = PooledClass.threeArgumentPooler;
@@ -911,10 +934,10 @@
 
 	module.exports = ReactChildren;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 11 */
+/* 10 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -937,13 +960,13 @@
 
 	"use strict";
 
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactOwner = __webpack_require__(36);
-	var ReactUpdates = __webpack_require__(37);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactOwner = __webpack_require__(41);
+	var ReactUpdates = __webpack_require__(42);
 
-	var invariant = __webpack_require__(33);
-	var keyMirror = __webpack_require__(38);
-	var merge = __webpack_require__(39);
+	var invariant = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
+	var merge = __webpack_require__(44);
 
 	/**
 	 * Every React component is in one of these life cycles.
@@ -1364,10 +1387,10 @@
 
 	module.exports = ReactComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 12 */
+/* 11 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -1390,29 +1413,29 @@
 
 	"use strict";
 
-	var ReactComponent = __webpack_require__(11);
-	var ReactContext = __webpack_require__(13);
-	var ReactCurrentOwner = __webpack_require__(14);
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactDescriptorValidator = __webpack_require__(40);
-	var ReactEmptyComponent = __webpack_require__(41);
-	var ReactErrorUtils = __webpack_require__(42);
-	var ReactOwner = __webpack_require__(36);
-	var ReactPerf = __webpack_require__(22);
-	var ReactPropTransferer = __webpack_require__(43);
-	var ReactPropTypeLocations = __webpack_require__(44);
-	var ReactPropTypeLocationNames = __webpack_require__(45);
-	var ReactUpdates = __webpack_require__(37);
+	var ReactComponent = __webpack_require__(10);
+	var ReactContext = __webpack_require__(12);
+	var ReactCurrentOwner = __webpack_require__(13);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactDescriptorValidator = __webpack_require__(45);
+	var ReactEmptyComponent = __webpack_require__(46);
+	var ReactErrorUtils = __webpack_require__(47);
+	var ReactOwner = __webpack_require__(41);
+	var ReactPerf = __webpack_require__(21);
+	var ReactPropTransferer = __webpack_require__(48);
+	var ReactPropTypeLocations = __webpack_require__(49);
+	var ReactPropTypeLocationNames = __webpack_require__(50);
+	var ReactUpdates = __webpack_require__(42);
 
-	var instantiateReactComponent = __webpack_require__(46);
-	var invariant = __webpack_require__(33);
-	var keyMirror = __webpack_require__(38);
-	var merge = __webpack_require__(39);
-	var mixInto = __webpack_require__(47);
-	var monitorCodeUse = __webpack_require__(48);
-	var mapObject = __webpack_require__(49);
-	var shouldUpdateReactComponent = __webpack_require__(50);
-	var warning = __webpack_require__(27);
+	var instantiateReactComponent = __webpack_require__(51);
+	var invariant = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
+	var merge = __webpack_require__(44);
+	var mixInto = __webpack_require__(52);
+	var monitorCodeUse = __webpack_require__(53);
+	var mapObject = __webpack_require__(54);
+	var shouldUpdateReactComponent = __webpack_require__(55);
+	var warning = __webpack_require__(26);
 
 	/**
 	 * Policies that describe methods in `ReactCompositeComponentInterface`.
@@ -2796,10 +2819,10 @@
 
 	module.exports = ReactCompositeComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 13 */
+/* 12 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2822,7 +2845,7 @@
 
 	"use strict";
 
-	var merge = __webpack_require__(39);
+	var merge = __webpack_require__(44);
 
 	/**
 	 * Keeps track of the current context.
@@ -2872,7 +2895,7 @@
 
 
 /***/ },
-/* 14 */
+/* 13 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -2917,7 +2940,7 @@
 
 
 /***/ },
-/* 15 */
+/* 14 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -2940,11 +2963,11 @@
 
 	"use strict";
 
-	var ReactContext = __webpack_require__(13);
-	var ReactCurrentOwner = __webpack_require__(14);
+	var ReactContext = __webpack_require__(12);
+	var ReactCurrentOwner = __webpack_require__(13);
 
-	var merge = __webpack_require__(39);
-	var warning = __webpack_require__(27);
+	var merge = __webpack_require__(44);
+	var warning = __webpack_require__(26);
 
 	/**
 	 * Warn for mutations.
@@ -3172,10 +3195,10 @@
 
 	module.exports = ReactDescriptor;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 16 */
+/* 15 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3199,12 +3222,12 @@
 
 	"use strict";
 
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactDescriptorValidator = __webpack_require__(40);
-	var ReactDOMComponent = __webpack_require__(17);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactDescriptorValidator = __webpack_require__(45);
+	var ReactDOMComponent = __webpack_require__(16);
 
-	var mergeInto = __webpack_require__(51);
-	var mapObject = __webpack_require__(49);
+	var mergeInto = __webpack_require__(56);
+	var mapObject = __webpack_require__(54);
 
 	/**
 	 * Creates a new React class that is idempotent and capable of containing other
@@ -3390,10 +3413,10 @@
 
 	module.exports = ReactDOM;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 17 */
+/* 16 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3417,21 +3440,21 @@
 
 	"use strict";
 
-	var CSSPropertyOperations = __webpack_require__(52);
-	var DOMProperty = __webpack_require__(29);
-	var DOMPropertyOperations = __webpack_require__(8);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactComponent = __webpack_require__(11);
-	var ReactBrowserEventEmitter = __webpack_require__(54);
-	var ReactMount = __webpack_require__(20);
-	var ReactMultiChild = __webpack_require__(21);
-	var ReactPerf = __webpack_require__(22);
+	var CSSPropertyOperations = __webpack_require__(57);
+	var DOMProperty = __webpack_require__(34);
+	var DOMPropertyOperations = __webpack_require__(7);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactComponent = __webpack_require__(10);
+	var ReactBrowserEventEmitter = __webpack_require__(59);
+	var ReactMount = __webpack_require__(19);
+	var ReactMultiChild = __webpack_require__(20);
+	var ReactPerf = __webpack_require__(21);
 
-	var escapeTextForBrowser = __webpack_require__(30);
-	var invariant = __webpack_require__(33);
-	var keyOf = __webpack_require__(55);
-	var merge = __webpack_require__(39);
-	var mixInto = __webpack_require__(47);
+	var escapeTextForBrowser = __webpack_require__(35);
+	var invariant = __webpack_require__(38);
+	var keyOf = __webpack_require__(60);
+	var merge = __webpack_require__(44);
+	var mixInto = __webpack_require__(52);
 
 	var deleteListener = ReactBrowserEventEmitter.deleteListener;
 	var listenTo = ReactBrowserEventEmitter.listenTo;
@@ -3815,10 +3838,10 @@
 
 	module.exports = ReactDOMComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 18 */
+/* 17 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3841,37 +3864,37 @@
 
 	"use strict";
 
-	var BeforeInputEventPlugin = __webpack_require__(56);
-	var ChangeEventPlugin = __webpack_require__(57);
-	var ClientReactRootIndex = __webpack_require__(58);
-	var CompositionEventPlugin = __webpack_require__(59);
-	var DefaultEventPluginOrder = __webpack_require__(60);
-	var EnterLeaveEventPlugin = __webpack_require__(61);
-	var ExecutionEnvironment = __webpack_require__(28);
-	var HTMLDOMPropertyConfig = __webpack_require__(62);
-	var MobileSafariClickEventPlugin = __webpack_require__(63);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
+	var BeforeInputEventPlugin = __webpack_require__(61);
+	var ChangeEventPlugin = __webpack_require__(62);
+	var ClientReactRootIndex = __webpack_require__(63);
+	var CompositionEventPlugin = __webpack_require__(64);
+	var DefaultEventPluginOrder = __webpack_require__(65);
+	var EnterLeaveEventPlugin = __webpack_require__(66);
+	var ExecutionEnvironment = __webpack_require__(27);
+	var HTMLDOMPropertyConfig = __webpack_require__(67);
+	var MobileSafariClickEventPlugin = __webpack_require__(68);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
 	var ReactComponentBrowserEnvironment =
-	  __webpack_require__(64);
-	var ReactDefaultBatchingStrategy = __webpack_require__(65);
-	var ReactDOM = __webpack_require__(16);
-	var ReactDOMButton = __webpack_require__(66);
-	var ReactDOMForm = __webpack_require__(67);
-	var ReactDOMImg = __webpack_require__(68);
-	var ReactDOMInput = __webpack_require__(69);
-	var ReactDOMOption = __webpack_require__(70);
-	var ReactDOMSelect = __webpack_require__(71);
-	var ReactDOMTextarea = __webpack_require__(72);
-	var ReactEventListener = __webpack_require__(73);
-	var ReactInjection = __webpack_require__(74);
-	var ReactInstanceHandles = __webpack_require__(19);
-	var ReactMount = __webpack_require__(20);
-	var SelectEventPlugin = __webpack_require__(75);
-	var ServerReactRootIndex = __webpack_require__(76);
-	var SimpleEventPlugin = __webpack_require__(77);
-	var SVGDOMPropertyConfig = __webpack_require__(78);
+	  __webpack_require__(69);
+	var ReactDefaultBatchingStrategy = __webpack_require__(70);
+	var ReactDOM = __webpack_require__(15);
+	var ReactDOMButton = __webpack_require__(71);
+	var ReactDOMForm = __webpack_require__(72);
+	var ReactDOMImg = __webpack_require__(73);
+	var ReactDOMInput = __webpack_require__(74);
+	var ReactDOMOption = __webpack_require__(75);
+	var ReactDOMSelect = __webpack_require__(76);
+	var ReactDOMTextarea = __webpack_require__(77);
+	var ReactEventListener = __webpack_require__(78);
+	var ReactInjection = __webpack_require__(79);
+	var ReactInstanceHandles = __webpack_require__(18);
+	var ReactMount = __webpack_require__(19);
+	var SelectEventPlugin = __webpack_require__(80);
+	var ServerReactRootIndex = __webpack_require__(81);
+	var SimpleEventPlugin = __webpack_require__(82);
+	var SVGDOMPropertyConfig = __webpack_require__(83);
 
-	var createFullPageComponent = __webpack_require__(79);
+	var createFullPageComponent = __webpack_require__(84);
 
 	function inject() {
 	  ReactInjection.EventEmitter.injectReactEventListener(
@@ -3940,7 +3963,7 @@
 	  if ("production" !== process.env.NODE_ENV) {
 	    var url = (ExecutionEnvironment.canUseDOM && window.location.href) || '';
 	    if ((/[?&]react_perf\b/).test(url)) {
-	      var ReactDefaultPerf = __webpack_require__(80);
+	      var ReactDefaultPerf = __webpack_require__(85);
 	      ReactDefaultPerf.start();
 	    }
 	  }
@@ -3950,10 +3973,10 @@
 	  inject: inject
 	};
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 19 */
+/* 18 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -3977,9 +4000,9 @@
 
 	"use strict";
 
-	var ReactRootIndex = __webpack_require__(81);
+	var ReactRootIndex = __webpack_require__(86);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	var SEPARATOR = '.';
 	var SEPARATOR_LENGTH = SEPARATOR.length;
@@ -4295,10 +4318,10 @@
 
 	module.exports = ReactInstanceHandles;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 20 */
+/* 19 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -4321,19 +4344,19 @@
 
 	"use strict";
 
-	var DOMProperty = __webpack_require__(29);
-	var ReactBrowserEventEmitter = __webpack_require__(54);
-	var ReactCurrentOwner = __webpack_require__(14);
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactInstanceHandles = __webpack_require__(19);
-	var ReactPerf = __webpack_require__(22);
+	var DOMProperty = __webpack_require__(34);
+	var ReactBrowserEventEmitter = __webpack_require__(59);
+	var ReactCurrentOwner = __webpack_require__(13);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactInstanceHandles = __webpack_require__(18);
+	var ReactPerf = __webpack_require__(21);
 
-	var containsNode = __webpack_require__(82);
-	var getReactRootElementInContainer = __webpack_require__(83);
-	var instantiateReactComponent = __webpack_require__(46);
-	var invariant = __webpack_require__(33);
-	var shouldUpdateReactComponent = __webpack_require__(50);
-	var warning = __webpack_require__(27);
+	var containsNode = __webpack_require__(87);
+	var getReactRootElementInContainer = __webpack_require__(88);
+	var instantiateReactComponent = __webpack_require__(51);
+	var invariant = __webpack_require__(38);
+	var shouldUpdateReactComponent = __webpack_require__(55);
+	var warning = __webpack_require__(26);
 
 	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
 
@@ -4983,10 +5006,10 @@
 
 	module.exports = ReactMount;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 21 */
+/* 20 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5010,12 +5033,12 @@
 
 	"use strict";
 
-	var ReactComponent = __webpack_require__(11);
-	var ReactMultiChildUpdateTypes = __webpack_require__(84);
+	var ReactComponent = __webpack_require__(10);
+	var ReactMultiChildUpdateTypes = __webpack_require__(89);
 
-	var flattenChildren = __webpack_require__(85);
-	var instantiateReactComponent = __webpack_require__(46);
-	var shouldUpdateReactComponent = __webpack_require__(50);
+	var flattenChildren = __webpack_require__(90);
+	var instantiateReactComponent = __webpack_require__(51);
+	var shouldUpdateReactComponent = __webpack_require__(55);
 
 	/**
 	 * Updating children of a component may trigger recursive updates. The depth is
@@ -5422,7 +5445,7 @@
 
 
 /***/ },
-/* 22 */
+/* 21 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -5511,10 +5534,10 @@
 
 	module.exports = ReactPerf;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 23 */
+/* 22 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5537,10 +5560,10 @@
 
 	"use strict";
 
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactPropTypeLocationNames = __webpack_require__(45);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactPropTypeLocationNames = __webpack_require__(50);
 
-	var emptyFunction = __webpack_require__(86);
+	var emptyFunction = __webpack_require__(91);
 
 	/**
 	 * Collection of methods that allow declaration and validation of props that are
@@ -5863,7 +5886,7 @@
 
 
 /***/ },
-/* 24 */
+/* 23 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -5886,14 +5909,14 @@
 	 */
 	"use strict";
 
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactInstanceHandles = __webpack_require__(19);
-	var ReactMarkupChecksum = __webpack_require__(87);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactInstanceHandles = __webpack_require__(18);
+	var ReactMarkupChecksum = __webpack_require__(92);
 	var ReactServerRenderingTransaction =
-	  __webpack_require__(88);
+	  __webpack_require__(93);
 
-	var instantiateReactComponent = __webpack_require__(46);
-	var invariant = __webpack_require__(33);
+	var instantiateReactComponent = __webpack_require__(51);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * @param {ReactComponent} component
@@ -5956,10 +5979,10 @@
 	  renderComponentToStaticMarkup: renderComponentToStaticMarkup
 	};
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 25 */
+/* 24 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -5983,13 +6006,13 @@
 
 	"use strict";
 
-	var DOMPropertyOperations = __webpack_require__(8);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactComponent = __webpack_require__(11);
-	var ReactDescriptor = __webpack_require__(15);
+	var DOMPropertyOperations = __webpack_require__(7);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactComponent = __webpack_require__(10);
+	var ReactDescriptor = __webpack_require__(14);
 
-	var escapeTextForBrowser = __webpack_require__(30);
-	var mixInto = __webpack_require__(47);
+	var escapeTextForBrowser = __webpack_require__(35);
+	var mixInto = __webpack_require__(52);
 
 	/**
 	 * Text nodes violate a couple assumptions that React makes about components:
@@ -6072,7 +6095,7 @@
 
 
 /***/ },
-/* 26 */
+/* 25 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6094,9 +6117,9 @@
 	 */
 	"use strict";
 
-	var ReactDescriptor = __webpack_require__(15);
+	var ReactDescriptor = __webpack_require__(14);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Returns the first child in a collection of children and verifies that there
@@ -6119,10 +6142,10 @@
 
 	module.exports = onlyChild;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 27 */
+/* 26 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6145,7 +6168,7 @@
 
 	"use strict";
 
-	var emptyFunction = __webpack_require__(86);
+	var emptyFunction = __webpack_require__(91);
 
 	/**
 	 * Similar to invariant but only logs a warning if the condition is not met.
@@ -6174,10 +6197,10 @@
 
 	module.exports = warning;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 28 */
+/* 27 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6233,7 +6256,1450 @@
 
 
 /***/ },
+/* 28 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This is the ParseError class, which is the main error thrown by KaTeX
+	 * functions when something has gone wrong. This is used to distinguish internal
+	 * errors from errors in the expression that the user provided.
+	 */
+	function ParseError(message, lexer, position) {
+	    var error = "KaTeX parse error: " + message;
+
+	    if (lexer !== undefined && position !== undefined) {
+	        // If we have the input and a position, make the error a bit fancier
+
+	        // Prepend some information
+	        error += " at position " + position + ": ";
+
+	        // Get the input
+	        var input = lexer._input;
+	        // Insert a combining underscore at the correct position
+	        input = input.slice(0, position) + "\u0332" +
+	            input.slice(position);
+
+	        // Extract some context from the input and add it to the error
+	        var begin = Math.max(0, position - 15);
+	        var end = position + 15;
+	        error += input.slice(begin, end);
+	    }
+
+	    // Some hackery to make ParseError a prototype of Error
+	    // See http://stackoverflow.com/a/8460753
+	    var self = new Error(error);
+	    self.name = "ParseError";
+	    self.__proto__ = ParseError.prototype;
+
+	    self.position = position;
+	    return self;
+	}
+
+	// More hackery
+	ParseError.prototype.__proto__ = Error.prototype;
+
+	module.exports = ParseError;
+
+
+/***/ },
 /* 29 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This file does the main work of building a domTree structure from a parse
+	 * tree. The entry point is the `buildTree` function, which takes a parse tree.
+	 * Then, the buildExpression, buildGroup, and various groupTypes functions are
+	 * called, to produce a final tree.
+	 */
+
+	var Options = __webpack_require__(94);
+	var ParseError = __webpack_require__(28);
+	var Style = __webpack_require__(95);
+
+	var buildCommon = __webpack_require__(96);
+	var delimiter = __webpack_require__(97);
+	var domTree = __webpack_require__(98);
+	var fontMetrics = __webpack_require__(99);
+	var utils = __webpack_require__(31);
+
+	var makeSpan = buildCommon.makeSpan;
+
+	/**
+	 * Take a list of nodes, build them in order, and return a list of the built
+	 * nodes. This function handles the `prev` node correctly, and passes the
+	 * previous element from the list as the prev of the next element.
+	 */
+	var buildExpression = function(expression, options, prev) {
+	    var groups = [];
+	    for (var i = 0; i < expression.length; i++) {
+	        var group = expression[i];
+	        groups.push(buildGroup(group, options, prev));
+	        prev = group;
+	    }
+	    return groups;
+	};
+
+	// List of types used by getTypeOfGroup
+	var groupToType = {
+	    mathord: "mord",
+	    textord: "mord",
+	    bin: "mbin",
+	    rel: "mrel",
+	    text: "mord",
+	    open: "mopen",
+	    close: "mclose",
+	    inner: "minner",
+	    frac: "minner",
+	    spacing: "mord",
+	    punct: "mpunct",
+	    ordgroup: "mord",
+	    op: "mop",
+	    katex: "mord",
+	    overline: "mord",
+	    rule: "mord",
+	    leftright: "minner",
+	    sqrt: "mord",
+	    accent: "mord"
+	};
+
+	/**
+	 * Gets the final math type of an expression, given its group type. This type is
+	 * used to determine spacing between elements, and affects bin elements by
+	 * causing them to change depending on what types are around them. This type
+	 * must be attached to the outermost node of an element as a CSS class so that
+	 * spacing with its surrounding elements works correctly.
+	 *
+	 * Some elements can be mapped one-to-one from group type to math type, and
+	 * those are listed in the `groupToType` table.
+	 *
+	 * Others (usually elements that wrap around other elements) often have
+	 * recursive definitions, and thus call `getTypeOfGroup` on their inner
+	 * elements.
+	 */
+	var getTypeOfGroup = function(group) {
+	    if (group == null) {
+	        // Like when typesetting $^3$
+	        return groupToType.mathord;
+	    } else if (group.type === "supsub") {
+	        return getTypeOfGroup(group.value.base);
+	    } else if (group.type === "llap" || group.type === "rlap") {
+	        return getTypeOfGroup(group.value);
+	    } else if (group.type === "color") {
+	        return getTypeOfGroup(group.value.value);
+	    } else if (group.type === "sizing") {
+	        return getTypeOfGroup(group.value.value);
+	    } else if (group.type === "styling") {
+	        return getTypeOfGroup(group.value.value);
+	    } else if (group.type === "delimsizing") {
+	        return groupToType[group.value.delimType];
+	    } else {
+	        return groupToType[group.type];
+	    }
+	};
+
+	/**
+	 * Sometimes, groups perform special rules when they have superscripts or
+	 * subscripts attached to them. This function lets the `supsub` group know that
+	 * its inner element should handle the superscripts and subscripts instead of
+	 * handling them itself.
+	 */
+	var shouldHandleSupSub = function(group, options) {
+	    if (!group) {
+	        return false;
+	    } else if (group.type === "op") {
+	        // Operators handle supsubs differently when they have limits
+	        // (e.g. `\displaystyle\sum_2^3`)
+	        return group.value.limits && options.style.size === Style.DISPLAY.size;
+	    } else if (group.type === "accent") {
+	        return isCharacterBox(group.value.base);
+	    } else {
+	        return null;
+	    }
+	};
+
+	/**
+	 * Sometimes we want to pull out the innermost element of a group. In most
+	 * cases, this will just be the group itself, but when ordgroups and colors have
+	 * a single element, we want to pull that out.
+	 */
+	var getBaseElem = function(group) {
+	    if (!group) {
+	        return false;
+	    } else if (group.type === "ordgroup") {
+	        if (group.value.length === 1) {
+	            return getBaseElem(group.value[0]);
+	        } else {
+	            return group;
+	        }
+	    } else if (group.type === "color") {
+	        if (group.value.value.length === 1) {
+	            return getBaseElem(group.value.value[0]);
+	        } else {
+	            return group;
+	        }
+	    } else {
+	        return group;
+	    }
+	};
+
+	/**
+	 * TeXbook algorithms often reference "character boxes", which are simply groups
+	 * with a single character in them. To decide if something is a character box,
+	 * we find its innermost group, and see if it is a single character.
+	 */
+	var isCharacterBox = function(group) {
+	    var baseElem = getBaseElem(group);
+
+	    // These are all they types of groups which hold single characters
+	    return baseElem.type === "mathord" ||
+	        baseElem.type === "textord" ||
+	        baseElem.type === "bin" ||
+	        baseElem.type === "rel" ||
+	        baseElem.type === "inner" ||
+	        baseElem.type === "open" ||
+	        baseElem.type === "close" ||
+	        baseElem.type === "punct";
+	};
+
+	/**
+	 * This is a map of group types to the function used to handle that type.
+	 * Simpler types come at the beginning, while complicated types come afterwards.
+	 */
+	var groupTypes = {
+	    mathord: function(group, options, prev) {
+	        return buildCommon.mathit(
+	            group.value, group.mode, options.getColor(), ["mord"]);
+	    },
+
+	    textord: function(group, options, prev) {
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), ["mord"]);
+	    },
+
+	    bin: function(group, options, prev) {
+	        var className = "mbin";
+	        // Pull out the most recent element. Do some special handling to find
+	        // things at the end of a \color group. Note that we don't use the same
+	        // logic for ordgroups (which count as ords).
+	        var prevAtom = prev;
+	        while (prevAtom && prevAtom.type == "color") {
+	            var atoms = prevAtom.value.value;
+	            prevAtom = atoms[atoms.length - 1];
+	        }
+	        // See TeXbook pg. 442-446, Rules 5 and 6, and the text before Rule 19.
+	        // Here, we determine whether the bin should turn into an ord. We
+	        // currently only apply Rule 5.
+	        if (!prev || utils.contains(["mbin", "mopen", "mrel", "mop", "mpunct"],
+	                getTypeOfGroup(prevAtom))) {
+	            group.type = "textord";
+	            className = "mord";
+	        }
+
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), [className]);
+	    },
+
+	    rel: function(group, options, prev) {
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), ["mrel"]);
+	    },
+
+	    open: function(group, options, prev) {
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), ["mopen"]);
+	    },
+
+	    close: function(group, options, prev) {
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), ["mclose"]);
+	    },
+
+	    inner: function(group, options, prev) {
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), ["minner"]);
+	    },
+
+	    punct: function(group, options, prev) {
+	        return buildCommon.mathrm(
+	            group.value, group.mode, options.getColor(), ["mpunct"]);
+	    },
+
+	    ordgroup: function(group, options, prev) {
+	        return makeSpan(
+	            ["mord", options.style.cls()],
+	            buildExpression(group.value, options.reset())
+	        );
+	    },
+
+	    text: function(group, options, prev) {
+	        return makeSpan(["text", "mord", options.style.cls()],
+	            buildExpression(group.value.body, options.reset()));
+	    },
+
+	    color: function(group, options, prev) {
+	        var elements = buildExpression(
+	            group.value.value,
+	            options.withColor(group.value.color),
+	            prev
+	        );
+
+	        // \color isn't supposed to affect the type of the elements it contains.
+	        // To accomplish this, we wrap the results in a fragment, so the inner
+	        // elements will be able to directly interact with their neighbors. For
+	        // example, `\color{red}{2 +} 3` has the same spacing as `2 + 3`
+	        return new buildCommon.makeFragment(elements);
+	    },
+
+	    supsub: function(group, options, prev) {
+	        // Superscript and subscripts are handled in the TeXbook on page
+	        // 445-446, rules 18(a-f).
+
+	        // Here is where we defer to the inner group if it should handle
+	        // superscripts and subscripts itself.
+	        if (shouldHandleSupSub(group.value.base, options)) {
+	            return groupTypes[group.value.base.type](group, options, prev);
+	        }
+
+	        var base = buildGroup(group.value.base, options.reset());
+	        var supmid, submid, sup, sub;
+
+	        if (group.value.sup) {
+	            sup = buildGroup(group.value.sup,
+	                    options.withStyle(options.style.sup()));
+	            supmid = makeSpan(
+	                    [options.style.reset(), options.style.sup().cls()], [sup]);
+	        }
+
+	        if (group.value.sub) {
+	            sub = buildGroup(group.value.sub,
+	                    options.withStyle(options.style.sub()));
+	            submid = makeSpan(
+	                    [options.style.reset(), options.style.sub().cls()], [sub]);
+	        }
+
+	        // Rule 18a
+	        var supShift, subShift;
+	        if (isCharacterBox(group.value.base)) {
+	            supShift = 0;
+	            subShift = 0;
+	        } else {
+	            supShift = base.height - fontMetrics.metrics.supDrop;
+	            subShift = base.depth + fontMetrics.metrics.subDrop;
+	        }
+
+	        // Rule 18c
+	        var minSupShift;
+	        if (options.style === Style.DISPLAY) {
+	            minSupShift = fontMetrics.metrics.sup1;
+	        } else if (options.style.cramped) {
+	            minSupShift = fontMetrics.metrics.sup3;
+	        } else {
+	            minSupShift = fontMetrics.metrics.sup2;
+	        }
+
+	        // scriptspace is a font-size-independent size, so scale it
+	        // appropriately
+	        var multiplier = Style.TEXT.sizeMultiplier *
+	                options.style.sizeMultiplier;
+	        var scriptspace =
+	            (0.5 / fontMetrics.metrics.ptPerEm) / multiplier + "em";
+
+	        var supsub;
+	        if (!group.value.sup) {
+	            // Rule 18b
+	            subShift = Math.max(
+	                subShift, fontMetrics.metrics.sub1,
+	                sub.height - 0.8 * fontMetrics.metrics.xHeight);
+
+	            supsub = buildCommon.makeVList([
+	                {type: "elem", elem: submid}
+	            ], "shift", subShift, options);
+
+	            supsub.children[0].style.marginRight = scriptspace;
+
+	            // Subscripts shouldn't be shifted by the base's italic correction.
+	            // Account for that by shifting the subscript back the appropriate
+	            // amount. Note we only do this when the base is a single symbol.
+	            if (base instanceof domTree.symbolNode) {
+	                supsub.children[0].style.marginLeft = -base.italic + "em";
+	            }
+	        } else if (!group.value.sub) {
+	            // Rule 18c, d
+	            supShift = Math.max(supShift, minSupShift,
+	                sup.depth + 0.25 * fontMetrics.metrics.xHeight);
+
+	            supsub = buildCommon.makeVList([
+	                {type: "elem", elem: supmid}
+	            ], "shift", -supShift, options);
+
+	            supsub.children[0].style.marginRight = scriptspace;
+	        } else {
+	            supShift = Math.max(
+	                supShift, minSupShift,
+	                sup.depth + 0.25 * fontMetrics.metrics.xHeight);
+	            subShift = Math.max(subShift, fontMetrics.metrics.sub2);
+
+	            var ruleWidth = fontMetrics.metrics.defaultRuleThickness;
+
+	            // Rule 18e
+	            if ((supShift - sup.depth) - (sub.height - subShift) <
+	                    4 * ruleWidth) {
+	                subShift = 4 * ruleWidth - (supShift - sup.depth) + sub.height;
+	                var psi = 0.8 * fontMetrics.metrics.xHeight -
+	                    (supShift - sup.depth);
+	                if (psi > 0) {
+	                    supShift += psi;
+	                    subShift -= psi;
+	                }
+	            }
+
+	            supsub = buildCommon.makeVList([
+	                {type: "elem", elem: submid, shift: subShift},
+	                {type: "elem", elem: supmid, shift: -supShift}
+	            ], "individualShift", null, options);
+
+	            // See comment above about subscripts not being shifted
+	            if (base instanceof domTree.symbolNode) {
+	                supsub.children[0].style.marginLeft = -base.italic + "em";
+	            }
+
+	            supsub.children[0].style.marginRight = scriptspace;
+	            supsub.children[1].style.marginRight = scriptspace;
+	        }
+
+	        return makeSpan([getTypeOfGroup(group.value.base)],
+	            [base, supsub]);
+	    },
+
+	    genfrac: function(group, options, prev) {
+	        // Fractions are handled in the TeXbook on pages 444-445, rules 15(a-e).
+	        // Figure out what style this fraction should be in based on the
+	        // function used
+	        var fstyle = options.style;
+	        if (group.value.size === "display") {
+	            fstyle = Style.DISPLAY;
+	        } else if (group.value.size === "text") {
+	            fstyle = Style.TEXT;
+	        }
+
+	        var nstyle = fstyle.fracNum();
+	        var dstyle = fstyle.fracDen();
+
+	        var numer = buildGroup(group.value.numer, options.withStyle(nstyle));
+	        var numerreset = makeSpan([fstyle.reset(), nstyle.cls()], [numer]);
+
+	        var denom = buildGroup(group.value.denom, options.withStyle(dstyle));
+	        var denomreset = makeSpan([fstyle.reset(), dstyle.cls()], [denom]);
+
+	        var ruleWidth;
+	        if (group.value.hasBarLine) {
+	            ruleWidth = fontMetrics.metrics.defaultRuleThickness /
+	                options.style.sizeMultiplier;
+	        } else {
+	            ruleWidth = 0;
+	        }
+
+	        // Rule 15b
+	        var numShift;
+	        var clearance;
+	        var denomShift;
+	        if (fstyle.size === Style.DISPLAY.size) {
+	            numShift = fontMetrics.metrics.num1;
+	            if (ruleWidth > 0) {
+	                clearance = 3 * ruleWidth;
+	            } else {
+	                clearance = 7 * fontMetrics.metrics.defaultRuleThickness;
+	            }
+	            denomShift = fontMetrics.metrics.denom1;
+	        } else {
+	            if (ruleWidth > 0) {
+	                numShift = fontMetrics.metrics.num2;
+	                clearance = ruleWidth;
+	            } else {
+	                numShift = fontMetrics.metrics.num3;
+	                clearance = 3 * fontMetrics.metrics.defaultRuleThickness;
+	            }
+	            denomShift = fontMetrics.metrics.denom2;
+	        }
+
+	        var frac;
+	        if (ruleWidth === 0) {
+	            // Rule 15c
+	            var candiateClearance =
+	                (numShift - numer.depth) - (denom.height - denomShift);
+	            if (candiateClearance < clearance) {
+	                numShift += 0.5 * (clearance - candiateClearance);
+	                denomShift += 0.5 * (clearance - candiateClearance);
+	            }
+
+	            frac = buildCommon.makeVList([
+	                {type: "elem", elem: denomreset, shift: denomShift},
+	                {type: "elem", elem: numerreset, shift: -numShift}
+	            ], "individualShift", null, options);
+	        } else {
+	            // Rule 15d
+	            var axisHeight = fontMetrics.metrics.axisHeight;
+
+	            if ((numShift - numer.depth) - (axisHeight + 0.5 * ruleWidth)
+	                    < clearance) {
+	                numShift +=
+	                    clearance - ((numShift - numer.depth) -
+	                                 (axisHeight + 0.5 * ruleWidth));
+	            }
+
+	            if ((axisHeight - 0.5 * ruleWidth) - (denom.height - denomShift)
+	                    < clearance) {
+	                denomShift +=
+	                    clearance - ((axisHeight - 0.5 * ruleWidth) -
+	                                 (denom.height - denomShift));
+	            }
+
+	            var mid = makeSpan(
+	                [options.style.reset(), Style.TEXT.cls(), "frac-line"]);
+	            // Manually set the height of the line because its height is
+	            // created in CSS
+	            mid.height = ruleWidth;
+
+	            var midShift = -(axisHeight - 0.5 * ruleWidth);
+
+	            frac = buildCommon.makeVList([
+	                {type: "elem", elem: denomreset, shift: denomShift},
+	                {type: "elem", elem: mid,        shift: midShift},
+	                {type: "elem", elem: numerreset, shift: -numShift}
+	            ], "individualShift", null, options);
+	        }
+
+	        // Since we manually change the style sometimes (with \dfrac or \tfrac),
+	        // account for the possible size change here.
+	        frac.height *= fstyle.sizeMultiplier / options.style.sizeMultiplier;
+	        frac.depth *= fstyle.sizeMultiplier / options.style.sizeMultiplier;
+
+	        // Rule 15e
+	        var innerChildren = [makeSpan(["mfrac"], [frac])];
+
+	        var delimSize;
+	        if (fstyle.size === Style.DISPLAY.size) {
+	            delimSize = fontMetrics.metrics.delim1;
+	        } else {
+	            delimSize = fontMetrics.metrics.getDelim2(fstyle);
+	        }
+
+	        if (group.value.leftDelim != null) {
+	            innerChildren.unshift(
+	                delimiter.customSizedDelim(
+	                    group.value.leftDelim, delimSize, true,
+	                    options.withStyle(fstyle), group.mode)
+	            );
+	        }
+	        if (group.value.rightDelim != null) {
+	            innerChildren.push(
+	                delimiter.customSizedDelim(
+	                    group.value.rightDelim, delimSize, true,
+	                    options.withStyle(fstyle), group.mode)
+	            );
+	        }
+
+	        return makeSpan(
+	            ["minner", options.style.reset(), fstyle.cls()],
+	            innerChildren,
+	            options.getColor());
+	    },
+
+	    spacing: function(group, options, prev) {
+	        if (group.value === "\\ " || group.value === "\\space" ||
+	            group.value === " " || group.value === "~") {
+	            // Spaces are generated by adding an actual space. Each of these
+	            // things has an entry in the symbols table, so these will be turned
+	            // into appropriate outputs.
+	            return makeSpan(
+	                ["mord", "mspace"],
+	                [buildCommon.mathrm(group.value, group.mode)]
+	            );
+	        } else {
+	            // Other kinds of spaces are of arbitrary width. We use CSS to
+	            // generate these.
+	            var spacingClassMap = {
+	                "\\qquad": "qquad",
+	                "\\quad": "quad",
+	                "\\enspace": "enspace",
+	                "\\;": "thickspace",
+	                "\\:": "mediumspace",
+	                "\\,": "thinspace",
+	                "\\!": "negativethinspace"
+	            };
+
+	            return makeSpan(
+	                ["mord", "mspace", spacingClassMap[group.value]]);
+	        }
+	    },
+
+	    llap: function(group, options, prev) {
+	        var inner = makeSpan(
+	            ["inner"], [buildGroup(group.value.body, options.reset())]);
+	        var fix = makeSpan(["fix"], []);
+	        return makeSpan(
+	            ["llap", options.style.cls()], [inner, fix]);
+	    },
+
+	    rlap: function(group, options, prev) {
+	        var inner = makeSpan(
+	            ["inner"], [buildGroup(group.value.body, options.reset())]);
+	        var fix = makeSpan(["fix"], []);
+	        return makeSpan(
+	            ["rlap", options.style.cls()], [inner, fix]);
+	    },
+
+	    op: function(group, options, prev) {
+	        // Operators are handled in the TeXbook pg. 443-444, rule 13(a).
+	        var supGroup;
+	        var subGroup;
+	        var hasLimits = false;
+	        if (group.type === "supsub" ) {
+	            // If we have limits, supsub will pass us its group to handle. Pull
+	            // out the superscript and subscript and set the group to the op in
+	            // its base.
+	            supGroup = group.value.sup;
+	            subGroup = group.value.sub;
+	            group = group.value.base;
+	            hasLimits = true;
+	        }
+
+	        // Most operators have a large successor symbol, but these don't.
+	        var noSuccessor = [
+	            "\\smallint"
+	        ];
+
+	        var large = false;
+	        if (options.style.size === Style.DISPLAY.size &&
+	            group.value.symbol &&
+	            !utils.contains(noSuccessor, group.value.body)) {
+
+	            // Most symbol operators get larger in displaystyle (rule 13)
+	            large = true;
+	        }
+
+	        var base;
+	        var baseShift = 0;
+	        var slant = 0;
+	        if (group.value.symbol) {
+	            // If this is a symbol, create the symbol.
+	            var style = large ? "Size2-Regular" : "Size1-Regular";
+	            base = buildCommon.makeSymbol(
+	                group.value.body, style, "math", options.getColor(),
+	                ["op-symbol", large ? "large-op" : "small-op", "mop"]);
+
+	            // Shift the symbol so its center lies on the axis (rule 13). It
+	            // appears that our fonts have the centers of the symbols already
+	            // almost on the axis, so these numbers are very small. Note we
+	            // don't actually apply this here, but instead it is used either in
+	            // the vlist creation or separately when there are no limits.
+	            baseShift = (base.height - base.depth) / 2 -
+	                fontMetrics.metrics.axisHeight *
+	                options.style.sizeMultiplier;
+
+	            // The slant of the symbol is just its italic correction.
+	            slant = base.italic;
+	        } else {
+	            // Otherwise, this is a text operator. Build the text from the
+	            // operator's name.
+	            // TODO(emily): Add a space in the middle of some of these
+	            // operators, like \limsup
+	            var output = [];
+	            for (var i = 1; i < group.value.body.length; i++) {
+	                output.push(buildCommon.mathrm(group.value.body[i], group.mode));
+	            }
+	            base = makeSpan(["mop"], output, options.getColor());
+	        }
+
+	        if (hasLimits) {
+	            // IE 8 clips \int if it is in a display: inline-block. We wrap it
+	            // in a new span so it is an inline, and works.
+	            base = makeSpan([], [base]);
+
+	            var supmid, supKern, submid, subKern;
+	            // We manually have to handle the superscripts and subscripts. This,
+	            // aside from the kern calculations, is copied from supsub.
+	            if (supGroup) {
+	                var sup = buildGroup(
+	                    supGroup, options.withStyle(options.style.sup()));
+	                supmid = makeSpan(
+	                    [options.style.reset(), options.style.sup().cls()], [sup]);
+
+	                supKern = Math.max(
+	                    fontMetrics.metrics.bigOpSpacing1,
+	                    fontMetrics.metrics.bigOpSpacing3 - sup.depth);
+	            }
+
+	            if (subGroup) {
+	                var sub = buildGroup(
+	                    subGroup, options.withStyle(options.style.sub()));
+	                submid = makeSpan(
+	                    [options.style.reset(), options.style.sub().cls()],
+	                    [sub]);
+
+	                subKern = Math.max(
+	                    fontMetrics.metrics.bigOpSpacing2,
+	                    fontMetrics.metrics.bigOpSpacing4 - sub.height);
+	            }
+
+	            // Build the final group as a vlist of the possible subscript, base,
+	            // and possible superscript.
+	            var finalGroup, top, bottom;
+	            if (!supGroup) {
+	                top = base.height - baseShift;
+
+	                finalGroup = buildCommon.makeVList([
+	                    {type: "kern", size: fontMetrics.metrics.bigOpSpacing5},
+	                    {type: "elem", elem: submid},
+	                    {type: "kern", size: subKern},
+	                    {type: "elem", elem: base}
+	                ], "top", top, options);
+
+	                // Here, we shift the limits by the slant of the symbol. Note
+	                // that we are supposed to shift the limits by 1/2 of the slant,
+	                // but since we are centering the limits adding a full slant of
+	                // margin will shift by 1/2 that.
+	                finalGroup.children[0].style.marginLeft = -slant + "em";
+	            } else if (!subGroup) {
+	                bottom = base.depth + baseShift;
+
+	                finalGroup = buildCommon.makeVList([
+	                    {type: "elem", elem: base},
+	                    {type: "kern", size: supKern},
+	                    {type: "elem", elem: supmid},
+	                    {type: "kern", size: fontMetrics.metrics.bigOpSpacing5}
+	                ], "bottom", bottom, options);
+
+	                // See comment above about slants
+	                finalGroup.children[1].style.marginLeft = slant + "em";
+	            } else if (!supGroup && !subGroup) {
+	                // This case probably shouldn't occur (this would mean the
+	                // supsub was sending us a group with no superscript or
+	                // subscript) but be safe.
+	                return base;
+	            } else {
+	                bottom = fontMetrics.metrics.bigOpSpacing5 +
+	                    submid.height + submid.depth +
+	                    subKern +
+	                    base.depth + baseShift;
+
+	                finalGroup = buildCommon.makeVList([
+	                    {type: "kern", size: fontMetrics.metrics.bigOpSpacing5},
+	                    {type: "elem", elem: submid},
+	                    {type: "kern", size: subKern},
+	                    {type: "elem", elem: base},
+	                    {type: "kern", size: supKern},
+	                    {type: "elem", elem: supmid},
+	                    {type: "kern", size: fontMetrics.metrics.bigOpSpacing5}
+	                ], "bottom", bottom, options);
+
+	                // See comment above about slants
+	                finalGroup.children[0].style.marginLeft = -slant + "em";
+	                finalGroup.children[2].style.marginLeft = slant + "em";
+	            }
+
+	            return makeSpan(["mop", "op-limits"], [finalGroup]);
+	        } else {
+	            if (group.value.symbol) {
+	                base.style.top = baseShift + "em";
+	            }
+
+	            return base;
+	        }
+	    },
+
+	    katex: function(group, options, prev) {
+	        // The KaTeX logo. The offsets for the K and a were chosen to look
+	        // good, but the offsets for the T, E, and X were taken from the
+	        // definition of \TeX in TeX (see TeXbook pg. 356)
+	        var k = makeSpan(
+	            ["k"], [buildCommon.mathrm("K", group.mode)]);
+	        var a = makeSpan(
+	            ["a"], [buildCommon.mathrm("A", group.mode)]);
+
+	        a.height = (a.height + 0.2) * 0.75;
+	        a.depth = (a.height - 0.2) * 0.75;
+
+	        var t = makeSpan(
+	            ["t"], [buildCommon.mathrm("T", group.mode)]);
+	        var e = makeSpan(
+	            ["e"], [buildCommon.mathrm("E", group.mode)]);
+
+	        e.height = (e.height - 0.2155);
+	        e.depth = (e.depth + 0.2155);
+
+	        var x = makeSpan(
+	            ["x"], [buildCommon.mathrm("X", group.mode)]);
+
+	        return makeSpan(
+	            ["katex-logo"], [k, a, t, e, x], options.getColor());
+	    },
+
+	    overline: function(group, options, prev) {
+	        // Overlines are handled in the TeXbook pg 443, Rule 9.
+
+	        // Build the inner group in the cramped style.
+	        var innerGroup = buildGroup(group.value.body,
+	                options.withStyle(options.style.cramp()));
+
+	        var ruleWidth = fontMetrics.metrics.defaultRuleThickness /
+	            options.style.sizeMultiplier;
+
+	        // Create the line above the body
+	        var line = makeSpan(
+	            [options.style.reset(), Style.TEXT.cls(), "overline-line"]);
+	        line.height = ruleWidth;
+	        line.maxFontSize = 1.0;
+
+	        // Generate the vlist, with the appropriate kerns
+	        var vlist = buildCommon.makeVList([
+	            {type: "elem", elem: innerGroup},
+	            {type: "kern", size: 3 * ruleWidth},
+	            {type: "elem", elem: line},
+	            {type: "kern", size: ruleWidth}
+	        ], "firstBaseline", null, options);
+
+	        return makeSpan(["overline", "mord"], [vlist], options.getColor());
+	    },
+
+	    sqrt: function(group, options, prev) {
+	        // Square roots are handled in the TeXbook pg. 443, Rule 11.
+
+	        // First, we do the same steps as in overline to build the inner group
+	        // and line
+	        var inner = buildGroup(group.value.body,
+	                options.withStyle(options.style.cramp()));
+
+	        var ruleWidth = fontMetrics.metrics.defaultRuleThickness /
+	            options.style.sizeMultiplier;
+
+	        var line = makeSpan(
+	            [options.style.reset(), Style.TEXT.cls(), "sqrt-line"], [],
+	            options.getColor());
+	        line.height = ruleWidth;
+	        line.maxFontSize = 1.0;
+
+	        var phi = ruleWidth;
+	        if (options.style.id < Style.TEXT.id) {
+	            phi = fontMetrics.metrics.xHeight;
+	        }
+
+	        // Calculate the clearance between the body and line
+	        var lineClearance = ruleWidth + phi / 4;
+
+	        var innerHeight =
+	            (inner.height + inner.depth) * options.style.sizeMultiplier;
+	        var minDelimiterHeight = innerHeight + lineClearance + ruleWidth;
+
+	        // Create a \surd delimiter of the required minimum size
+	        var delim = makeSpan(["sqrt-sign"], [
+	            delimiter.customSizedDelim("\\surd", minDelimiterHeight,
+	                                       false, options, group.mode)],
+	                             options.getColor());
+
+	        var delimDepth = (delim.height + delim.depth) - ruleWidth;
+
+	        // Adjust the clearance based on the delimiter size
+	        if (delimDepth > inner.height + inner.depth + lineClearance) {
+	            lineClearance =
+	                (lineClearance + delimDepth - inner.height - inner.depth) / 2;
+	        }
+
+	        // Shift the delimiter so that its top lines up with the top of the line
+	        var delimShift = -(inner.height + lineClearance + ruleWidth) + delim.height;
+	        delim.style.top = delimShift + "em";
+	        delim.height -= delimShift;
+	        delim.depth += delimShift;
+
+	        // We add a special case here, because even when `inner` is empty, we
+	        // still get a line. So, we use a simple heuristic to decide if we
+	        // should omit the body entirely. (note this doesn't work for something
+	        // like `\sqrt{\rlap{x}}`, but if someone is doing that they deserve for
+	        // it not to work.
+	        var body;
+	        if (inner.height === 0 && inner.depth === 0) {
+	            body = makeSpan();
+	        } else {
+	            body = buildCommon.makeVList([
+	                {type: "elem", elem: inner},
+	                {type: "kern", size: lineClearance},
+	                {type: "elem", elem: line},
+	                {type: "kern", size: ruleWidth}
+	            ], "firstBaseline", null, options);
+	        }
+
+	        return makeSpan(["sqrt", "mord"], [delim, body]);
+	    },
+
+	    sizing: function(group, options, prev) {
+	        // Handle sizing operators like \Huge. Real TeX doesn't actually allow
+	        // these functions inside of math expressions, so we do some special
+	        // handling.
+	        var inner = buildExpression(group.value.value,
+	                options.withSize(group.value.size), prev);
+
+	        var span = makeSpan(["mord"],
+	            [makeSpan(["sizing", "reset-" + options.size, group.value.size,
+	                       options.style.cls()],
+	                      inner)]);
+
+	        // Calculate the correct maxFontSize manually
+	        var fontSize = sizingMultiplier[group.value.size];
+	        span.maxFontSize = fontSize * options.style.sizeMultiplier;
+
+	        return span;
+	    },
+
+	    styling: function(group, options, prev) {
+	        // Style changes are handled in the TeXbook on pg. 442, Rule 3.
+
+	        // Figure out what style we're changing to.
+	        var style = {
+	            "display": Style.DISPLAY,
+	            "text": Style.TEXT,
+	            "script": Style.SCRIPT,
+	            "scriptscript": Style.SCRIPTSCRIPT
+	        };
+
+	        var newStyle = style[group.value.style];
+
+	        // Build the inner expression in the new style.
+	        var inner = buildExpression(
+	            group.value.value, options.withStyle(newStyle), prev);
+
+	        return makeSpan([options.style.reset(), newStyle.cls()], inner);
+	    },
+
+	    delimsizing: function(group, options, prev) {
+	        var delim = group.value.value;
+
+	        if (delim === ".") {
+	            // Empty delimiters still count as elements, even though they don't
+	            // show anything.
+	            return makeSpan([groupToType[group.value.delimType]]);
+	        }
+
+	        // Use delimiter.sizedDelim to generate the delimiter.
+	        return makeSpan(
+	            [groupToType[group.value.delimType]],
+	            [delimiter.sizedDelim(
+	                delim, group.value.size, options, group.mode)]);
+	    },
+
+	    leftright: function(group, options, prev) {
+	        // Build the inner expression
+	        var inner = buildExpression(group.value.body, options.reset());
+
+	        var innerHeight = 0;
+	        var innerDepth = 0;
+
+	        // Calculate its height and depth
+	        for (var i = 0; i < inner.length; i++) {
+	            innerHeight = Math.max(inner[i].height, innerHeight);
+	            innerDepth = Math.max(inner[i].depth, innerDepth);
+	        }
+
+	        // The size of delimiters is the same, regardless of what style we are
+	        // in. Thus, to correctly calculate the size of delimiter we need around
+	        // a group, we scale down the inner size based on the size.
+	        innerHeight *= options.style.sizeMultiplier;
+	        innerDepth *= options.style.sizeMultiplier;
+
+	        var leftDelim;
+	        if (group.value.left === ".") {
+	            // Empty delimiters in \left and \right make null delimiter spaces.
+	            leftDelim = makeSpan(["nulldelimiter"]);
+	        } else {
+	            // Otherwise, use leftRightDelim to generate the correct sized
+	            // delimiter.
+	            leftDelim = delimiter.leftRightDelim(
+	                group.value.left, innerHeight, innerDepth, options,
+	                group.mode);
+	        }
+	        // Add it to the beginning of the expression
+	        inner.unshift(leftDelim);
+
+	        var rightDelim;
+	        // Same for the right delimiter
+	        if (group.value.right === ".") {
+	            rightDelim = makeSpan(["nulldelimiter"]);
+	        } else {
+	            rightDelim = delimiter.leftRightDelim(
+	                group.value.right, innerHeight, innerDepth, options,
+	                group.mode);
+	        }
+	        // Add it to the end of the expression.
+	        inner.push(rightDelim);
+
+	        return makeSpan(
+	            ["minner", options.style.cls()], inner, options.getColor());
+	    },
+
+	    rule: function(group, options, prev) {
+	        // Make an empty span for the rule
+	        var rule = makeSpan(["mord", "rule"], [], options.getColor());
+
+	        // Calculate the shift, width, and height of the rule, and account for units
+	        var shift = 0;
+	        if (group.value.shift) {
+	            shift = group.value.shift.number;
+	            if (group.value.shift.unit === "ex") {
+	                shift *= fontMetrics.metrics.xHeight;
+	            }
+	        }
+
+	        var width = group.value.width.number;
+	        if (group.value.width.unit === "ex") {
+	            width *= fontMetrics.metrics.xHeight;
+	        }
+
+	        var height = group.value.height.number;
+	        if (group.value.height.unit === "ex") {
+	            height *= fontMetrics.metrics.xHeight;
+	        }
+
+	        // The sizes of rules are absolute, so make it larger if we are in a
+	        // smaller style.
+	        shift /= options.style.sizeMultiplier;
+	        width /= options.style.sizeMultiplier;
+	        height /= options.style.sizeMultiplier;
+
+	        // Style the rule to the right size
+	        rule.style.borderRightWidth = width + "em";
+	        rule.style.borderTopWidth = height + "em";
+	        rule.style.bottom = shift + "em";
+
+	        // Record the height and width
+	        rule.width = width;
+	        rule.height = height + shift;
+	        rule.depth = -shift;
+
+	        return rule;
+	    },
+
+	    accent: function(group, options, prev) {
+	        // Accents are handled in the TeXbook pg. 443, rule 12.
+	        var base = group.value.base;
+
+	        var supsubGroup;
+	        if (group.type === "supsub") {
+	            // If our base is a character box, and we have superscripts and
+	            // subscripts, the supsub will defer to us. In particular, we want
+	            // to attach the superscripts and subscripts to the inner body (so
+	            // that the position of the superscripts and subscripts won't be
+	            // affected by the height of the accent). We accomplish this by
+	            // sticking the base of the accent into the base of the supsub, and
+	            // rendering that, while keeping track of where the accent is.
+
+	            // The supsub group is the group that was passed in
+	            var supsub = group;
+	            // The real accent group is the base of the supsub group
+	            group = supsub.value.base;
+	            // The character box is the base of the accent group
+	            base = group.value.base;
+	            // Stick the character box into the base of the supsub group
+	            supsub.value.base = base;
+
+	            // Rerender the supsub group with its new base, and store that
+	            // result.
+	            supsubGroup = buildGroup(
+	                supsub, options.reset(), prev);
+	        }
+
+	        // Build the base group
+	        var body = buildGroup(
+	            base, options.withStyle(options.style.cramp()));
+
+	        // Calculate the skew of the accent. This is based on the line "If the
+	        // nucleus is not a single character, let s = 0; otherwise set s to the
+	        // kern amount for the nucleus followed by the \skewchar of its font."
+	        // Note that our skew metrics are just the kern between each character
+	        // and the skewchar.
+	        var skew;
+	        if (isCharacterBox(base)) {
+	            // If the base is a character box, then we want the skew of the
+	            // innermost character. To do that, we find the innermost character:
+	            var baseChar = getBaseElem(base);
+	            // Then, we render its group to get the symbol inside it
+	            var baseGroup = buildGroup(
+	                baseChar, options.withStyle(options.style.cramp()));
+	            // Finally, we pull the skew off of the symbol.
+	            skew = baseGroup.skew;
+	            // Note that we now throw away baseGroup, because the layers we
+	            // removed with getBaseElem might contain things like \color which
+	            // we can't get rid of.
+	            // TODO(emily): Find a better way to get the skew
+	        } else {
+	            skew = 0;
+	        }
+
+	        // calculate the amount of space between the body and the accent
+	        var clearance = Math.min(body.height, fontMetrics.metrics.xHeight);
+
+	        // Build the accent
+	        var accent = buildCommon.makeSymbol(
+	            group.value.accent, "Main-Regular", "math", options.getColor());
+	        // Remove the italic correction of the accent, because it only serves to
+	        // shift the accent over to a place we don't want.
+	        accent.italic = 0;
+
+	        // The \vec character that the fonts use is a combining character, and
+	        // thus shows up much too far to the left. To account for this, we add a
+	        // specific class which shifts the accent over to where we want it.
+	        // TODO(emily): Fix this in a better way, like by changing the font
+	        var vecClass = group.value.accent === "\\vec" ? "accent-vec" : null;
+
+	        var accentBody = makeSpan(["accent-body", vecClass], [
+	            makeSpan([], [accent])]);
+
+	        accentBody = buildCommon.makeVList([
+	            {type: "elem", elem: body},
+	            {type: "kern", size: -clearance},
+	            {type: "elem", elem: accentBody}
+	        ], "firstBaseline", null, options);
+
+	        // Shift the accent over by the skew. Note we shift by twice the skew
+	        // because we are centering the accent, so by adding 2*skew to the left,
+	        // we shift it to the right by 1*skew.
+	        accentBody.children[1].style.marginLeft = 2 * skew + "em";
+
+	        var accentWrap = makeSpan(["mord", "accent"], [accentBody]);
+
+	        if (supsubGroup) {
+	            // Here, we replace the "base" child of the supsub with our newly
+	            // generated accent.
+	            supsubGroup.children[0] = accentWrap;
+
+	            // Since we don't rerun the height calculation after replacing the
+	            // accent, we manually recalculate height.
+	            supsubGroup.height = Math.max(accentWrap.height, supsubGroup.height);
+
+	            // Accents should always be ords, even when their innards are not.
+	            supsubGroup.classes[0] = "mord";
+
+	            return supsubGroup;
+	        } else {
+	            return accentWrap;
+	        }
+	    }
+	};
+
+	var sizingMultiplier = {
+	    size1: 0.5,
+	    size2: 0.7,
+	    size3: 0.8,
+	    size4: 0.9,
+	    size5: 1.0,
+	    size6: 1.2,
+	    size7: 1.44,
+	    size8: 1.73,
+	    size9: 2.07,
+	    size10: 2.49
+	};
+
+	/**
+	 * buildGroup is the function that takes a group and calls the correct groupType
+	 * function for it. It also handles the interaction of size and style changes
+	 * between parents and children.
+	 */
+	var buildGroup = function(group, options, prev) {
+	    if (!group) {
+	        return makeSpan();
+	    }
+
+	    if (groupTypes[group.type]) {
+	        // Call the groupTypes function
+	        var groupNode = groupTypes[group.type](group, options, prev);
+	        var multiplier;
+
+	        // If the style changed between the parent and the current group,
+	        // account for the size difference
+	        if (options.style !== options.parentStyle) {
+	            multiplier = options.style.sizeMultiplier /
+	                    options.parentStyle.sizeMultiplier;
+
+	            groupNode.height *= multiplier;
+	            groupNode.depth *= multiplier;
+	        }
+
+	        // If the size changed between the parent and the current group, account
+	        // for that size difference.
+	        if (options.size !== options.parentSize) {
+	            multiplier = sizingMultiplier[options.size] /
+	                    sizingMultiplier[options.parentSize];
+
+	            groupNode.height *= multiplier;
+	            groupNode.depth *= multiplier;
+	        }
+
+	        return groupNode;
+	    } else {
+	        throw new ParseError(
+	            "Got group of unknown type: '" + group.type + "'");
+	    }
+	};
+
+	/**
+	 * Take an entire parse tree, and build it into an appropriate set of nodes.
+	 */
+	var buildTree = function(tree) {
+	    // Setup the default options
+	    var options = new Options(Style.TEXT, "size5", "");
+
+	    // Build the expression contained in the tree
+	    var expression = buildExpression(tree, options);
+	    var body = makeSpan(["base", options.style.cls()], expression);
+
+	    // Add struts, which ensure that the top of the HTML element falls at the
+	    // height of the expression, and the bottom of the HTML element falls at the
+	    // depth of the expression.
+	    var topStrut = makeSpan(["strut"]);
+	    var bottomStrut = makeSpan(["strut", "bottom"]);
+
+	    topStrut.style.height = body.height + "em";
+	    bottomStrut.style.height = (body.height + body.depth) + "em";
+	    // We'd like to use `vertical-align: top` but in IE 9 this lowers the
+	    // baseline of the box to the bottom of this strut (instead staying in the
+	    // normal place) so we use an absolute value for vertical-align instead
+	    bottomStrut.style.verticalAlign = -body.depth + "em";
+
+	    // Wrap the struts and body together
+	    var katexNode = makeSpan(["katex"], [
+	        makeSpan(["katex-inner"], [topStrut, bottomStrut, body])
+	    ]);
+
+	    return katexNode;
+	};
+
+	module.exports = buildTree;
+
+
+/***/ },
+/* 30 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Provides a single function for parsing an expression using a Parser
+	 * TODO(emily): Remove this
+	 */
+
+	var Parser = __webpack_require__(100);
+
+	/**
+	 * Parses an expression using a Parser, then returns the parsed result.
+	 */
+	var parseTree = function(toParse) {
+	    var parser = new Parser(toParse);
+
+	    return parser.parse();
+	};
+
+	module.exports = parseTree;
+
+
+/***/ },
+/* 31 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This file contains a list of utility functions which are useful in other
+	 * files.
+	 */
+
+	/**
+	 * Provide an `indexOf` function which works in IE8, but defers to native if
+	 * possible.
+	 */
+	var nativeIndexOf = Array.prototype.indexOf;
+	var indexOf = function(list, elem) {
+	    if (list == null) {
+	        return -1;
+	    }
+	    if (nativeIndexOf && list.indexOf === nativeIndexOf) {
+	        return list.indexOf(elem);
+	    }
+	    var i = 0, l = list.length;
+	    for (; i < l; i++) {
+	        if (list[i] === elem) {
+	            return i;
+	        }
+	    }
+	    return -1;
+	};
+
+	/**
+	 * Return whether an element is contained in a list
+	 */
+	var contains = function(list, elem) {
+	    return indexOf(list, elem) !== -1;
+	};
+
+	// hyphenate and escape adapted from Facebook's React under Apache 2 license
+
+	var uppercase = /([A-Z])/g;
+	var hyphenate = function(str) {
+	    return str.replace(uppercase, "-$1").toLowerCase();
+	};
+
+	var ESCAPE_LOOKUP = {
+	  "&": "&amp;",
+	  ">": "&gt;",
+	  "<": "&lt;",
+	  "\"": "&quot;",
+	  "'": "&#x27;"
+	};
+
+	var ESCAPE_REGEX = /[&><"']/g;
+
+	function escaper(match) {
+	  return ESCAPE_LOOKUP[match];
+	}
+
+	/**
+	 * Escapes text to prevent scripting attacks.
+	 *
+	 * @param {*} text Text value to escape.
+	 * @return {string} An escaped string.
+	 */
+	function escape(text) {
+	  return ("" + text).replace(ESCAPE_REGEX, escaper);
+	}
+
+	/**
+	 * A function to set the text content of a DOM element in all supported
+	 * browsers. Note that we don't define this if there is no document.
+	 */
+	var setTextContent;
+	if (typeof document !== "undefined") {
+	    var testNode = document.createElement("span");
+	    if ("textContent" in testNode) {
+	        setTextContent = function(node, text) {
+	            node.textContent = text;
+	        };
+	    } else {
+	        setTextContent = function(node, text) {
+	            node.innerText = text;
+	        };
+	    }
+	}
+
+	/**
+	 * A function to clear a node.
+	 */
+	function clearNode(node) {
+	    setTextContent(node, "");
+	}
+
+	module.exports = {
+	    contains: contains,
+	    escape: escape,
+	    hyphenate: hyphenate,
+	    indexOf: indexOf,
+	    setTextContent: setTextContent,
+	    clearNode: clearNode
+	};
+
+
+/***/ },
+/* 32 */
+/***/ function(module, exports, __webpack_require__) {
+
+	// shim for using process in browser
+
+	var process = module.exports = {};
+
+	process.nextTick = (function () {
+	    var canSetImmediate = typeof window !== 'undefined'
+	    && window.setImmediate;
+	    var canPost = typeof window !== 'undefined'
+	    && window.postMessage && window.addEventListener
+	    ;
+
+	    if (canSetImmediate) {
+	        return function (f) { return window.setImmediate(f) };
+	    }
+
+	    if (canPost) {
+	        var queue = [];
+	        window.addEventListener('message', function (ev) {
+	            var source = ev.source;
+	            if ((source === window || source === null) && ev.data === 'process-tick') {
+	                ev.stopPropagation();
+	                if (queue.length > 0) {
+	                    var fn = queue.shift();
+	                    fn();
+	                }
+	            }
+	        }, true);
+
+	        return function nextTick(fn) {
+	            queue.push(fn);
+	            window.postMessage('process-tick', '*');
+	        };
+	    }
+
+	    return function nextTick(fn) {
+	        setTimeout(fn, 0);
+	    };
+	})();
+
+	process.title = 'browser';
+	process.browser = true;
+	process.env = {};
+	process.argv = [];
+
+	function noop() {}
+
+	process.on = noop;
+	process.addListener = noop;
+	process.once = noop;
+	process.off = noop;
+	process.removeListener = noop;
+	process.removeAllListeners = noop;
+	process.emit = noop;
+
+	process.binding = function (name) {
+	    throw new Error('process.binding is not supported');
+	}
+
+	// TODO(shtylman)
+	process.cwd = function () { return '/' };
+	process.chdir = function (dir) {
+	    throw new Error('process.chdir is not supported');
+	};
+
+
+/***/ },
+/* 33 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/*
+		MIT License http://www.opensource.org/licenses/mit-license.php
+		Author Tobias Koppers @sokra
+	*/
+	module.exports = function addStyleUrl(cssUrl) {
+		if(false) {
+			if(typeof document !== "object") throw new Error("The style-loader cannot be used in a non-browser environment");
+		}
+		var styleElement = document.createElement("link");
+		styleElement.rel = "stylesheet";
+		styleElement.type = "text/css";
+		styleElement.href = cssUrl;
+		var head = document.getElementsByTagName("head")[0];
+		head.appendChild(styleElement);
+		if(false) {
+			return function(cssUrl) {
+				if(typeof cssUrl === "string") {
+					styleElement.href = cssUrl;
+				} else {
+					head.removeChild(styleElement);
+				}
+			};
+		}
+	}
+
+/***/ },
+/* 34 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6259,7 +7725,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	var DOMPropertyInjection = {
 	  /**
@@ -6535,10 +8001,10 @@
 
 	module.exports = DOMProperty;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 30 */
+/* 35 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6590,7 +8056,7 @@
 
 
 /***/ },
-/* 31 */
+/* 36 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6635,7 +8101,7 @@
 
 
 /***/ },
-/* 32 */
+/* 37 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -6658,7 +8124,7 @@
 
 	"use strict";
 
-	var keyMirror = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
 
 	var PropagationPhases = keyMirror({bubbled: null, captured: null});
 
@@ -6718,7 +8184,7 @@
 
 
 /***/ },
-/* 33 */
+/* 38 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6782,10 +8248,10 @@
 
 	module.exports = invariant;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 34 */
+/* 39 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6808,7 +8274,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Static poolers. Several custom versions for each potential number of
@@ -6908,10 +8374,10 @@
 
 	module.exports = PooledClass;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 35 */
+/* 40 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -6934,10 +8400,10 @@
 
 	"use strict";
 
-	var ReactInstanceHandles = __webpack_require__(19);
-	var ReactTextComponent = __webpack_require__(25);
+	var ReactInstanceHandles = __webpack_require__(18);
+	var ReactTextComponent = __webpack_require__(24);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	var SEPARATOR = ReactInstanceHandles.SEPARATOR;
 	var SUBSEPARATOR = ':';
@@ -7108,10 +8574,10 @@
 
 	module.exports = traverseAllChildren;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 36 */
+/* 41 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7134,8 +8600,8 @@
 
 	"use strict";
 
-	var emptyObject = __webpack_require__(90);
-	var invariant = __webpack_require__(33);
+	var emptyObject = __webpack_require__(102);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * ReactOwners are capable of storing references to owned components.
@@ -7274,10 +8740,10 @@
 
 	module.exports = ReactOwner;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 37 */
+/* 42 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7300,15 +8766,15 @@
 
 	"use strict";
 
-	var CallbackQueue = __webpack_require__(91);
-	var PooledClass = __webpack_require__(34);
-	var ReactCurrentOwner = __webpack_require__(14);
-	var ReactPerf = __webpack_require__(22);
-	var Transaction = __webpack_require__(92);
+	var CallbackQueue = __webpack_require__(103);
+	var PooledClass = __webpack_require__(39);
+	var ReactCurrentOwner = __webpack_require__(13);
+	var ReactPerf = __webpack_require__(21);
+	var Transaction = __webpack_require__(104);
 
-	var invariant = __webpack_require__(33);
-	var mixInto = __webpack_require__(47);
-	var warning = __webpack_require__(27);
+	var invariant = __webpack_require__(38);
+	var mixInto = __webpack_require__(52);
+	var warning = __webpack_require__(26);
 
 	var dirtyComponents = [];
 
@@ -7546,10 +9012,10 @@
 
 	module.exports = ReactUpdates;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 38 */
+/* 43 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7573,7 +9039,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Constructs an enumeration with keys equal to their value.
@@ -7611,10 +9077,10 @@
 
 	module.exports = keyMirror;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 39 */
+/* 44 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7637,7 +9103,7 @@
 
 	"use strict";
 
-	var mergeInto = __webpack_require__(51);
+	var mergeInto = __webpack_require__(56);
 
 	/**
 	 * Shallow merges two structures into a return value, without mutating either.
@@ -7657,7 +9123,7 @@
 
 
 /***/ },
-/* 40 */
+/* 45 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -7687,11 +9153,11 @@
 
 	"use strict";
 
-	var ReactDescriptor = __webpack_require__(15);
-	var ReactPropTypeLocations = __webpack_require__(44);
-	var ReactCurrentOwner = __webpack_require__(14);
+	var ReactDescriptor = __webpack_require__(14);
+	var ReactPropTypeLocations = __webpack_require__(49);
+	var ReactCurrentOwner = __webpack_require__(13);
 
-	var monitorCodeUse = __webpack_require__(48);
+	var monitorCodeUse = __webpack_require__(53);
 
 	/**
 	 * Warn if there's no key explicitly set on dynamic arrays of children or
@@ -7946,7 +9412,7 @@
 
 
 /***/ },
-/* 41 */
+/* 46 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -7969,7 +9435,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	var component;
 	// This registry keeps track of the React IDs of the components that rendered to
@@ -8028,10 +9494,10 @@
 
 	module.exports = ReactEmptyComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 42 */
+/* 47 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8074,7 +9540,7 @@
 
 
 /***/ },
-/* 43 */
+/* 48 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -8097,10 +9563,10 @@
 
 	"use strict";
 
-	var emptyFunction = __webpack_require__(86);
-	var invariant = __webpack_require__(33);
-	var joinClasses = __webpack_require__(93);
-	var merge = __webpack_require__(39);
+	var emptyFunction = __webpack_require__(91);
+	var invariant = __webpack_require__(38);
+	var joinClasses = __webpack_require__(105);
+	var merge = __webpack_require__(44);
 
 	/**
 	 * Creates a transfer strategy that will merge prop values using the supplied
@@ -8240,10 +9706,10 @@
 
 	module.exports = ReactPropTransferer;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 44 */
+/* 49 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8266,7 +9732,7 @@
 
 	"use strict";
 
-	var keyMirror = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
 
 	var ReactPropTypeLocations = keyMirror({
 	  prop: null,
@@ -8278,7 +9744,7 @@
 
 
 /***/ },
-/* 45 */
+/* 50 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -8313,10 +9779,10 @@
 
 	module.exports = ReactPropTypeLocationNames;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 46 */
+/* 51 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -8340,7 +9806,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Validate a `componentDescriptor`. This should be exposed publicly in a follow
@@ -8382,10 +9848,10 @@
 
 	module.exports = instantiateReactComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 47 */
+/* 52 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8425,7 +9891,7 @@
 
 
 /***/ },
-/* 48 */
+/* 53 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -8448,7 +9914,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Provides open-source compatible instrumentation for monitoring certain API
@@ -8466,10 +9932,10 @@
 
 	module.exports = monitorCodeUse;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 49 */
+/* 54 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8527,7 +9993,7 @@
 
 
 /***/ },
-/* 50 */
+/* 55 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8577,7 +10043,7 @@
 
 
 /***/ },
-/* 51 */
+/* 56 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8601,7 +10067,7 @@
 
 	"use strict";
 
-	var mergeHelpers = __webpack_require__(94);
+	var mergeHelpers = __webpack_require__(106);
 
 	var checkMergeObjectArg = mergeHelpers.checkMergeObjectArg;
 	var checkMergeIntoObjectArg = mergeHelpers.checkMergeIntoObjectArg;
@@ -8629,7 +10095,7 @@
 
 
 /***/ },
-/* 52 */
+/* 57 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8653,11 +10119,11 @@
 
 	"use strict";
 
-	var CSSProperty = __webpack_require__(100);
+	var CSSProperty = __webpack_require__(107);
 
-	var dangerousStyleValue = __webpack_require__(101);
-	var hyphenateStyleName = __webpack_require__(102);
-	var memoizeStringOnly = __webpack_require__(31);
+	var dangerousStyleValue = __webpack_require__(108);
+	var hyphenateStyleName = __webpack_require__(109);
+	var memoizeStringOnly = __webpack_require__(36);
 
 	var processStyleName = memoizeStringOnly(function(styleName) {
 	  return hyphenateStyleName(styleName);
@@ -8732,7 +10198,7 @@
 
 
 /***/ },
-/* 53 */
+/* 58 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -8755,10 +10221,10 @@
 
 	"use strict";
 
-	var ReactEmptyComponent = __webpack_require__(41);
-	var ReactMount = __webpack_require__(20);
+	var ReactEmptyComponent = __webpack_require__(46);
+	var ReactMount = __webpack_require__(19);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	var ReactBrowserComponentMixin = {
 	  /**
@@ -8782,10 +10248,10 @@
 
 	module.exports = ReactBrowserComponentMixin;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 54 */
+/* 59 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -8809,14 +10275,14 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPluginHub = __webpack_require__(95);
-	var EventPluginRegistry = __webpack_require__(96);
-	var ReactEventEmitterMixin = __webpack_require__(97);
-	var ViewportMetrics = __webpack_require__(98);
+	var EventConstants = __webpack_require__(37);
+	var EventPluginHub = __webpack_require__(110);
+	var EventPluginRegistry = __webpack_require__(111);
+	var ReactEventEmitterMixin = __webpack_require__(112);
+	var ViewportMetrics = __webpack_require__(113);
 
-	var isEventSupported = __webpack_require__(99);
-	var merge = __webpack_require__(39);
+	var isEventSupported = __webpack_require__(114);
+	var merge = __webpack_require__(44);
 
 	/**
 	 * Summary of `ReactBrowserEventEmitter` event handling:
@@ -9151,7 +10617,7 @@
 
 
 /***/ },
-/* 55 */
+/* 60 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9198,7 +10664,7 @@
 
 
 /***/ },
-/* 56 */
+/* 61 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9222,12 +10688,12 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPropagators = __webpack_require__(103);
-	var ExecutionEnvironment = __webpack_require__(28);
-	var SyntheticInputEvent = __webpack_require__(104);
+	var EventConstants = __webpack_require__(37);
+	var EventPropagators = __webpack_require__(115);
+	var ExecutionEnvironment = __webpack_require__(27);
+	var SyntheticInputEvent = __webpack_require__(116);
 
-	var keyOf = __webpack_require__(55);
+	var keyOf = __webpack_require__(60);
 
 	var canUseTextInputEvent = (
 	  ExecutionEnvironment.canUseDOM &&
@@ -9426,7 +10892,7 @@
 
 
 /***/ },
-/* 57 */
+/* 62 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9449,16 +10915,16 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPluginHub = __webpack_require__(95);
-	var EventPropagators = __webpack_require__(103);
-	var ExecutionEnvironment = __webpack_require__(28);
-	var ReactUpdates = __webpack_require__(37);
-	var SyntheticEvent = __webpack_require__(105);
+	var EventConstants = __webpack_require__(37);
+	var EventPluginHub = __webpack_require__(110);
+	var EventPropagators = __webpack_require__(115);
+	var ExecutionEnvironment = __webpack_require__(27);
+	var ReactUpdates = __webpack_require__(42);
+	var SyntheticEvent = __webpack_require__(117);
 
-	var isEventSupported = __webpack_require__(99);
-	var isTextInputElement = __webpack_require__(106);
-	var keyOf = __webpack_require__(55);
+	var isEventSupported = __webpack_require__(114);
+	var isTextInputElement = __webpack_require__(118);
+	var keyOf = __webpack_require__(60);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -9819,7 +11285,7 @@
 
 
 /***/ },
-/* 58 */
+/* 63 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9855,7 +11321,7 @@
 
 
 /***/ },
-/* 59 */
+/* 64 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -9879,14 +11345,14 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPropagators = __webpack_require__(103);
-	var ExecutionEnvironment = __webpack_require__(28);
-	var ReactInputSelection = __webpack_require__(107);
-	var SyntheticCompositionEvent = __webpack_require__(108);
+	var EventConstants = __webpack_require__(37);
+	var EventPropagators = __webpack_require__(115);
+	var ExecutionEnvironment = __webpack_require__(27);
+	var ReactInputSelection = __webpack_require__(119);
+	var SyntheticCompositionEvent = __webpack_require__(120);
 
-	var getTextContentAccessor = __webpack_require__(109);
-	var keyOf = __webpack_require__(55);
+	var getTextContentAccessor = __webpack_require__(121);
+	var keyOf = __webpack_require__(60);
 
 	var END_KEYCODES = [9, 13, 27, 32]; // Tab, Return, Esc, Space
 	var START_KEYCODE = 229;
@@ -10125,7 +11591,7 @@
 
 
 /***/ },
-/* 60 */
+/* 65 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10148,7 +11614,7 @@
 
 	"use strict";
 
-	 var keyOf = __webpack_require__(55);
+	 var keyOf = __webpack_require__(60);
 
 	/**
 	 * Module that is injectable into `EventPluginHub`, that specifies a
@@ -10176,7 +11642,7 @@
 
 
 /***/ },
-/* 61 */
+/* 66 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10200,12 +11666,12 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPropagators = __webpack_require__(103);
-	var SyntheticMouseEvent = __webpack_require__(110);
+	var EventConstants = __webpack_require__(37);
+	var EventPropagators = __webpack_require__(115);
+	var SyntheticMouseEvent = __webpack_require__(122);
 
-	var ReactMount = __webpack_require__(20);
-	var keyOf = __webpack_require__(55);
+	var ReactMount = __webpack_require__(19);
+	var keyOf = __webpack_require__(60);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 	var getFirstReactDOM = ReactMount.getFirstReactDOM;
@@ -10327,7 +11793,7 @@
 
 
 /***/ },
-/* 62 */
+/* 67 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10352,8 +11818,8 @@
 
 	"use strict";
 
-	var DOMProperty = __webpack_require__(29);
-	var ExecutionEnvironment = __webpack_require__(28);
+	var DOMProperty = __webpack_require__(34);
+	var ExecutionEnvironment = __webpack_require__(27);
 
 	var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 	var MUST_USE_PROPERTY = DOMProperty.injection.MUST_USE_PROPERTY;
@@ -10522,7 +11988,7 @@
 
 
 /***/ },
-/* 63 */
+/* 68 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10546,9 +12012,9 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
+	var EventConstants = __webpack_require__(37);
 
-	var emptyFunction = __webpack_require__(86);
+	var emptyFunction = __webpack_require__(91);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -10591,7 +12057,7 @@
 
 
 /***/ },
-/* 64 */
+/* 69 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -10616,15 +12082,15 @@
 
 	"use strict";
 
-	var ReactDOMIDOperations = __webpack_require__(111);
-	var ReactMarkupChecksum = __webpack_require__(87);
-	var ReactMount = __webpack_require__(20);
-	var ReactPerf = __webpack_require__(22);
-	var ReactReconcileTransaction = __webpack_require__(112);
+	var ReactDOMIDOperations = __webpack_require__(123);
+	var ReactMarkupChecksum = __webpack_require__(92);
+	var ReactMount = __webpack_require__(19);
+	var ReactPerf = __webpack_require__(21);
+	var ReactReconcileTransaction = __webpack_require__(124);
 
-	var getReactRootElementInContainer = __webpack_require__(83);
-	var invariant = __webpack_require__(33);
-	var setInnerHTML = __webpack_require__(113);
+	var getReactRootElementInContainer = __webpack_require__(88);
+	var invariant = __webpack_require__(38);
+	var setInnerHTML = __webpack_require__(125);
 
 
 	var ELEMENT_NODE_TYPE = 1;
@@ -10720,10 +12186,10 @@
 
 	module.exports = ReactComponentBrowserEnvironment;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 65 */
+/* 70 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10746,11 +12212,11 @@
 
 	"use strict";
 
-	var ReactUpdates = __webpack_require__(37);
-	var Transaction = __webpack_require__(92);
+	var ReactUpdates = __webpack_require__(42);
+	var Transaction = __webpack_require__(104);
 
-	var emptyFunction = __webpack_require__(86);
-	var mixInto = __webpack_require__(47);
+	var emptyFunction = __webpack_require__(91);
+	var mixInto = __webpack_require__(52);
 
 	var RESET_BATCHED_UPDATES = {
 	  initialize: emptyFunction,
@@ -10804,7 +12270,7 @@
 
 
 /***/ },
-/* 66 */
+/* 71 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10827,12 +12293,12 @@
 
 	"use strict";
 
-	var AutoFocusMixin = __webpack_require__(114);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
+	var AutoFocusMixin = __webpack_require__(126);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
 
-	var keyMirror = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
 
 	// Store a reference to the <button> `ReactDOMComponent`.
 	var button = ReactDOM.button;
@@ -10879,7 +12345,7 @@
 
 
 /***/ },
-/* 67 */
+/* 72 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10902,11 +12368,11 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var LocalEventTrapMixin = __webpack_require__(115);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
+	var EventConstants = __webpack_require__(37);
+	var LocalEventTrapMixin = __webpack_require__(127);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
 
 	// Store a reference to the <form> `ReactDOMComponent`.
 	var form = ReactDOM.form;
@@ -10939,7 +12405,7 @@
 
 
 /***/ },
-/* 68 */
+/* 73 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -10962,11 +12428,11 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var LocalEventTrapMixin = __webpack_require__(115);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
+	var EventConstants = __webpack_require__(37);
+	var LocalEventTrapMixin = __webpack_require__(127);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
 
 	// Store a reference to the <img> `ReactDOMComponent`.
 	var img = ReactDOM.img;
@@ -10997,7 +12463,7 @@
 
 
 /***/ },
-/* 69 */
+/* 74 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -11020,16 +12486,16 @@
 
 	"use strict";
 
-	var AutoFocusMixin = __webpack_require__(114);
-	var DOMPropertyOperations = __webpack_require__(8);
-	var LinkedValueUtils = __webpack_require__(116);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
-	var ReactMount = __webpack_require__(20);
+	var AutoFocusMixin = __webpack_require__(126);
+	var DOMPropertyOperations = __webpack_require__(7);
+	var LinkedValueUtils = __webpack_require__(128);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
+	var ReactMount = __webpack_require__(19);
 
-	var invariant = __webpack_require__(33);
-	var merge = __webpack_require__(39);
+	var invariant = __webpack_require__(38);
+	var merge = __webpack_require__(44);
 
 	// Store a reference to the <input> `ReactDOMComponent`.
 	var input = ReactDOM.input;
@@ -11183,10 +12649,10 @@
 
 	module.exports = ReactDOMInput;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 70 */
+/* 75 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -11209,11 +12675,11 @@
 
 	"use strict";
 
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
 
-	var warning = __webpack_require__(27);
+	var warning = __webpack_require__(26);
 
 	// Store a reference to the <option> `ReactDOMComponent`.
 	var option = ReactDOM.option;
@@ -11245,10 +12711,10 @@
 
 	module.exports = ReactDOMOption;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 71 */
+/* 76 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -11271,13 +12737,13 @@
 
 	"use strict";
 
-	var AutoFocusMixin = __webpack_require__(114);
-	var LinkedValueUtils = __webpack_require__(116);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
+	var AutoFocusMixin = __webpack_require__(126);
+	var LinkedValueUtils = __webpack_require__(128);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
 
-	var merge = __webpack_require__(39);
+	var merge = __webpack_require__(44);
 
 	// Store a reference to the <select> `ReactDOMComponent`.
 	var select = ReactDOM.select;
@@ -11435,7 +12901,7 @@
 
 
 /***/ },
-/* 72 */
+/* 77 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -11458,17 +12924,17 @@
 
 	"use strict";
 
-	var AutoFocusMixin = __webpack_require__(114);
-	var DOMPropertyOperations = __webpack_require__(8);
-	var LinkedValueUtils = __webpack_require__(116);
-	var ReactBrowserComponentMixin = __webpack_require__(53);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
+	var AutoFocusMixin = __webpack_require__(126);
+	var DOMPropertyOperations = __webpack_require__(7);
+	var LinkedValueUtils = __webpack_require__(128);
+	var ReactBrowserComponentMixin = __webpack_require__(58);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
 
-	var invariant = __webpack_require__(33);
-	var merge = __webpack_require__(39);
+	var invariant = __webpack_require__(38);
+	var merge = __webpack_require__(44);
 
-	var warning = __webpack_require__(27);
+	var warning = __webpack_require__(26);
 
 	// Store a reference to the <textarea> `ReactDOMComponent`.
 	var textarea = ReactDOM.textarea;
@@ -11581,10 +13047,10 @@
 
 	module.exports = ReactDOMTextarea;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 73 */
+/* 78 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -11608,16 +13074,16 @@
 
 	"use strict";
 
-	var EventListener = __webpack_require__(117);
-	var ExecutionEnvironment = __webpack_require__(28);
-	var PooledClass = __webpack_require__(34);
-	var ReactInstanceHandles = __webpack_require__(19);
-	var ReactMount = __webpack_require__(20);
-	var ReactUpdates = __webpack_require__(37);
+	var EventListener = __webpack_require__(129);
+	var ExecutionEnvironment = __webpack_require__(27);
+	var PooledClass = __webpack_require__(39);
+	var ReactInstanceHandles = __webpack_require__(18);
+	var ReactMount = __webpack_require__(19);
+	var ReactUpdates = __webpack_require__(42);
 
-	var getEventTarget = __webpack_require__(118);
-	var getUnboundedScrollPosition = __webpack_require__(119);
-	var mixInto = __webpack_require__(47);
+	var getEventTarget = __webpack_require__(130);
+	var getUnboundedScrollPosition = __webpack_require__(131);
+	var mixInto = __webpack_require__(52);
 
 	/**
 	 * Finds the parent React component of `node`.
@@ -11779,7 +13245,7 @@
 
 
 /***/ },
-/* 74 */
+/* 79 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -11802,16 +13268,16 @@
 
 	"use strict";
 
-	var DOMProperty = __webpack_require__(29);
-	var EventPluginHub = __webpack_require__(95);
-	var ReactComponent = __webpack_require__(11);
-	var ReactCompositeComponent = __webpack_require__(12);
-	var ReactDOM = __webpack_require__(16);
-	var ReactEmptyComponent = __webpack_require__(41);
-	var ReactBrowserEventEmitter = __webpack_require__(54);
-	var ReactPerf = __webpack_require__(22);
-	var ReactRootIndex = __webpack_require__(81);
-	var ReactUpdates = __webpack_require__(37);
+	var DOMProperty = __webpack_require__(34);
+	var EventPluginHub = __webpack_require__(110);
+	var ReactComponent = __webpack_require__(10);
+	var ReactCompositeComponent = __webpack_require__(11);
+	var ReactDOM = __webpack_require__(15);
+	var ReactEmptyComponent = __webpack_require__(46);
+	var ReactBrowserEventEmitter = __webpack_require__(59);
+	var ReactPerf = __webpack_require__(21);
+	var ReactRootIndex = __webpack_require__(86);
+	var ReactUpdates = __webpack_require__(42);
 
 	var ReactInjection = {
 	  Component: ReactComponent.injection,
@@ -11830,7 +13296,7 @@
 
 
 /***/ },
-/* 75 */
+/* 80 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -11853,15 +13319,15 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPropagators = __webpack_require__(103);
-	var ReactInputSelection = __webpack_require__(107);
-	var SyntheticEvent = __webpack_require__(105);
+	var EventConstants = __webpack_require__(37);
+	var EventPropagators = __webpack_require__(115);
+	var ReactInputSelection = __webpack_require__(119);
+	var SyntheticEvent = __webpack_require__(117);
 
-	var getActiveElement = __webpack_require__(120);
-	var isTextInputElement = __webpack_require__(106);
-	var keyOf = __webpack_require__(55);
-	var shallowEqual = __webpack_require__(121);
+	var getActiveElement = __webpack_require__(132);
+	var isTextInputElement = __webpack_require__(118);
+	var keyOf = __webpack_require__(60);
+	var shallowEqual = __webpack_require__(133);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -12036,7 +13502,7 @@
 
 
 /***/ },
-/* 76 */
+/* 81 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12078,7 +13544,7 @@
 
 
 /***/ },
-/* 77 */
+/* 82 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -12101,21 +13567,21 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPluginUtils = __webpack_require__(9);
-	var EventPropagators = __webpack_require__(103);
-	var SyntheticClipboardEvent = __webpack_require__(122);
-	var SyntheticEvent = __webpack_require__(105);
-	var SyntheticFocusEvent = __webpack_require__(123);
-	var SyntheticKeyboardEvent = __webpack_require__(124);
-	var SyntheticMouseEvent = __webpack_require__(110);
-	var SyntheticDragEvent = __webpack_require__(125);
-	var SyntheticTouchEvent = __webpack_require__(126);
-	var SyntheticUIEvent = __webpack_require__(127);
-	var SyntheticWheelEvent = __webpack_require__(128);
+	var EventConstants = __webpack_require__(37);
+	var EventPluginUtils = __webpack_require__(8);
+	var EventPropagators = __webpack_require__(115);
+	var SyntheticClipboardEvent = __webpack_require__(134);
+	var SyntheticEvent = __webpack_require__(117);
+	var SyntheticFocusEvent = __webpack_require__(135);
+	var SyntheticKeyboardEvent = __webpack_require__(136);
+	var SyntheticMouseEvent = __webpack_require__(122);
+	var SyntheticDragEvent = __webpack_require__(137);
+	var SyntheticTouchEvent = __webpack_require__(138);
+	var SyntheticUIEvent = __webpack_require__(139);
+	var SyntheticWheelEvent = __webpack_require__(140);
 
-	var invariant = __webpack_require__(33);
-	var keyOf = __webpack_require__(55);
+	var invariant = __webpack_require__(38);
+	var keyOf = __webpack_require__(60);
 
 	var topLevelTypes = EventConstants.topLevelTypes;
 
@@ -12501,10 +13967,10 @@
 
 	module.exports = SimpleEventPlugin;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 78 */
+/* 83 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12529,7 +13995,7 @@
 
 	"use strict";
 
-	var DOMProperty = __webpack_require__(29);
+	var DOMProperty = __webpack_require__(34);
 
 	var MUST_USE_ATTRIBUTE = DOMProperty.injection.MUST_USE_ATTRIBUTE;
 
@@ -12607,7 +14073,7 @@
 
 
 /***/ },
-/* 79 */
+/* 84 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -12632,9 +14098,9 @@
 	"use strict";
 
 	// Defeat circular references by requiring this directly.
-	var ReactCompositeComponent = __webpack_require__(12);
+	var ReactCompositeComponent = __webpack_require__(11);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Create a component that will throw an exception when unmounted.
@@ -12674,10 +14140,10 @@
 
 	module.exports = createFullPageComponent;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 80 */
+/* 85 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12701,12 +14167,12 @@
 
 	"use strict";
 
-	var DOMProperty = __webpack_require__(29);
-	var ReactDefaultPerfAnalysis = __webpack_require__(129);
-	var ReactMount = __webpack_require__(20);
-	var ReactPerf = __webpack_require__(22);
+	var DOMProperty = __webpack_require__(34);
+	var ReactDefaultPerfAnalysis = __webpack_require__(141);
+	var ReactMount = __webpack_require__(19);
+	var ReactPerf = __webpack_require__(21);
 
-	var performanceNow = __webpack_require__(130);
+	var performanceNow = __webpack_require__(142);
 
 	function roundFloat(val) {
 	  return Math.floor(val * 100) / 100;
@@ -12944,7 +14410,7 @@
 
 
 /***/ },
-/* 81 */
+/* 86 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -12986,7 +14452,7 @@
 
 
 /***/ },
-/* 82 */
+/* 87 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13008,7 +14474,7 @@
 	 * @typechecks
 	 */
 
-	var isTextNode = __webpack_require__(131);
+	var isTextNode = __webpack_require__(143);
 
 	/*jslint bitwise:true */
 
@@ -13041,7 +14507,7 @@
 
 
 /***/ },
-/* 83 */
+/* 88 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13087,7 +14553,7 @@
 
 
 /***/ },
-/* 84 */
+/* 89 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13110,7 +14576,7 @@
 
 	"use strict";
 
-	var keyMirror = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
 
 	/**
 	 * When a component's children are updated, a series of update configuration
@@ -13131,7 +14597,7 @@
 
 
 /***/ },
-/* 85 */
+/* 90 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -13154,8 +14620,8 @@
 
 	"use strict";
 
-	var traverseAllChildren = __webpack_require__(35);
-	var warning = __webpack_require__(27);
+	var traverseAllChildren = __webpack_require__(40);
+	var warning = __webpack_require__(26);
 
 	/**
 	 * @param {function} traverseContext Context passed through traversal.
@@ -13194,10 +14660,10 @@
 
 	module.exports = flattenChildren;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 86 */
+/* 91 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13218,7 +14684,7 @@
 	 * @providesModule emptyFunction
 	 */
 
-	var copyProperties = __webpack_require__(132);
+	var copyProperties = __webpack_require__(144);
 
 	function makeEmptyFunction(arg) {
 	  return function() {
@@ -13246,7 +14712,7 @@
 
 
 /***/ },
-/* 87 */
+/* 92 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13269,7 +14735,7 @@
 
 	"use strict";
 
-	var adler32 = __webpack_require__(133);
+	var adler32 = __webpack_require__(145);
 
 	var ReactMarkupChecksum = {
 	  CHECKSUM_ATTR_NAME: 'data-react-checksum',
@@ -13305,7 +14771,7 @@
 
 
 /***/ },
-/* 88 */
+/* 93 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13329,13 +14795,13 @@
 
 	"use strict";
 
-	var PooledClass = __webpack_require__(34);
-	var CallbackQueue = __webpack_require__(91);
-	var ReactPutListenerQueue = __webpack_require__(134);
-	var Transaction = __webpack_require__(92);
+	var PooledClass = __webpack_require__(39);
+	var CallbackQueue = __webpack_require__(103);
+	var ReactPutListenerQueue = __webpack_require__(146);
+	var Transaction = __webpack_require__(104);
 
-	var emptyFunction = __webpack_require__(86);
-	var mixInto = __webpack_require__(47);
+	var emptyFunction = __webpack_require__(91);
+	var mixInto = __webpack_require__(52);
 
 	/**
 	 * Provides a `CallbackQueue` queue for collecting `onDOMReady` callbacks
@@ -13426,76 +14892,2082 @@
 
 
 /***/ },
-/* 89 */
+/* 94 */
 /***/ function(module, exports, __webpack_require__) {
 
-	// shim for using process in browser
+	/**
+	 * This file contains information about the options that the Parser carries
+	 * around with it while parsing. Data is held in an `Options` object, and when
+	 * recursing, a new `Options` object can be created with the `.with*` and
+	 * `.reset` functions.
+	 */
 
-	var process = module.exports = {};
+	/**
+	 * This is the main options class. It contains the style, size, and color of the
+	 * current parse level. It also contains the style and size of the parent parse
+	 * level, so size changes can be handled efficiently.
+	 *
+	 * Each of the `.with*` and `.reset` functions passes its current style and size
+	 * as the parentStyle and parentSize of the new options class, so parent
+	 * handling is taken care of automatically.
+	 */
+	function Options(style, size, color, parentStyle, parentSize) {
+	    this.style = style;
+	    this.color = color;
+	    this.size = size;
 
-	process.nextTick = (function () {
-	    var canSetImmediate = typeof window !== 'undefined'
-	    && window.setImmediate;
-	    var canPost = typeof window !== 'undefined'
-	    && window.postMessage && window.addEventListener
-	    ;
-
-	    if (canSetImmediate) {
-	        return function (f) { return window.setImmediate(f) };
+	    if (parentStyle === undefined) {
+	        parentStyle = style;
 	    }
+	    this.parentStyle = parentStyle;
 
-	    if (canPost) {
-	        var queue = [];
-	        window.addEventListener('message', function (ev) {
-	            var source = ev.source;
-	            if ((source === window || source === null) && ev.data === 'process-tick') {
-	                ev.stopPropagation();
-	                if (queue.length > 0) {
-	                    var fn = queue.shift();
-	                    fn();
-	                }
-	            }
-	        }, true);
-
-	        return function nextTick(fn) {
-	            queue.push(fn);
-	            window.postMessage('process-tick', '*');
-	        };
+	    if (parentSize === undefined) {
+	        parentSize = size;
 	    }
-
-	    return function nextTick(fn) {
-	        setTimeout(fn, 0);
-	    };
-	})();
-
-	process.title = 'browser';
-	process.browser = true;
-	process.env = {};
-	process.argv = [];
-
-	function noop() {}
-
-	process.on = noop;
-	process.addListener = noop;
-	process.once = noop;
-	process.off = noop;
-	process.removeListener = noop;
-	process.removeAllListeners = noop;
-	process.emit = noop;
-
-	process.binding = function (name) {
-	    throw new Error('process.binding is not supported');
+	    this.parentSize = parentSize;
 	}
 
-	// TODO(shtylman)
-	process.cwd = function () { return '/' };
-	process.chdir = function (dir) {
-	    throw new Error('process.chdir is not supported');
+	/**
+	 * Create a new options object with the given style.
+	 */
+	Options.prototype.withStyle = function(style) {
+	    return new Options(style, this.size, this.color, this.style, this.size);
+	};
+
+	/**
+	 * Create a new options object with the given size.
+	 */
+	Options.prototype.withSize = function(size) {
+	    return new Options(this.style, size, this.color, this.style, this.size);
+	};
+
+	/**
+	 * Create a new options object with the given color.
+	 */
+	Options.prototype.withColor = function(color) {
+	    return new Options(this.style, this.size, color, this.style, this.size);
+	};
+
+	/**
+	 * Create a new options object with the same style, size, and color. This is
+	 * used so that parent style and size changes are handled correctly.
+	 */
+	Options.prototype.reset = function() {
+	    return new Options(
+	        this.style, this.size, this.color, this.style, this.size);
+	};
+
+	/**
+	 * A map of color names to CSS colors.
+	 * TODO(emily): Remove this when we have real macros
+	 */
+	var colorMap = {
+	    "katex-blue": "#6495ed",
+	    "katex-orange": "#ffa500",
+	    "katex-pink": "#ff00af",
+	    "katex-red": "#df0030",
+	    "katex-green": "#28ae7b",
+	    "katex-gray": "gray",
+	    "katex-purple": "#9d38bd"
+	};
+
+	/**
+	 * Gets the CSS color of the current options object, accounting for the
+	 * `colorMap`.
+	 */
+	Options.prototype.getColor = function() {
+	    return colorMap[this.color] || this.color;
+	};
+
+	module.exports = Options;
+
+
+/***/ },
+/* 95 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This file contains information and classes for the various kinds of styles
+	 * used in TeX. It provides a generic `Style` class, which holds information
+	 * about a specific style. It then provides instances of all the different kinds
+	 * of styles possible, and provides functions to move between them and get
+	 * information about them.
+	 */
+
+	/**
+	 * The main style class. Contains a unique id for the style, a size (which is
+	 * the same for cramped and uncramped version of a style), a cramped flag, and a
+	 * size multiplier, which gives the size difference between a style and
+	 * textstyle.
+	 */
+	function Style(id, size, multiplier, cramped) {
+	    this.id = id;
+	    this.size = size;
+	    this.cramped = cramped;
+	    this.sizeMultiplier = multiplier;
+	}
+
+	/**
+	 * Get the style of a superscript given a base in the current style.
+	 */
+	Style.prototype.sup = function() {
+	    return styles[sup[this.id]];
+	};
+
+	/**
+	 * Get the style of a subscript given a base in the current style.
+	 */
+	Style.prototype.sub = function() {
+	    return styles[sub[this.id]];
+	};
+
+	/**
+	 * Get the style of a fraction numerator given the fraction in the current
+	 * style.
+	 */
+	Style.prototype.fracNum = function() {
+	    return styles[fracNum[this.id]];
+	};
+
+	/**
+	 * Get the style of a fraction denominator given the fraction in the current
+	 * style.
+	 */
+	Style.prototype.fracDen = function() {
+	    return styles[fracDen[this.id]];
+	};
+
+	/**
+	 * Get the cramped version of a style (in particular, cramping a cramped style
+	 * doesn't change the style).
+	 */
+	Style.prototype.cramp = function() {
+	    return styles[cramp[this.id]];
+	};
+
+	/**
+	 * HTML class name, like "displaystyle cramped"
+	 */
+	Style.prototype.cls = function() {
+	    return sizeNames[this.size] + (this.cramped ? " cramped" : " uncramped");
+	};
+
+	/**
+	 * HTML Reset class name, like "reset-textstyle"
+	 */
+	Style.prototype.reset = function() {
+	    return resetNames[this.size];
+	};
+
+	// IDs of the different styles
+	var D = 0;
+	var Dc = 1;
+	var T = 2;
+	var Tc = 3;
+	var S = 4;
+	var Sc = 5;
+	var SS = 6;
+	var SSc = 7;
+
+	// String names for the different sizes
+	var sizeNames = [
+	    "displaystyle textstyle",
+	    "textstyle",
+	    "scriptstyle",
+	    "scriptscriptstyle"
+	];
+
+	// Reset names for the different sizes
+	var resetNames = [
+	    "reset-textstyle",
+	    "reset-textstyle",
+	    "reset-scriptstyle",
+	    "reset-scriptscriptstyle"
+	];
+
+	// Instances of the different styles
+	var styles = [
+	    new Style(D, 0, 1.0, false),
+	    new Style(Dc, 0, 1.0, true),
+	    new Style(T, 1, 1.0, false),
+	    new Style(Tc, 1, 1.0, true),
+	    new Style(S, 2, 0.7, false),
+	    new Style(Sc, 2, 0.7, true),
+	    new Style(SS, 3, 0.5, false),
+	    new Style(SSc, 3, 0.5, true)
+	];
+
+	// Lookup tables for switching from one style to another
+	var sup = [S, Sc, S, Sc, SS, SSc, SS, SSc];
+	var sub = [Sc, Sc, Sc, Sc, SSc, SSc, SSc, SSc];
+	var fracNum = [T, Tc, S, Sc, SS, SSc, SS, SSc];
+	var fracDen = [Tc, Tc, Sc, Sc, SSc, SSc, SSc, SSc];
+	var cramp = [Dc, Dc, Tc, Tc, Sc, Sc, SSc, SSc];
+
+	// We only export some of the styles. Also, we don't export the `Style` class so
+	// no more styles can be generated.
+	module.exports = {
+	    DISPLAY: styles[D],
+	    TEXT: styles[T],
+	    SCRIPT: styles[S],
+	    SCRIPTSCRIPT: styles[SS]
 	};
 
 
 /***/ },
-/* 90 */
+/* 96 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This module contains general functions that can be used for building
+	 * different kinds of domTree nodes in a consistent manner.
+	 */
+
+	var domTree = __webpack_require__(98);
+	var fontMetrics = __webpack_require__(99);
+	var symbols = __webpack_require__(147);
+
+	/**
+	 * Makes a symbolNode after translation via the list of symbols in symbols.js.
+	 * Correctly pulls out metrics for the character, and optionally takes a list of
+	 * classes to be attached to the node.
+	 */
+	var makeSymbol = function(value, style, mode, color, classes) {
+	    // Replace the value with its replaced value from symbol.js
+	    if (symbols[mode][value] && symbols[mode][value].replace) {
+	        value = symbols[mode][value].replace;
+	    }
+
+	    var metrics = fontMetrics.getCharacterMetrics(value, style);
+
+	    var symbolNode;
+	    if (metrics) {
+	        symbolNode = new domTree.symbolNode(
+	            value, metrics.height, metrics.depth, metrics.italic, metrics.skew,
+	            classes);
+	    } else {
+	        // TODO(emily): Figure out a good way to only print this in development
+	        typeof console !== "undefined" && console.warn(
+	            "No character metrics for '" + value + "' in style '" +
+	                style + "'");
+	        symbolNode = new domTree.symbolNode(value, 0, 0, 0, 0, classes);
+	    }
+
+	    if (color) {
+	        symbolNode.style.color = color;
+	    }
+
+	    return symbolNode;
+	};
+
+	/**
+	 * Makes a symbol in the italic math font.
+	 */
+	var mathit = function(value, mode, color, classes) {
+	    return makeSymbol(
+	        value, "Math-Italic", mode, color, classes.concat(["mathit"]));
+	};
+
+	/**
+	 * Makes a symbol in the upright roman font.
+	 */
+	var mathrm = function(value, mode, color, classes) {
+	    // Decide what font to render the symbol in by its entry in the symbols
+	    // table.
+	    if (symbols[mode][value].font === "main") {
+	        return makeSymbol(value, "Main-Regular", mode, color, classes);
+	    } else {
+	        return makeSymbol(
+	            value, "AMS-Regular", mode, color, classes.concat(["amsrm"]));
+	    }
+	};
+
+	/**
+	 * Calculate the height, depth, and maxFontSize of an element based on its
+	 * children.
+	 */
+	var sizeElementFromChildren = function(elem) {
+	    var height = 0;
+	    var depth = 0;
+	    var maxFontSize = 0;
+
+	    if (elem.children) {
+	        for (var i = 0; i < elem.children.length; i++) {
+	            if (elem.children[i].height > height) {
+	                height = elem.children[i].height;
+	            }
+	            if (elem.children[i].depth > depth) {
+	                depth = elem.children[i].depth;
+	            }
+	            if (elem.children[i].maxFontSize > maxFontSize) {
+	                maxFontSize = elem.children[i].maxFontSize;
+	            }
+	        }
+	    }
+
+	    elem.height = height;
+	    elem.depth = depth;
+	    elem.maxFontSize = maxFontSize;
+	};
+
+	/**
+	 * Makes a span with the given list of classes, list of children, and color.
+	 */
+	var makeSpan = function(classes, children, color) {
+	    var span = new domTree.span(classes, children);
+
+	    sizeElementFromChildren(span);
+
+	    if (color) {
+	        span.style.color = color;
+	    }
+
+	    return span;
+	};
+
+	/**
+	 * Makes a document fragment with the given list of children.
+	 */
+	var makeFragment = function(children) {
+	    var fragment = new domTree.documentFragment(children);
+
+	    sizeElementFromChildren(fragment);
+
+	    return fragment;
+	};
+
+	/**
+	 * Makes an element placed in each of the vlist elements to ensure that each
+	 * element has the same max font size. To do this, we create a zero-width space
+	 * with the correct font size.
+	 */
+	var makeFontSizer = function(options, fontSize) {
+	    var fontSizeInner = makeSpan([], [new domTree.symbolNode("\u200b")]);
+	    fontSizeInner.style.fontSize = (fontSize / options.style.sizeMultiplier) + "em";
+
+	    var fontSizer = makeSpan(
+	        ["fontsize-ensurer", "reset-" + options.size, "size5"],
+	        [fontSizeInner]);
+
+	    return fontSizer;
+	};
+
+	/**
+	 * Makes a vertical list by stacking elements and kerns on top of each other.
+	 * Allows for many different ways of specifying the positioning method.
+	 *
+	 * Arguments:
+	 *  - children: A list of child or kern nodes to be stacked on top of each other
+	 *              (i.e. the first element will be at the bottom, and the last at
+	 *              the top). Element nodes are specified as
+	 *                {type: "elem", elem: node}
+	 *              while kern nodes are specified as
+	 *                {type: "kern", size: size}
+	 *  - positionType: The method by which the vlist should be positioned. Valid
+	 *                  values are:
+	 *                   - "individualShift": The children list only contains elem
+	 *                                        nodes, and each node contains an extra
+	 *                                        "shift" value of how much it should be
+	 *                                        shifted (note that shifting is always
+	 *                                        moving downwards). positionData is
+	 *                                        ignored.
+	 *                   - "top": The positionData specifies the topmost point of
+	 *                            the vlist (note this is expected to be a height,
+	 *                            so positive values move up)
+	 *                   - "bottom": The positionData specifies the bottommost point
+	 *                               of the vlist (note this is expected to be a
+	 *                               depth, so positive values move down
+	 *                   - "shift": The vlist will be positioned such that its
+	 *                              baseline is positionData away from the baseline
+	 *                              of the first child. Positive values move
+	 *                              downwards.
+	 *                   - "firstBaseline": The vlist will be positioned such that
+	 *                                      its baseline is aligned with the
+	 *                                      baseline of the first child.
+	 *                                      positionData is ignored. (this is
+	 *                                      equivalent to "shift" with
+	 *                                      positionData=0)
+	 *  - positionData: Data used in different ways depending on positionType
+	 *  - options: An Options object
+	 *
+	 */
+	var makeVList = function(children, positionType, positionData, options) {
+	    var depth;
+	    var currPos;
+	    var i;
+	    if (positionType === "individualShift") {
+	        var oldChildren = children;
+	        children = [oldChildren[0]];
+
+	        // Add in kerns to the list of children to get each element to be
+	        // shifted to the correct specified shift
+	        depth = -oldChildren[0].shift - oldChildren[0].elem.depth;
+	        currPos = depth;
+	        for (i = 1; i < oldChildren.length; i++) {
+	            var diff = -oldChildren[i].shift - currPos -
+	                oldChildren[i].elem.depth;
+	            var size = diff -
+	                (oldChildren[i - 1].elem.height +
+	                 oldChildren[i - 1].elem.depth);
+
+	            currPos = currPos + diff;
+
+	            children.push({type: "kern", size: size});
+	            children.push(oldChildren[i]);
+	        }
+	    } else if (positionType === "top") {
+	        // We always start at the bottom, so calculate the bottom by adding up
+	        // all the sizes
+	        var bottom = positionData;
+	        for (i = 0; i < children.length; i++) {
+	            if (children[i].type === "kern") {
+	                bottom -= children[i].size;
+	            } else {
+	                bottom -= children[i].elem.height + children[i].elem.depth;
+	            }
+	        }
+	        depth = bottom;
+	    } else if (positionType === "bottom") {
+	        depth = -positionData;
+	    } else if (positionType === "shift") {
+	        depth = -children[0].elem.depth - positionData;
+	    } else if (positionType === "firstBaseline") {
+	        depth = -children[0].elem.depth;
+	    } else {
+	        depth = 0;
+	    }
+
+	    // Make the fontSizer
+	    var maxFontSize = 0;
+	    for (i = 0; i < children.length; i++) {
+	        if (children[i].type === "elem") {
+	            maxFontSize = Math.max(maxFontSize, children[i].elem.maxFontSize);
+	        }
+	    }
+	    var fontSizer = makeFontSizer(options, maxFontSize);
+
+	    // Create a new list of actual children at the correct offsets
+	    var realChildren = [];
+	    currPos = depth;
+	    for (i = 0; i < children.length; i++) {
+	        if (children[i].type === "kern") {
+	            currPos += children[i].size;
+	        } else {
+	            var child = children[i].elem;
+
+	            var shift = -child.depth - currPos;
+	            currPos += child.height + child.depth;
+
+	            var childWrap = makeSpan([], [fontSizer, child]);
+	            childWrap.height -= shift;
+	            childWrap.depth += shift;
+	            childWrap.style.top = shift + "em";
+
+	            realChildren.push(childWrap);
+	        }
+	    }
+
+	    // Add in an element at the end with no offset to fix the calculation of
+	    // baselines in some browsers (namely IE, sometimes safari)
+	    var baselineFix = makeSpan(
+	        ["baseline-fix"], [fontSizer, new domTree.symbolNode("\u200b")]);
+	    realChildren.push(baselineFix);
+
+	    var vlist = makeSpan(["vlist"], realChildren);
+	    // Fix the final height and depth, in case there were kerns at the ends
+	    // since the makeSpan calculation won't take that in to account.
+	    vlist.height = Math.max(currPos, vlist.height);
+	    vlist.depth = Math.max(-depth, vlist.depth);
+	    return vlist;
+	};
+
+	module.exports = {
+	    makeSymbol: makeSymbol,
+	    mathit: mathit,
+	    mathrm: mathrm,
+	    makeSpan: makeSpan,
+	    makeFragment: makeFragment,
+	    makeVList: makeVList
+	};
+
+
+/***/ },
+/* 97 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * This file deals with creating delimiters of various sizes. The TeXbook
+	 * discusses these routines on page 441-442, in the "Another subroutine sets box
+	 * x to a specified variable delimiter" paragraph.
+	 *
+	 * There are three main routines here. `makeSmallDelim` makes a delimiter in the
+	 * normal font, but in either text, script, or scriptscript style.
+	 * `makeLargeDelim` makes a delimiter in textstyle, but in one of the Size1,
+	 * Size2, Size3, or Size4 fonts. `makeStackedDelim` makes a delimiter out of
+	 * smaller pieces that are stacked on top of one another.
+	 *
+	 * The functions take a parameter `center`, which determines if the delimiter
+	 * should be centered around the axis.
+	 *
+	 * Then, there are three exposed functions. `sizedDelim` makes a delimiter in
+	 * one of the given sizes. This is used for things like `\bigl`.
+	 * `customSizedDelim` makes a delimiter with a given total height+depth. It is
+	 * called in places like `\sqrt`. `leftRightDelim` makes an appropriate
+	 * delimiter which surrounds an expression of a given height an depth. It is
+	 * used in `\left` and `\right`.
+	 */
+
+	var ParseError = __webpack_require__(28);
+	var Style = __webpack_require__(95);
+
+	var buildCommon = __webpack_require__(96);
+	var fontMetrics = __webpack_require__(99);
+	var symbols = __webpack_require__(147);
+	var utils = __webpack_require__(31);
+
+	var makeSpan = buildCommon.makeSpan;
+
+	/**
+	 * Get the metrics for a given symbol and font, after transformation (i.e.
+	 * after following replacement from symbols.js)
+	 */
+	var getMetrics = function(symbol, font) {
+	    if (symbols.math[symbol] && symbols.math[symbol].replace) {
+	        return fontMetrics.getCharacterMetrics(
+	            symbols.math[symbol].replace, font);
+	    } else {
+	        return fontMetrics.getCharacterMetrics(
+	            symbol, font);
+	    }
+	};
+
+	/**
+	 * Builds a symbol in the given font size (note size is an integer)
+	 */
+	var mathrmSize = function(value, size, mode) {
+	    return buildCommon.makeSymbol(value, "Size" + size + "-Regular", mode);
+	};
+
+	/**
+	 * Puts a delimiter span in a given style, and adds appropriate height, depth,
+	 * and maxFontSizes.
+	 */
+	var styleWrap = function(delim, toStyle, options) {
+	    var span = makeSpan(
+	        ["style-wrap", options.style.reset(), toStyle.cls()], [delim]);
+
+	    var multiplier = toStyle.sizeMultiplier / options.style.sizeMultiplier;
+
+	    span.height *= multiplier;
+	    span.depth *= multiplier;
+	    span.maxFontSize = toStyle.sizeMultiplier;
+
+	    return span;
+	};
+
+	/**
+	 * Makes a small delimiter. This is a delimiter that comes in the Main-Regular
+	 * font, but is restyled to either be in textstyle, scriptstyle, or
+	 * scriptscriptstyle.
+	 */
+	var makeSmallDelim = function(delim, style, center, options, mode) {
+	    var text = buildCommon.makeSymbol(delim, "Main-Regular", mode);
+
+	    var span = styleWrap(text, style, options);
+
+	    if (center) {
+	        var shift =
+	            (1 - options.style.sizeMultiplier / style.sizeMultiplier) *
+	            fontMetrics.metrics.axisHeight;
+
+	        span.style.top = shift + "em";
+	        span.height -= shift;
+	        span.depth += shift;
+	    }
+
+	    return span;
+	};
+
+	/**
+	 * Makes a large delimiter. This is a delimiter that comes in the Size1, Size2,
+	 * Size3, or Size4 fonts. It is always rendered in textstyle.
+	 */
+	var makeLargeDelim = function(delim, size, center, options, mode) {
+	    var inner = mathrmSize(delim, size, mode);
+
+	    var span = styleWrap(
+	        makeSpan(["delimsizing", "size" + size],
+	                 [inner], options.getColor()),
+	        Style.TEXT, options);
+
+	    if (center) {
+	        var shift = (1 - options.style.sizeMultiplier) *
+	            fontMetrics.metrics.axisHeight;
+
+	        span.style.top = shift + "em";
+	        span.height -= shift;
+	        span.depth += shift;
+	    }
+
+	    return span;
+	};
+
+	/**
+	 * Make an inner span with the given offset and in the given font. This is used
+	 * in `makeStackedDelim` to make the stacking pieces for the delimiter.
+	 */
+	var makeInner = function(symbol, font, mode) {
+	    var sizeClass;
+	    // Apply the correct CSS class to choose the right font.
+	    if (font === "Size1-Regular") {
+	        sizeClass = "delim-size1";
+	    } else if (font === "Size4-Regular") {
+	        sizeClass = "delim-size4";
+	    }
+
+	    var inner = makeSpan(
+	        ["delimsizinginner", sizeClass],
+	        [makeSpan([], [buildCommon.makeSymbol(symbol, font, mode)])]);
+
+	    // Since this will be passed into `makeVList` in the end, wrap the element
+	    // in the appropriate tag that VList uses.
+	    return {type: "elem", elem: inner};
+	};
+
+	/**
+	 * Make a stacked delimiter out of a given delimiter, with the total height at
+	 * least `heightTotal`. This routine is mentioned on page 442 of the TeXbook.
+	 */
+	var makeStackedDelim = function(delim, heightTotal, center, options, mode) {
+	    // There are four parts, the top, an optional middle, a repeated part, and a
+	    // bottom.
+	    var top, middle, repeat, bottom;
+	    top = repeat = bottom = delim;
+	    middle = null;
+	    // Also keep track of what font the delimiters are in
+	    var font = "Size1-Regular";
+
+	    // We set the parts and font based on the symbol. Note that we use
+	    // '\u23d0' instead of '|' and '\u2016' instead of '\\|' for the
+	    // repeats of the arrows
+	    if (delim === "\\uparrow") {
+	        repeat = bottom = "\u23d0";
+	    } else if (delim === "\\Uparrow") {
+	        repeat = bottom = "\u2016";
+	    } else if (delim === "\\downarrow") {
+	        top = repeat = "\u23d0";
+	    } else if (delim === "\\Downarrow") {
+	        top = repeat = "\u2016";
+	    } else if (delim === "\\updownarrow") {
+	        top = "\\uparrow";
+	        repeat = "\u23d0";
+	        bottom = "\\downarrow";
+	    } else if (delim === "\\Updownarrow") {
+	        top = "\\Uparrow";
+	        repeat = "\u2016";
+	        bottom = "\\Downarrow";
+	    } else if (delim === "[" || delim === "\\lbrack") {
+	        top = "\u23a1";
+	        repeat = "\u23a2";
+	        bottom = "\u23a3";
+	        font = "Size4-Regular";
+	    } else if (delim === "]" || delim === "\\rbrack") {
+	        top = "\u23a4";
+	        repeat = "\u23a5";
+	        bottom = "\u23a6";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\lfloor") {
+	        repeat = top = "\u23a2";
+	        bottom = "\u23a3";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\lceil") {
+	        top = "\u23a1";
+	        repeat = bottom = "\u23a2";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\rfloor") {
+	        repeat = top = "\u23a5";
+	        bottom = "\u23a6";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\rceil") {
+	        top = "\u23a4";
+	        repeat = bottom = "\u23a5";
+	        font = "Size4-Regular";
+	    } else if (delim === "(") {
+	        top = "\u239b";
+	        repeat = "\u239c";
+	        bottom = "\u239d";
+	        font = "Size4-Regular";
+	    } else if (delim === ")") {
+	        top = "\u239e";
+	        repeat = "\u239f";
+	        bottom = "\u23a0";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\{" || delim === "\\lbrace") {
+	        top = "\u23a7";
+	        middle = "\u23a8";
+	        bottom = "\u23a9";
+	        repeat = "\u23aa";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\}" || delim === "\\rbrace") {
+	        top = "\u23ab";
+	        middle = "\u23ac";
+	        bottom = "\u23ad";
+	        repeat = "\u23aa";
+	        font = "Size4-Regular";
+	    } else if (delim === "\\surd") {
+	        top = "\ue001";
+	        bottom = "\u23b7";
+	        repeat = "\ue000";
+	        font = "Size4-Regular";
+	    }
+
+	    // Get the metrics of the four sections
+	    var topMetrics = getMetrics(top, font);
+	    var topHeightTotal = topMetrics.height + topMetrics.depth;
+	    var repeatMetrics = getMetrics(repeat, font);
+	    var repeatHeightTotal = repeatMetrics.height + repeatMetrics.depth;
+	    var bottomMetrics = getMetrics(bottom, font);
+	    var bottomHeightTotal = bottomMetrics.height + bottomMetrics.depth;
+	    var middleMetrics, middleHeightTotal;
+	    if (middle !== null) {
+	        middleMetrics = getMetrics(middle, font);
+	        middleHeightTotal = middleMetrics.height + middleMetrics.depth;
+	    }
+
+	    // Calcuate the real height that the delimiter will have. It is at least the
+	    // size of the top, bottom, and optional middle combined.
+	    var realHeightTotal = topHeightTotal + bottomHeightTotal;
+	    if (middle !== null) {
+	        realHeightTotal += middleHeightTotal;
+	    }
+
+	    // Then add repeated pieces until we reach the specified height.
+	    while (realHeightTotal < heightTotal) {
+	        realHeightTotal += repeatHeightTotal;
+	        if (middle !== null) {
+	            // If there is a middle section, we need an equal number of pieces
+	            // on the top and bottom.
+	            realHeightTotal += repeatHeightTotal;
+	        }
+	    }
+
+	    // The center of the delimiter is placed at the center of the axis. Note
+	    // that in this context, "center" means that the delimiter should be
+	    // centered around the axis in the current style, while normally it is
+	    // centered around the axis in textstyle.
+	    var axisHeight = fontMetrics.metrics.axisHeight;
+	    if (center) {
+	        axisHeight *= options.style.sizeMultiplier;
+	    }
+	    // Calculate the depth
+	    var depth = realHeightTotal / 2 - axisHeight;
+
+	    // Now, we start building the pieces that will go into the vlist
+
+	    // Keep a list of the inner pieces
+	    var inners = [];
+
+	    // Add the bottom symbol
+	    inners.push(makeInner(bottom, font, mode));
+
+	    var i;
+	    if (middle === null) {
+	        // Calculate the number of repeated symbols we need
+	        var repeatHeight = realHeightTotal - topHeightTotal - bottomHeightTotal;
+	        var symbolCount = Math.ceil(repeatHeight / repeatHeightTotal);
+
+	        // Add that many symbols
+	        for (i = 0; i < symbolCount; i++) {
+	            inners.push(makeInner(repeat, font, mode));
+	        }
+	    } else {
+	        // When there is a middle bit, we need the middle part and two repeated
+	        // sections
+
+	        // Calculate the number of symbols needed for the top and bottom
+	        // repeated parts
+	        var topRepeatHeight =
+	            realHeightTotal / 2 - topHeightTotal - middleHeightTotal / 2;
+	        var topSymbolCount = Math.ceil(topRepeatHeight / repeatHeightTotal);
+
+	        var bottomRepeatHeight =
+	            realHeightTotal / 2 - topHeightTotal - middleHeightTotal / 2;
+	        var bottomSymbolCount =
+	            Math.ceil(bottomRepeatHeight / repeatHeightTotal);
+
+	        // Add the top repeated part
+	        for (i = 0; i < topSymbolCount; i++) {
+	            inners.push(makeInner(repeat, font, mode));
+	        }
+
+	        // Add the middle piece
+	        inners.push(makeInner(middle, font, mode));
+
+	        // Add the bottom repeated part
+	        for (i = 0; i < bottomSymbolCount; i++) {
+	            inners.push(makeInner(repeat, font, mode));
+	        }
+	    }
+
+	    // Add the top symbol
+	    inners.push(makeInner(top, font, mode));
+
+	    // Finally, build the vlist
+	    var inner = buildCommon.makeVList(inners, "bottom", depth, options);
+
+	    return styleWrap(
+	        makeSpan(["delimsizing", "mult"], [inner], options.getColor()),
+	        Style.TEXT, options);
+	};
+
+	// There are three kinds of delimiters, delimiters that stack when they become
+	// too large
+	var stackLargeDelimiters = [
+	    "(", ")", "[", "\\lbrack", "]", "\\rbrack",
+	    "\\{", "\\lbrace", "\\}", "\\rbrace",
+	    "\\lfloor", "\\rfloor", "\\lceil", "\\rceil",
+	    "\\surd"
+	];
+
+	// delimiters that always stack
+	var stackAlwaysDelimiters = [
+	    "\\uparrow", "\\downarrow", "\\updownarrow",
+	    "\\Uparrow", "\\Downarrow", "\\Updownarrow",
+	    "|", "\\|", "\\vert", "\\Vert"
+	];
+
+	// and delimiters that never stack
+	var stackNeverDelimiters = [
+	    "<", ">", "\\langle", "\\rangle", "/", "\\backslash"
+	];
+
+	// Metrics of the different sizes. Found by looking at TeX's output of
+	// $\bigl| // \Bigl| \biggl| \Biggl| \showlists$
+	// Used to create stacked delimiters of appropriate sizes in makeSizedDelim.
+	var sizeToMaxHeight = [0, 1.2, 1.8, 2.4, 3.0];
+
+	/**
+	 * Used to create a delimiter of a specific size, where `size` is 1, 2, 3, or 4.
+	 */
+	var makeSizedDelim = function(delim, size, options, mode) {
+	    // < and > turn into \langle and \rangle in delimiters
+	    if (delim === "<") {
+	        delim = "\\langle";
+	    } else if (delim === ">") {
+	        delim = "\\rangle";
+	    }
+
+	    // Sized delimiters are never centered.
+	    if (utils.contains(stackLargeDelimiters, delim) ||
+	        utils.contains(stackNeverDelimiters, delim)) {
+	        return makeLargeDelim(delim, size, false, options, mode);
+	    } else if (utils.contains(stackAlwaysDelimiters, delim)) {
+	        return makeStackedDelim(
+	            delim, sizeToMaxHeight[size], false, options, mode);
+	    } else {
+	        throw new ParseError("Illegal delimiter: '" + delim + "'");
+	    }
+	};
+
+	/**
+	 * There are three different sequences of delimiter sizes that the delimiters
+	 * follow depending on the kind of delimiter. This is used when creating custom
+	 * sized delimiters to decide whether to create a small, large, or stacked
+	 * delimiter.
+	 *
+	 * In real TeX, these sequences aren't explicitly defined, but are instead
+	 * defined inside the font metrics. Since there are only three sequences that
+	 * are possible for the delimiters that TeX defines, it is easier to just encode
+	 * them explicitly here.
+	 */
+
+	// Delimiters that never stack try small delimiters and large delimiters only
+	var stackNeverDelimiterSequence = [
+	    {type: "small", style: Style.SCRIPTSCRIPT},
+	    {type: "small", style: Style.SCRIPT},
+	    {type: "small", style: Style.TEXT},
+	    {type: "large", size: 1},
+	    {type: "large", size: 2},
+	    {type: "large", size: 3},
+	    {type: "large", size: 4}
+	];
+
+	// Delimiters that always stack try the small delimiters first, then stack
+	var stackAlwaysDelimiterSequence = [
+	    {type: "small", style: Style.SCRIPTSCRIPT},
+	    {type: "small", style: Style.SCRIPT},
+	    {type: "small", style: Style.TEXT},
+	    {type: "stack"}
+	];
+
+	// Delimiters that stack when large try the small and then large delimiters, and
+	// stack afterwards
+	var stackLargeDelimiterSequence = [
+	    {type: "small", style: Style.SCRIPTSCRIPT},
+	    {type: "small", style: Style.SCRIPT},
+	    {type: "small", style: Style.TEXT},
+	    {type: "large", size: 1},
+	    {type: "large", size: 2},
+	    {type: "large", size: 3},
+	    {type: "large", size: 4},
+	    {type: "stack"}
+	];
+
+	/**
+	 * Get the font used in a delimiter based on what kind of delimiter it is.
+	 */
+	var delimTypeToFont = function(type) {
+	    if (type.type === "small") {
+	        return "Main-Regular";
+	    } else if (type.type === "large") {
+	        return "Size" + type.size + "-Regular";
+	    } else if (type.type === "stack") {
+	        return "Size4-Regular";
+	    }
+	};
+
+	/**
+	 * Traverse a sequence of types of delimiters to decide what kind of delimiter
+	 * should be used to create a delimiter of the given height+depth.
+	 */
+	var traverseSequence = function(delim, height, sequence, options) {
+	    // Here, we choose the index we should start at in the sequences. In smaller
+	    // sizes (which correspond to larger numbers in style.size) we start earlier
+	    // in the sequence. Thus, scriptscript starts at index 3-3=0, script starts
+	    // at index 3-2=1, text starts at 3-1=2, and display starts at min(2,3-0)=2
+	    var start = Math.min(2, 3 - options.style.size);
+	    for (var i = start; i < sequence.length; i++) {
+	        if (sequence[i].type === "stack") {
+	            // This is always the last delimiter, so we just break the loop now.
+	            break;
+	        }
+
+	        var metrics = getMetrics(delim, delimTypeToFont(sequence[i]));
+	        var heightDepth = metrics.height + metrics.depth;
+
+	        // Small delimiters are scaled down versions of the same font, so we
+	        // account for the style change size.
+
+	        if (sequence[i].type === "small") {
+	            heightDepth *= sequence[i].style.sizeMultiplier;
+	        }
+
+	        // Check if the delimiter at this size works for the given height.
+	        if (heightDepth > height) {
+	            return sequence[i];
+	        }
+	    }
+
+	    // If we reached the end of the sequence, return the last sequence element.
+	    return sequence[sequence.length - 1];
+	};
+
+	/**
+	 * Make a delimiter of a given height+depth, with optional centering. Here, we
+	 * traverse the sequences, and create a delimiter that the sequence tells us to.
+	 */
+	var makeCustomSizedDelim = function(delim, height, center, options, mode) {
+	    if (delim === "<") {
+	        delim = "\\langle";
+	    } else if (delim === ">") {
+	        delim = "\\rangle";
+	    }
+
+	    // Decide what sequence to use
+	    var sequence;
+	    if (utils.contains(stackNeverDelimiters, delim)) {
+	        sequence = stackNeverDelimiterSequence;
+	    } else if (utils.contains(stackLargeDelimiters, delim)) {
+	        sequence = stackLargeDelimiterSequence;
+	    } else {
+	        sequence = stackAlwaysDelimiterSequence;
+	    }
+
+	    // Look through the sequence
+	    var delimType = traverseSequence(delim, height, sequence, options);
+
+	    // Depending on the sequence element we decided on, call the appropriate
+	    // function.
+	    if (delimType.type === "small") {
+	        return makeSmallDelim(delim, delimType.style, center, options, mode);
+	    } else if (delimType.type === "large") {
+	        return makeLargeDelim(delim, delimType.size, center, options, mode);
+	    } else if (delimType.type === "stack") {
+	        return makeStackedDelim(delim, height, center, options, mode);
+	    }
+	};
+
+	/**
+	 * Make a delimiter for use with `\left` and `\right`, given a height and depth
+	 * of an expression that the delimiters surround.
+	 */
+	var makeLeftRightDelim = function(delim, height, depth, options, mode) {
+	    // We always center \left/\right delimiters, so the axis is always shifted
+	    var axisHeight =
+	        fontMetrics.metrics.axisHeight * options.style.sizeMultiplier;
+
+	    // Taken from TeX source, tex.web, function make_left_right
+	    var delimiterFactor = 901;
+	    var delimiterExtend = 5.0 / fontMetrics.metrics.ptPerEm;
+
+	    var maxDistFromAxis = Math.max(
+	        height - axisHeight, depth + axisHeight);
+
+	    var totalHeight = Math.max(
+	        // In real TeX, calculations are done using integral values which are
+	        // 65536 per pt, or 655360 per em. So, the division here truncates in
+	        // TeX but doesn't here, producing different results. If we wanted to
+	        // exactly match TeX's calculation, we could do
+	        //   Math.floor(655360 * maxDistFromAxis / 500) *
+	        //    delimiterFactor / 655360
+	        // (To see the difference, compare
+	        //    x^{x^{\left(\rule{0.1em}{0.68em}\right)}}
+	        // in TeX and KaTeX)
+	        maxDistFromAxis / 500 * delimiterFactor,
+	        2 * maxDistFromAxis - delimiterExtend);
+
+	    // Finally, we defer to `makeCustomSizedDelim` with our calculated total
+	    // height
+	    return makeCustomSizedDelim(delim, totalHeight, true, options, mode);
+	};
+
+	module.exports = {
+	    sizedDelim: makeSizedDelim,
+	    customSizedDelim: makeCustomSizedDelim,
+	    leftRightDelim: makeLeftRightDelim
+	};
+
+
+/***/ },
+/* 98 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * These objects store the data about the DOM nodes we create, as well as some
+	 * extra data. They can then be transformed into real DOM nodes with the toNode
+	 * function or HTML markup using toMarkup. They are useful for both storing
+	 * extra properties on the nodes, as well as providing a way to easily work
+	 * with the DOM.
+	 */
+
+	var utils = __webpack_require__(31);
+
+	/**
+	 * Create an HTML className based on a list of classes. In addition to joining
+	 * with spaces, we also remove null or empty classes.
+	 */
+	var createClass = function(classes) {
+	    classes = classes.slice();
+	    for (var i = classes.length - 1; i >= 0; i--) {
+	        if (!classes[i]) {
+	            classes.splice(i, 1);
+	        }
+	    }
+
+	    return classes.join(" ");
+	};
+
+	/**
+	 * This node represents a span node, with a className, a list of children, and
+	 * an inline style. It also contains information about its height, depth, and
+	 * maxFontSize.
+	 */
+	function span(classes, children, height, depth, maxFontSize, style) {
+	    this.classes = classes || [];
+	    this.children = children || [];
+	    this.height = height || 0;
+	    this.depth = depth || 0;
+	    this.maxFontSize = maxFontSize || 0;
+	    this.style = style || {};
+	}
+
+	/**
+	 * Convert the span into an HTML node
+	 */
+	span.prototype.toNode = function() {
+	    var span = document.createElement("span");
+
+	    // Apply the class
+	    span.className = createClass(this.classes);
+
+	    // Apply inline styles
+	    for (var style in this.style) {
+	        if (this.style.hasOwnProperty(style)) {
+	            span.style[style] = this.style[style];
+	        }
+	    }
+
+	    // Append the children, also as HTML nodes
+	    for (var i = 0; i < this.children.length; i++) {
+	        span.appendChild(this.children[i].toNode());
+	    }
+
+	    return span;
+	};
+
+	/**
+	 * Convert the span into an HTML markup string
+	 */
+	span.prototype.toMarkup = function() {
+	    var markup = "<span";
+
+	    // Add the class
+	    if (this.classes.length) {
+	        markup += " class=\"";
+	        markup += utils.escape(createClass(this.classes));
+	        markup += "\"";
+	    }
+
+	    var styles = "";
+
+	    // Add the styles, after hyphenation
+	    for (var style in this.style) {
+	        if (this.style.hasOwnProperty(style)) {
+	            styles += utils.hyphenate(style) + ":" + this.style[style] + ";";
+	        }
+	    }
+
+	    if (styles) {
+	        markup += " style=\"" + utils.escape(styles) + "\"";
+	    }
+
+	    markup += ">";
+
+	    // Add the markup of the children, also as markup
+	    for (var i = 0; i < this.children.length; i++) {
+	        markup += this.children[i].toMarkup();
+	    }
+
+	    markup += "</span>";
+
+	    return markup;
+	};
+
+	/**
+	 * This node represents a document fragment, which contains elements, but when
+	 * placed into the DOM doesn't have any representation itself. Thus, it only
+	 * contains children and doesn't have any HTML properties. It also keeps track
+	 * of a height, depth, and maxFontSize.
+	 */
+	function documentFragment(children, height, depth, maxFontSize) {
+	    this.children = children || [];
+	    this.height = height || 0;
+	    this.depth = depth || 0;
+	    this.maxFontSize = maxFontSize || 0;
+	}
+
+	/**
+	 * Convert the fragment into a node
+	 */
+	documentFragment.prototype.toNode = function() {
+	    // Create a fragment
+	    var frag = document.createDocumentFragment();
+
+	    // Append the children
+	    for (var i = 0; i < this.children.length; i++) {
+	        frag.appendChild(this.children[i].toNode());
+	    }
+
+	    return frag;
+	};
+
+	/**
+	 * Convert the fragment into HTML markup
+	 */
+	documentFragment.prototype.toMarkup = function() {
+	    var markup = "";
+
+	    // Simply concatenate the markup for the children together
+	    for (var i = 0; i < this.children.length; i++) {
+	        markup += this.children[i].toMarkup();
+	    }
+
+	    return markup;
+	};
+
+	/**
+	 * A symbol node contains information about a single symbol. It either renders
+	 * to a single text node, or a span with a single text node in it, depending on
+	 * whether it has CSS classes, styles, or needs italic correction.
+	 */
+	function symbolNode(value, height, depth, italic, skew, classes, style) {
+	    this.value = value || "";
+	    this.height = height || 0;
+	    this.depth = depth || 0;
+	    this.italic = italic || 0;
+	    this.skew = skew || 0;
+	    this.classes = classes || [];
+	    this.style = style || {};
+	    this.maxFontSize = 0;
+	}
+
+	/**
+	 * Creates a text node or span from a symbol node. Note that a span is only
+	 * created if it is needed.
+	 */
+	symbolNode.prototype.toNode = function() {
+	    var node = document.createTextNode(this.value);
+	    var span = null;
+
+	    if (this.italic > 0) {
+	        span = document.createElement("span");
+	        span.style.marginRight = this.italic + "em";
+	    }
+
+	    if (this.classes.length > 0) {
+	        span = span || document.createElement("span");
+	        span.className = createClass(this.classes);
+	    }
+
+	    for (var style in this.style) {
+	        if (this.style.hasOwnProperty(style)) {
+	            span = span || document.createElement("span");
+	            span.style[style] = this.style[style];
+	        }
+	    }
+
+	    if (span) {
+	        span.appendChild(node);
+	        return span;
+	    } else {
+	        return node;
+	    }
+	};
+
+	/**
+	 * Creates markup for a symbol node.
+	 */
+	symbolNode.prototype.toMarkup = function() {
+	    // TODO(alpert): More duplication than I'd like from
+	    // span.prototype.toMarkup and symbolNode.prototype.toNode...
+	    var needsSpan = false;
+
+	    var markup = "<span";
+
+	    if (this.classes.length) {
+	        needsSpan = true;
+	        markup += " class=\"";
+	        markup += utils.escape(createClass(this.classes));
+	        markup += "\"";
+	    }
+
+	    var styles = "";
+
+	    if (this.italic > 0) {
+	        styles += "margin-right:" + this.italic + "em;";
+	    }
+	    for (var style in this.style) {
+	        if (this.style.hasOwnProperty(style)) {
+	            styles += utils.hyphenate(style) + ":" + this.style[style] + ";";
+	        }
+	    }
+
+	    if (styles) {
+	        needsSpan = true;
+	        markup += " style=\"" + utils.escape(styles) + "\"";
+	    }
+
+	    var escaped = utils.escape(this.value);
+	    if (needsSpan) {
+	        markup += ">";
+	        markup += escaped;
+	        markup += "</span>";
+	        return markup;
+	    } else {
+	        return escaped;
+	    }
+	};
+
+	module.exports = {
+	    span: span,
+	    documentFragment: documentFragment,
+	    symbolNode: symbolNode
+	};
+
+
+/***/ },
+/* 99 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* jshint unused:false */
+
+	var Style = __webpack_require__(95);
+
+	/**
+	 * This file contains metrics regarding fonts and individual symbols. The sigma
+	 * and xi variables, as well as the metricMap map contain data extracted from
+	 * TeX, TeX font metrics, and the TTF files. These data are then exposed via the
+	 * `metrics` variable and the getCharacterMetrics function.
+	 */
+
+	// These font metrics are extracted from TeX by using
+	// \font\a=cmmi10
+	// \showthe\fontdimenX\a
+	// where X is the corresponding variable number. These correspond to the font
+	// parameters of the symbol fonts. In TeX, there are actually three sets of
+	// dimensions, one for each of textstyle, scriptstyle, and scriptscriptstyle,
+	// but we only use the textstyle ones, and scale certain dimensions accordingly.
+	// See the TeXbook, page 441.
+	var sigma1 = 0.025;
+	var sigma2 = 0;
+	var sigma3 = 0;
+	var sigma4 = 0;
+	var sigma5 = 0.431;
+	var sigma6 = 1;
+	var sigma7 = 0;
+	var sigma8 = 0.677;
+	var sigma9 = 0.394;
+	var sigma10 = 0.444;
+	var sigma11 = 0.686;
+	var sigma12 = 0.345;
+	var sigma13 = 0.413;
+	var sigma14 = 0.363;
+	var sigma15 = 0.289;
+	var sigma16 = 0.150;
+	var sigma17 = 0.247;
+	var sigma18 = 0.386;
+	var sigma19 = 0.050;
+	var sigma20 = 2.390;
+	var sigma21 = 1.01;
+	var sigma21Script = 0.81;
+	var sigma21ScriptScript = 0.71;
+	var sigma22 = 0.250;
+
+	// These font metrics are extracted from TeX by using
+	// \font\a=cmex10
+	// \showthe\fontdimenX\a
+	// where X is the corresponding variable number. These correspond to the font
+	// parameters of the extension fonts (family 3). See the TeXbook, page 441.
+	var xi1 = 0;
+	var xi2 = 0;
+	var xi3 = 0;
+	var xi4 = 0;
+	var xi5 = 0.431;
+	var xi6 = 1;
+	var xi7 = 0;
+	var xi8 = 0.04;
+	var xi9 = 0.111;
+	var xi10 = 0.166;
+	var xi11 = 0.2;
+	var xi12 = 0.6;
+	var xi13 = 0.1;
+
+	// This value determines how large a pt is, for metrics which are defined in
+	// terms of pts.
+	// This value is also used in katex.less; if you change it make sure the values
+	// match.
+	var ptPerEm = 10.0;
+
+	/**
+	 * This is just a mapping from common names to real metrics
+	 */
+	var metrics = {
+	    xHeight: sigma5,
+	    quad: sigma6,
+	    num1: sigma8,
+	    num2: sigma9,
+	    num3: sigma10,
+	    denom1: sigma11,
+	    denom2: sigma12,
+	    sup1: sigma13,
+	    sup2: sigma14,
+	    sup3: sigma15,
+	    sub1: sigma16,
+	    sub2: sigma17,
+	    supDrop: sigma18,
+	    subDrop: sigma19,
+	    axisHeight: sigma22,
+	    defaultRuleThickness: xi8,
+	    bigOpSpacing1: xi9,
+	    bigOpSpacing2: xi10,
+	    bigOpSpacing3: xi11,
+	    bigOpSpacing4: xi12,
+	    bigOpSpacing5: xi13,
+	    ptPerEm: ptPerEm,
+
+	    // TODO(alpert): Missing parallel structure here. We should probably add
+	    // style-specific metrics for all of these.
+	    delim1: sigma20,
+	    getDelim2: function(style) {
+	        if (style.size === Style.TEXT.size) {
+	            return sigma21;
+	        } else if (style.size === Style.SCRIPT.size) {
+	            return sigma21Script;
+	        } else if (style.size === Style.SCRIPTSCRIPT.size) {
+	            return sigma21ScriptScript;
+	        }
+	        throw new Error("Unexpected style size: " + style.size);
+	    }
+	};
+
+	// This map contains a mapping from font name and character code to character
+	// metrics, including height, depth, italic correction, and skew (kern from the
+	// character to the corresponding \skewchar)
+	// This map is generated via `make metrics`. It should not be changed manually.
+	var metricMap = {"AMS-Regular":{"10003":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"10016":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"1008":{"depth":0.0,"height":0.43056,"italic":0.04028,"skew":0.0},"107":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"10731":{"depth":0.11111,"height":0.69224,"italic":0.0,"skew":0.0},"10846":{"depth":0.19444,"height":0.75583,"italic":0.0,"skew":0.0},"10877":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"10878":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"10885":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"10886":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"10887":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"10888":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"10889":{"depth":0.26167,"height":0.75726,"italic":0.0,"skew":0.0},"10890":{"depth":0.26167,"height":0.75726,"italic":0.0,"skew":0.0},"10891":{"depth":0.48256,"height":0.98256,"italic":0.0,"skew":0.0},"10892":{"depth":0.48256,"height":0.98256,"italic":0.0,"skew":0.0},"10901":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"10902":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"10933":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"10934":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"10935":{"depth":0.26167,"height":0.75726,"italic":0.0,"skew":0.0},"10936":{"depth":0.26167,"height":0.75726,"italic":0.0,"skew":0.0},"10937":{"depth":0.26167,"height":0.75726,"italic":0.0,"skew":0.0},"10938":{"depth":0.26167,"height":0.75726,"italic":0.0,"skew":0.0},"10949":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"10950":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"10955":{"depth":0.28481,"height":0.79383,"italic":0.0,"skew":0.0},"10956":{"depth":0.28481,"height":0.79383,"italic":0.0,"skew":0.0},"165":{"depth":0.0,"height":0.675,"italic":0.025,"skew":0.0},"174":{"depth":0.15559,"height":0.69224,"italic":0.0,"skew":0.0},"240":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"295":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"57350":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"57351":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"57352":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"57353":{"depth":0.0,"height":0.43056,"italic":0.04028,"skew":0.0},"57356":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"57357":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"57358":{"depth":0.41951,"height":0.91951,"italic":0.0,"skew":0.0},"57359":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"57360":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"57361":{"depth":0.41951,"height":0.91951,"italic":0.0,"skew":0.0},"57366":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"57367":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"57368":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"57369":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"57370":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"57371":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"65":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"66":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"67":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"68":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"69":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"70":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"71":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"72":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"73":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.9,"italic":0.0,"skew":0.0},"74":{"depth":0.16667,"height":0.68889,"italic":0.0,"skew":0.0},"75":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"76":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"77":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.9,"italic":0.0,"skew":0.0},"78":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"79":{"depth":0.16667,"height":0.68889,"italic":0.0,"skew":0.0},"80":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"81":{"depth":0.16667,"height":0.68889,"italic":0.0,"skew":0.0},"82":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8245":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"83":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"84":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8463":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8487":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8498":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"85":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8502":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8503":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8504":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8513":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8592":{"depth":-0.03598,"height":0.46402,"italic":0.0,"skew":0.0},"8594":{"depth":-0.03598,"height":0.46402,"italic":0.0,"skew":0.0},"86":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8602":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8603":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8606":{"depth":0.01354,"height":0.52239,"italic":0.0,"skew":0.0},"8608":{"depth":0.01354,"height":0.52239,"italic":0.0,"skew":0.0},"8610":{"depth":0.01354,"height":0.52239,"italic":0.0,"skew":0.0},"8611":{"depth":0.01354,"height":0.52239,"italic":0.0,"skew":0.0},"8619":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8620":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8621":{"depth":-0.13313,"height":0.37788,"italic":0.0,"skew":0.0},"8622":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8624":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8625":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8630":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"8631":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"8634":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8635":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8638":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8639":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8642":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8643":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8644":{"depth":0.1808,"height":0.675,"italic":0.0,"skew":0.0},"8646":{"depth":0.1808,"height":0.675,"italic":0.0,"skew":0.0},"8647":{"depth":0.1808,"height":0.675,"italic":0.0,"skew":0.0},"8648":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8649":{"depth":0.1808,"height":0.675,"italic":0.0,"skew":0.0},"8650":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8651":{"depth":0.01354,"height":0.52239,"italic":0.0,"skew":0.0},"8652":{"depth":0.01354,"height":0.52239,"italic":0.0,"skew":0.0},"8653":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8654":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8655":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8666":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8667":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8669":{"depth":-0.13313,"height":0.37788,"italic":0.0,"skew":0.0},"87":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8705":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"8708":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8709":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8717":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"8722":{"depth":-0.03598,"height":0.46402,"italic":0.0,"skew":0.0},"8724":{"depth":0.08198,"height":0.69224,"italic":0.0,"skew":0.0},"8726":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8733":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8736":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8737":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8738":{"depth":0.03517,"height":0.52239,"italic":0.0,"skew":0.0},"8739":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8740":{"depth":0.25142,"height":0.74111,"italic":0.0,"skew":0.0},"8741":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8742":{"depth":0.25142,"height":0.74111,"italic":0.0,"skew":0.0},"8756":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8757":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8764":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8765":{"depth":-0.13313,"height":0.37788,"italic":0.0,"skew":0.0},"8769":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8770":{"depth":-0.03625,"height":0.46375,"italic":0.0,"skew":0.0},"8774":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8776":{"depth":-0.01688,"height":0.48312,"italic":0.0,"skew":0.0},"8778":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8782":{"depth":0.06062,"height":0.54986,"italic":0.0,"skew":0.0},"8783":{"depth":0.06062,"height":0.54986,"italic":0.0,"skew":0.0},"8785":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8786":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8787":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8790":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8791":{"depth":0.22958,"height":0.72958,"italic":0.0,"skew":0.0},"8796":{"depth":0.08198,"height":0.91667,"italic":0.0,"skew":0.0},"88":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8806":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"8807":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"8808":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"8809":{"depth":0.25142,"height":0.75726,"italic":0.0,"skew":0.0},"8812":{"depth":0.25583,"height":0.75583,"italic":0.0,"skew":0.0},"8814":{"depth":0.20576,"height":0.70576,"italic":0.0,"skew":0.0},"8815":{"depth":0.20576,"height":0.70576,"italic":0.0,"skew":0.0},"8816":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8817":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8818":{"depth":0.22958,"height":0.72958,"italic":0.0,"skew":0.0},"8819":{"depth":0.22958,"height":0.72958,"italic":0.0,"skew":0.0},"8822":{"depth":0.1808,"height":0.675,"italic":0.0,"skew":0.0},"8823":{"depth":0.1808,"height":0.675,"italic":0.0,"skew":0.0},"8828":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8829":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8830":{"depth":0.22958,"height":0.72958,"italic":0.0,"skew":0.0},"8831":{"depth":0.22958,"height":0.72958,"italic":0.0,"skew":0.0},"8832":{"depth":0.20576,"height":0.70576,"italic":0.0,"skew":0.0},"8833":{"depth":0.20576,"height":0.70576,"italic":0.0,"skew":0.0},"8840":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8841":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8842":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8843":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8847":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8848":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8858":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8859":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8861":{"depth":0.08198,"height":0.58198,"italic":0.0,"skew":0.0},"8862":{"depth":0.0,"height":0.675,"italic":0.0,"skew":0.0},"8863":{"depth":0.0,"height":0.675,"italic":0.0,"skew":0.0},"8864":{"depth":0.0,"height":0.675,"italic":0.0,"skew":0.0},"8865":{"depth":0.0,"height":0.675,"italic":0.0,"skew":0.0},"8872":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8873":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8874":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8876":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8877":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8878":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8879":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8882":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8883":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8884":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8885":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8888":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8890":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.0},"8891":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8892":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"89":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8901":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8903":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8905":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8906":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0},"8907":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8908":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8909":{"depth":-0.03598,"height":0.46402,"italic":0.0,"skew":0.0},"8910":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8911":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8912":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8913":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8914":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8915":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"8916":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8918":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8919":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8920":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8921":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"8922":{"depth":0.38569,"height":0.88569,"italic":0.0,"skew":0.0},"8923":{"depth":0.38569,"height":0.88569,"italic":0.0,"skew":0.0},"8926":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8927":{"depth":0.13667,"height":0.63667,"italic":0.0,"skew":0.0},"8928":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8929":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8934":{"depth":0.23222,"height":0.74111,"italic":0.0,"skew":0.0},"8935":{"depth":0.23222,"height":0.74111,"italic":0.0,"skew":0.0},"8936":{"depth":0.23222,"height":0.74111,"italic":0.0,"skew":0.0},"8937":{"depth":0.23222,"height":0.74111,"italic":0.0,"skew":0.0},"8938":{"depth":0.20576,"height":0.70576,"italic":0.0,"skew":0.0},"8939":{"depth":0.20576,"height":0.70576,"italic":0.0,"skew":0.0},"8940":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8941":{"depth":0.30274,"height":0.79383,"italic":0.0,"skew":0.0},"8994":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"8995":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"90":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"9416":{"depth":0.15559,"height":0.69224,"italic":0.0,"skew":0.0},"9484":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"9488":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"9492":{"depth":0.0,"height":0.37788,"italic":0.0,"skew":0.0},"9496":{"depth":0.0,"height":0.37788,"italic":0.0,"skew":0.0},"9585":{"depth":0.19444,"height":0.68889,"italic":0.0,"skew":0.0},"9586":{"depth":0.19444,"height":0.74111,"italic":0.0,"skew":0.0},"9632":{"depth":0.0,"height":0.675,"italic":0.0,"skew":0.0},"9633":{"depth":0.0,"height":0.675,"italic":0.0,"skew":0.0},"9650":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"9651":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"9654":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"9660":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"9661":{"depth":0.0,"height":0.54986,"italic":0.0,"skew":0.0},"9664":{"depth":0.03517,"height":0.54986,"italic":0.0,"skew":0.0},"9674":{"depth":0.11111,"height":0.69224,"italic":0.0,"skew":0.0},"9733":{"depth":0.19444,"height":0.69224,"italic":0.0,"skew":0.0},"989":{"depth":0.08167,"height":0.58167,"italic":0.0,"skew":0.0}},"Main-Bold":{"100":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"101":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"102":{"depth":0.0,"height":0.69444,"italic":0.10903,"skew":0.0},"10216":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"10217":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"103":{"depth":0.19444,"height":0.44444,"italic":0.01597,"skew":0.0},"104":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"105":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"106":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"107":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"108":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"10815":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"109":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"10927":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"10928":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"110":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"111":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"112":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"113":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"114":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"115":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"116":{"depth":0.0,"height":0.63492,"italic":0.0,"skew":0.0},"117":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"118":{"depth":0.0,"height":0.44444,"italic":0.01597,"skew":0.0},"119":{"depth":0.0,"height":0.44444,"italic":0.01597,"skew":0.0},"120":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"121":{"depth":0.19444,"height":0.44444,"italic":0.01597,"skew":0.0},"122":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"123":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"124":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"125":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"126":{"depth":0.35,"height":0.34444,"italic":0.0,"skew":0.0},"168":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"172":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"175":{"depth":0.0,"height":0.59611,"italic":0.0,"skew":0.0},"176":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"177":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"180":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"215":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"247":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"305":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"33":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"34":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"35":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"36":{"depth":0.05556,"height":0.75,"italic":0.0,"skew":0.0},"37":{"depth":0.05556,"height":0.75,"italic":0.0,"skew":0.0},"38":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"39":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"40":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"41":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"42":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"43":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"44":{"depth":0.19444,"height":0.15556,"italic":0.0,"skew":0.0},"45":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"46":{"depth":0.0,"height":0.15556,"italic":0.0,"skew":0.0},"47":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"48":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"49":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"50":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"51":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"52":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"53":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"54":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"55":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"56":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"567":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"57":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"58":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"59":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"60":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"61":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"62":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"63":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"64":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"65":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"66":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"67":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"68":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"69":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"70":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"71":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"711":{"depth":0.0,"height":0.63194,"italic":0.0,"skew":0.0},"713":{"depth":0.0,"height":0.59611,"italic":0.0,"skew":0.0},"714":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"715":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"72":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"728":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"729":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"73":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"730":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"74":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"75":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"76":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"768":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"769":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"77":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"772":{"depth":0.0,"height":0.59611,"italic":0.0,"skew":0.0},"774":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"775":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"776":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"778":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"779":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"78":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"780":{"depth":0.0,"height":0.63194,"italic":0.0,"skew":0.0},"79":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"80":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"81":{"depth":0.19444,"height":0.68611,"italic":0.0,"skew":0.0},"82":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"8211":{"depth":0.0,"height":0.44444,"italic":0.03194,"skew":0.0},"8212":{"depth":0.0,"height":0.44444,"italic":0.03194,"skew":0.0},"8216":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8217":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8220":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8221":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8224":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8225":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"824":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8242":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"83":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"84":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"8407":{"depth":0.0,"height":0.72444,"italic":0.15486,"skew":0.0},"8463":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8465":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8467":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8472":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"8476":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"85":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"8501":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8592":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8593":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8594":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8595":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8596":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8597":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8598":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8599":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"86":{"depth":0.0,"height":0.68611,"italic":0.01597,"skew":0.0},"8600":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8601":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8636":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8637":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8640":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8641":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8656":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8657":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8658":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8659":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8660":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8661":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"87":{"depth":0.0,"height":0.68611,"italic":0.01597,"skew":0.0},"8704":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8706":{"depth":0.0,"height":0.69444,"italic":0.06389,"skew":0.0},"8707":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8709":{"depth":0.05556,"height":0.75,"italic":0.0,"skew":0.0},"8711":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"8712":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8715":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8722":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8723":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8725":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8726":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8727":{"depth":-0.02778,"height":0.47222,"italic":0.0,"skew":0.0},"8728":{"depth":-0.02639,"height":0.47361,"italic":0.0,"skew":0.0},"8729":{"depth":-0.02639,"height":0.47361,"italic":0.0,"skew":0.0},"8730":{"depth":0.18,"height":0.82,"italic":0.0,"skew":0.0},"8733":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"8734":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"8736":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8739":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8741":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8743":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8744":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8745":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8746":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8747":{"depth":0.19444,"height":0.69444,"italic":0.12778,"skew":0.0},"8764":{"depth":-0.10889,"height":0.39111,"italic":0.0,"skew":0.0},"8768":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8771":{"depth":0.00222,"height":0.50222,"italic":0.0,"skew":0.0},"8776":{"depth":0.02444,"height":0.52444,"italic":0.0,"skew":0.0},"8781":{"depth":0.00222,"height":0.50222,"italic":0.0,"skew":0.0},"88":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"8801":{"depth":0.00222,"height":0.50222,"italic":0.0,"skew":0.0},"8804":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"8805":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"8810":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8811":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8826":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8827":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8834":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8835":{"depth":0.08556,"height":0.58556,"italic":0.0,"skew":0.0},"8838":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"8839":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"8846":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8849":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"8850":{"depth":0.19667,"height":0.69667,"italic":0.0,"skew":0.0},"8851":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8852":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8853":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8854":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8855":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8856":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8857":{"depth":0.13333,"height":0.63333,"italic":0.0,"skew":0.0},"8866":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8867":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8868":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8869":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"89":{"depth":0.0,"height":0.68611,"italic":0.02875,"skew":0.0},"8900":{"depth":-0.02639,"height":0.47361,"italic":0.0,"skew":0.0},"8901":{"depth":-0.02639,"height":0.47361,"italic":0.0,"skew":0.0},"8902":{"depth":-0.02778,"height":0.47222,"italic":0.0,"skew":0.0},"8968":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8969":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8970":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8971":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8994":{"depth":-0.13889,"height":0.36111,"italic":0.0,"skew":0.0},"8995":{"depth":-0.13889,"height":0.36111,"italic":0.0,"skew":0.0},"90":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"91":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"915":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"916":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"92":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"920":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"923":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"926":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"928":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"93":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"931":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"933":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"934":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"936":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"937":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"94":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"95":{"depth":0.31,"height":0.13444,"italic":0.03194,"skew":0.0},"96":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"9651":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"9657":{"depth":-0.02778,"height":0.47222,"italic":0.0,"skew":0.0},"9661":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"9667":{"depth":-0.02778,"height":0.47222,"italic":0.0,"skew":0.0},"97":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"9711":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"98":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"9824":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9825":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9826":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9827":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9837":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"9838":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"9839":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"99":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0}},"Main-Italic":{"100":{"depth":0.0,"height":0.69444,"italic":0.10333,"skew":0.0},"101":{"depth":0.0,"height":0.43056,"italic":0.07514,"skew":0.0},"102":{"depth":0.19444,"height":0.69444,"italic":0.21194,"skew":0.0},"103":{"depth":0.19444,"height":0.43056,"italic":0.08847,"skew":0.0},"104":{"depth":0.0,"height":0.69444,"italic":0.07671,"skew":0.0},"105":{"depth":0.0,"height":0.65536,"italic":0.1019,"skew":0.0},"106":{"depth":0.19444,"height":0.65536,"italic":0.14467,"skew":0.0},"107":{"depth":0.0,"height":0.69444,"italic":0.10764,"skew":0.0},"108":{"depth":0.0,"height":0.69444,"italic":0.10333,"skew":0.0},"109":{"depth":0.0,"height":0.43056,"italic":0.07671,"skew":0.0},"110":{"depth":0.0,"height":0.43056,"italic":0.07671,"skew":0.0},"111":{"depth":0.0,"height":0.43056,"italic":0.06312,"skew":0.0},"112":{"depth":0.19444,"height":0.43056,"italic":0.06312,"skew":0.0},"113":{"depth":0.19444,"height":0.43056,"italic":0.08847,"skew":0.0},"114":{"depth":0.0,"height":0.43056,"italic":0.10764,"skew":0.0},"115":{"depth":0.0,"height":0.43056,"italic":0.08208,"skew":0.0},"116":{"depth":0.0,"height":0.61508,"italic":0.09486,"skew":0.0},"117":{"depth":0.0,"height":0.43056,"italic":0.07671,"skew":0.0},"118":{"depth":0.0,"height":0.43056,"italic":0.10764,"skew":0.0},"119":{"depth":0.0,"height":0.43056,"italic":0.10764,"skew":0.0},"120":{"depth":0.0,"height":0.43056,"italic":0.12042,"skew":0.0},"121":{"depth":0.19444,"height":0.43056,"italic":0.08847,"skew":0.0},"122":{"depth":0.0,"height":0.43056,"italic":0.12292,"skew":0.0},"126":{"depth":0.35,"height":0.31786,"italic":0.11585,"skew":0.0},"163":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"305":{"depth":0.0,"height":0.43056,"italic":0.07671,"skew":0.0},"33":{"depth":0.0,"height":0.69444,"italic":0.12417,"skew":0.0},"34":{"depth":0.0,"height":0.69444,"italic":0.06961,"skew":0.0},"35":{"depth":0.19444,"height":0.69444,"italic":0.06616,"skew":0.0},"37":{"depth":0.05556,"height":0.75,"italic":0.13639,"skew":0.0},"38":{"depth":0.0,"height":0.69444,"italic":0.09694,"skew":0.0},"39":{"depth":0.0,"height":0.69444,"italic":0.12417,"skew":0.0},"40":{"depth":0.25,"height":0.75,"italic":0.16194,"skew":0.0},"41":{"depth":0.25,"height":0.75,"italic":0.03694,"skew":0.0},"42":{"depth":0.0,"height":0.75,"italic":0.14917,"skew":0.0},"43":{"depth":0.05667,"height":0.56167,"italic":0.03694,"skew":0.0},"44":{"depth":0.19444,"height":0.10556,"italic":0.0,"skew":0.0},"45":{"depth":0.0,"height":0.43056,"italic":0.02826,"skew":0.0},"46":{"depth":0.0,"height":0.10556,"italic":0.0,"skew":0.0},"47":{"depth":0.25,"height":0.75,"italic":0.16194,"skew":0.0},"48":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"49":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"50":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"51":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"52":{"depth":0.19444,"height":0.64444,"italic":0.13556,"skew":0.0},"53":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"54":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"55":{"depth":0.19444,"height":0.64444,"italic":0.13556,"skew":0.0},"56":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"567":{"depth":0.19444,"height":0.43056,"italic":0.03736,"skew":0.0},"57":{"depth":0.0,"height":0.64444,"italic":0.13556,"skew":0.0},"58":{"depth":0.0,"height":0.43056,"italic":0.0582,"skew":0.0},"59":{"depth":0.19444,"height":0.43056,"italic":0.0582,"skew":0.0},"61":{"depth":-0.13313,"height":0.36687,"italic":0.06616,"skew":0.0},"63":{"depth":0.0,"height":0.69444,"italic":0.1225,"skew":0.0},"64":{"depth":0.0,"height":0.69444,"italic":0.09597,"skew":0.0},"65":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"66":{"depth":0.0,"height":0.68333,"italic":0.10257,"skew":0.0},"67":{"depth":0.0,"height":0.68333,"italic":0.14528,"skew":0.0},"68":{"depth":0.0,"height":0.68333,"italic":0.09403,"skew":0.0},"69":{"depth":0.0,"height":0.68333,"italic":0.12028,"skew":0.0},"70":{"depth":0.0,"height":0.68333,"italic":0.13305,"skew":0.0},"71":{"depth":0.0,"height":0.68333,"italic":0.08722,"skew":0.0},"72":{"depth":0.0,"height":0.68333,"italic":0.16389,"skew":0.0},"73":{"depth":0.0,"height":0.68333,"italic":0.15806,"skew":0.0},"74":{"depth":0.0,"height":0.68333,"italic":0.14028,"skew":0.0},"75":{"depth":0.0,"height":0.68333,"italic":0.14528,"skew":0.0},"76":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"768":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"769":{"depth":0.0,"height":0.69444,"italic":0.09694,"skew":0.0},"77":{"depth":0.0,"height":0.68333,"italic":0.16389,"skew":0.0},"770":{"depth":0.0,"height":0.69444,"italic":0.06646,"skew":0.0},"771":{"depth":0.0,"height":0.66786,"italic":0.11585,"skew":0.0},"772":{"depth":0.0,"height":0.56167,"italic":0.10333,"skew":0.0},"774":{"depth":0.0,"height":0.69444,"italic":0.10806,"skew":0.0},"775":{"depth":0.0,"height":0.66786,"italic":0.11752,"skew":0.0},"776":{"depth":0.0,"height":0.66786,"italic":0.10474,"skew":0.0},"778":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"779":{"depth":0.0,"height":0.69444,"italic":0.1225,"skew":0.0},"78":{"depth":0.0,"height":0.68333,"italic":0.16389,"skew":0.0},"780":{"depth":0.0,"height":0.62847,"italic":0.08295,"skew":0.0},"79":{"depth":0.0,"height":0.68333,"italic":0.09403,"skew":0.0},"80":{"depth":0.0,"height":0.68333,"italic":0.10257,"skew":0.0},"81":{"depth":0.19444,"height":0.68333,"italic":0.09403,"skew":0.0},"82":{"depth":0.0,"height":0.68333,"italic":0.03868,"skew":0.0},"8211":{"depth":0.0,"height":0.43056,"italic":0.09208,"skew":0.0},"8212":{"depth":0.0,"height":0.43056,"italic":0.09208,"skew":0.0},"8216":{"depth":0.0,"height":0.69444,"italic":0.12417,"skew":0.0},"8217":{"depth":0.0,"height":0.69444,"italic":0.12417,"skew":0.0},"8220":{"depth":0.0,"height":0.69444,"italic":0.1685,"skew":0.0},"8221":{"depth":0.0,"height":0.69444,"italic":0.06961,"skew":0.0},"83":{"depth":0.0,"height":0.68333,"italic":0.11972,"skew":0.0},"84":{"depth":0.0,"height":0.68333,"italic":0.13305,"skew":0.0},"8463":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"85":{"depth":0.0,"height":0.68333,"italic":0.16389,"skew":0.0},"86":{"depth":0.0,"height":0.68333,"italic":0.18361,"skew":0.0},"87":{"depth":0.0,"height":0.68333,"italic":0.18361,"skew":0.0},"88":{"depth":0.0,"height":0.68333,"italic":0.15806,"skew":0.0},"89":{"depth":0.0,"height":0.68333,"italic":0.19383,"skew":0.0},"90":{"depth":0.0,"height":0.68333,"italic":0.14528,"skew":0.0},"91":{"depth":0.25,"height":0.75,"italic":0.1875,"skew":0.0},"915":{"depth":0.0,"height":0.68333,"italic":0.13305,"skew":0.0},"916":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"920":{"depth":0.0,"height":0.68333,"italic":0.09403,"skew":0.0},"923":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"926":{"depth":0.0,"height":0.68333,"italic":0.15294,"skew":0.0},"928":{"depth":0.0,"height":0.68333,"italic":0.16389,"skew":0.0},"93":{"depth":0.25,"height":0.75,"italic":0.10528,"skew":0.0},"931":{"depth":0.0,"height":0.68333,"italic":0.12028,"skew":0.0},"933":{"depth":0.0,"height":0.68333,"italic":0.11111,"skew":0.0},"934":{"depth":0.0,"height":0.68333,"italic":0.05986,"skew":0.0},"936":{"depth":0.0,"height":0.68333,"italic":0.11111,"skew":0.0},"937":{"depth":0.0,"height":0.68333,"italic":0.10257,"skew":0.0},"94":{"depth":0.0,"height":0.69444,"italic":0.06646,"skew":0.0},"95":{"depth":0.31,"height":0.12056,"italic":0.09208,"skew":0.0},"97":{"depth":0.0,"height":0.43056,"italic":0.07671,"skew":0.0},"98":{"depth":0.0,"height":0.69444,"italic":0.06312,"skew":0.0},"99":{"depth":0.0,"height":0.43056,"italic":0.05653,"skew":0.0}},"Main-Regular":{"32":{"depth":-0.0,"height":0.0,"italic":0,"skew":0},"160":{"depth":-0.0,"height":0.0,"italic":0,"skew":0},"8230":{"depth":-0.0,"height":0.12,"italic":0,"skew":0},"8773":{"depth":-0.022,"height":0.589,"italic":0,"skew":0},"8800":{"depth":0.215,"height":0.716,"italic":0,"skew":0},"8942":{"depth":0.03,"height":0.9,"italic":0,"skew":0},"8943":{"depth":-0.19,"height":0.31,"italic":0,"skew":0},"8945":{"depth":-0.1,"height":0.82,"italic":0,"skew":0},"100":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"101":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"102":{"depth":0.0,"height":0.69444,"italic":0.07778,"skew":0.0},"10216":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"10217":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"103":{"depth":0.19444,"height":0.43056,"italic":0.01389,"skew":0.0},"104":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"105":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"106":{"depth":0.19444,"height":0.66786,"italic":0.0,"skew":0.0},"107":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"108":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"10815":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"109":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"10927":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"10928":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"110":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"111":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"112":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.0},"113":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.0},"114":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"115":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"116":{"depth":0.0,"height":0.61508,"italic":0.0,"skew":0.0},"117":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"118":{"depth":0.0,"height":0.43056,"italic":0.01389,"skew":0.0},"119":{"depth":0.0,"height":0.43056,"italic":0.01389,"skew":0.0},"120":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"121":{"depth":0.19444,"height":0.43056,"italic":0.01389,"skew":0.0},"122":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"123":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"124":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"125":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"126":{"depth":0.35,"height":0.31786,"italic":0.0,"skew":0.0},"168":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"172":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"175":{"depth":0.0,"height":0.56778,"italic":0.0,"skew":0.0},"176":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"177":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"180":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"215":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"247":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"305":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"33":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"34":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"35":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"36":{"depth":0.05556,"height":0.75,"italic":0.0,"skew":0.0},"37":{"depth":0.05556,"height":0.75,"italic":0.0,"skew":0.0},"38":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"39":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"40":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"41":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"42":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"43":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"44":{"depth":0.19444,"height":0.10556,"italic":0.0,"skew":0.0},"45":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"46":{"depth":0.0,"height":0.10556,"italic":0.0,"skew":0.0},"47":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"48":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"49":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"50":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"51":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"52":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"53":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"54":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"55":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"56":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"567":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.0},"57":{"depth":0.0,"height":0.64444,"italic":0.0,"skew":0.0},"58":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"59":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.0},"60":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"61":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"62":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"63":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"64":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"65":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"66":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"67":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"68":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"69":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"70":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"71":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"711":{"depth":0.0,"height":0.62847,"italic":0.0,"skew":0.0},"713":{"depth":0.0,"height":0.56778,"italic":0.0,"skew":0.0},"714":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"715":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"72":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"728":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"729":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"73":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"730":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"74":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"75":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"76":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"768":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"769":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"77":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"772":{"depth":0.0,"height":0.56778,"italic":0.0,"skew":0.0},"774":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"775":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"776":{"depth":0.0,"height":0.66786,"italic":0.0,"skew":0.0},"778":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"779":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"78":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"780":{"depth":0.0,"height":0.62847,"italic":0.0,"skew":0.0},"79":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"80":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"81":{"depth":0.19444,"height":0.68333,"italic":0.0,"skew":0.0},"82":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"8211":{"depth":0.0,"height":0.43056,"italic":0.02778,"skew":0.0},"8212":{"depth":0.0,"height":0.43056,"italic":0.02778,"skew":0.0},"8216":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8217":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8220":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8221":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8224":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8225":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"824":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8242":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"83":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"84":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"8407":{"depth":0.0,"height":0.71444,"italic":0.15382,"skew":0.0},"8463":{"depth":0.0,"height":0.68889,"italic":0.0,"skew":0.0},"8465":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8467":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.11111},"8472":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.11111},"8476":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"85":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"8501":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8592":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8593":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8594":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8595":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8596":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8597":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8598":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8599":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"86":{"depth":0.0,"height":0.68333,"italic":0.01389,"skew":0.0},"8600":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8601":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8636":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8637":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8640":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8641":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8656":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8657":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8658":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8659":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8660":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8661":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"87":{"depth":0.0,"height":0.68333,"italic":0.01389,"skew":0.0},"8704":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8706":{"depth":0.0,"height":0.69444,"italic":0.05556,"skew":0.08334},"8707":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8709":{"depth":0.05556,"height":0.75,"italic":0.0,"skew":0.0},"8711":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"8712":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8715":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8722":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8723":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8725":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8726":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8727":{"depth":-0.03472,"height":0.46528,"italic":0.0,"skew":0.0},"8728":{"depth":-0.05555,"height":0.44445,"italic":0.0,"skew":0.0},"8729":{"depth":-0.05555,"height":0.44445,"italic":0.0,"skew":0.0},"8730":{"depth":0.2,"height":0.8,"italic":0.0,"skew":0.0},"8733":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"8734":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"8736":{"depth":0.0,"height":0.69224,"italic":0.0,"skew":0.0},"8739":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8741":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8743":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8744":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8745":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8746":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8747":{"depth":0.19444,"height":0.69444,"italic":0.11111,"skew":0.0},"8764":{"depth":-0.13313,"height":0.36687,"italic":0.0,"skew":0.0},"8768":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"8771":{"depth":-0.03625,"height":0.46375,"italic":0.0,"skew":0.0},"8776":{"depth":-0.01688,"height":0.48312,"italic":0.0,"skew":0.0},"8781":{"depth":-0.03625,"height":0.46375,"italic":0.0,"skew":0.0},"88":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"8801":{"depth":-0.03625,"height":0.46375,"italic":0.0,"skew":0.0},"8804":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8805":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8810":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8811":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8826":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8827":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8834":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8835":{"depth":0.0391,"height":0.5391,"italic":0.0,"skew":0.0},"8838":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8839":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8846":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8849":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8850":{"depth":0.13597,"height":0.63597,"italic":0.0,"skew":0.0},"8851":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8852":{"depth":0.0,"height":0.55556,"italic":0.0,"skew":0.0},"8853":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8854":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8855":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8856":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8857":{"depth":0.08333,"height":0.58333,"italic":0.0,"skew":0.0},"8866":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8867":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8868":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"8869":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"89":{"depth":0.0,"height":0.68333,"italic":0.025,"skew":0.0},"8900":{"depth":-0.05555,"height":0.44445,"italic":0.0,"skew":0.0},"8901":{"depth":-0.05555,"height":0.44445,"italic":0.0,"skew":0.0},"8902":{"depth":-0.03472,"height":0.46528,"italic":0.0,"skew":0.0},"8968":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8969":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8970":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8971":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"8994":{"depth":-0.14236,"height":0.35764,"italic":0.0,"skew":0.0},"8995":{"depth":-0.14236,"height":0.35764,"italic":0.0,"skew":0.0},"90":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"91":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"915":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"916":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"92":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"920":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"923":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"926":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"928":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"93":{"depth":0.25,"height":0.75,"italic":0.0,"skew":0.0},"931":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"933":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"934":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"936":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"937":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.0},"94":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"95":{"depth":0.31,"height":0.12056,"italic":0.02778,"skew":0.0},"96":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"9651":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"9657":{"depth":-0.03472,"height":0.46528,"italic":0.0,"skew":0.0},"9661":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"9667":{"depth":-0.03472,"height":0.46528,"italic":0.0,"skew":0.0},"97":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"9711":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"98":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"9824":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9825":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9826":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9827":{"depth":0.12963,"height":0.69444,"italic":0.0,"skew":0.0},"9837":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"9838":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"9839":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"99":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0}},"Math-BoldItalic":{"100":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"1009":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"101":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"1013":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"102":{"depth":0.19444,"height":0.69444,"italic":0.11042,"skew":0.0},"103":{"depth":0.19444,"height":0.44444,"italic":0.03704,"skew":0.0},"104":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"105":{"depth":0.0,"height":0.69326,"italic":0.0,"skew":0.0},"106":{"depth":0.19444,"height":0.69326,"italic":0.0622,"skew":0.0},"107":{"depth":0.0,"height":0.69444,"italic":0.01852,"skew":0.0},"108":{"depth":0.0,"height":0.69444,"italic":0.0088,"skew":0.0},"109":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"110":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"111":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"112":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"113":{"depth":0.19444,"height":0.44444,"italic":0.03704,"skew":0.0},"114":{"depth":0.0,"height":0.44444,"italic":0.03194,"skew":0.0},"115":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"116":{"depth":0.0,"height":0.63492,"italic":0.0,"skew":0.0},"117":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"118":{"depth":0.0,"height":0.44444,"italic":0.03704,"skew":0.0},"119":{"depth":0.0,"height":0.44444,"italic":0.02778,"skew":0.0},"120":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"121":{"depth":0.19444,"height":0.44444,"italic":0.03704,"skew":0.0},"122":{"depth":0.0,"height":0.44444,"italic":0.04213,"skew":0.0},"47":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"65":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"66":{"depth":0.0,"height":0.68611,"italic":0.04835,"skew":0.0},"67":{"depth":0.0,"height":0.68611,"italic":0.06979,"skew":0.0},"68":{"depth":0.0,"height":0.68611,"italic":0.03194,"skew":0.0},"69":{"depth":0.0,"height":0.68611,"italic":0.05451,"skew":0.0},"70":{"depth":0.0,"height":0.68611,"italic":0.15972,"skew":0.0},"71":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"72":{"depth":0.0,"height":0.68611,"italic":0.08229,"skew":0.0},"73":{"depth":0.0,"height":0.68611,"italic":0.07778,"skew":0.0},"74":{"depth":0.0,"height":0.68611,"italic":0.10069,"skew":0.0},"75":{"depth":0.0,"height":0.68611,"italic":0.06979,"skew":0.0},"76":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"77":{"depth":0.0,"height":0.68611,"italic":0.11424,"skew":0.0},"78":{"depth":0.0,"height":0.68611,"italic":0.11424,"skew":0.0},"79":{"depth":0.0,"height":0.68611,"italic":0.03194,"skew":0.0},"80":{"depth":0.0,"height":0.68611,"italic":0.15972,"skew":0.0},"81":{"depth":0.19444,"height":0.68611,"italic":0.0,"skew":0.0},"82":{"depth":0.0,"height":0.68611,"italic":0.00421,"skew":0.0},"83":{"depth":0.0,"height":0.68611,"italic":0.05382,"skew":0.0},"84":{"depth":0.0,"height":0.68611,"italic":0.15972,"skew":0.0},"85":{"depth":0.0,"height":0.68611,"italic":0.11424,"skew":0.0},"86":{"depth":0.0,"height":0.68611,"italic":0.25555,"skew":0.0},"87":{"depth":0.0,"height":0.68611,"italic":0.15972,"skew":0.0},"88":{"depth":0.0,"height":0.68611,"italic":0.07778,"skew":0.0},"89":{"depth":0.0,"height":0.68611,"italic":0.25555,"skew":0.0},"90":{"depth":0.0,"height":0.68611,"italic":0.06979,"skew":0.0},"915":{"depth":0.0,"height":0.68611,"italic":0.15972,"skew":0.0},"916":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"920":{"depth":0.0,"height":0.68611,"italic":0.03194,"skew":0.0},"923":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"926":{"depth":0.0,"height":0.68611,"italic":0.07458,"skew":0.0},"928":{"depth":0.0,"height":0.68611,"italic":0.08229,"skew":0.0},"931":{"depth":0.0,"height":0.68611,"italic":0.05451,"skew":0.0},"933":{"depth":0.0,"height":0.68611,"italic":0.15972,"skew":0.0},"934":{"depth":0.0,"height":0.68611,"italic":0.0,"skew":0.0},"936":{"depth":0.0,"height":0.68611,"italic":0.11653,"skew":0.0},"937":{"depth":0.0,"height":0.68611,"italic":0.04835,"skew":0.0},"945":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"946":{"depth":0.19444,"height":0.69444,"italic":0.03403,"skew":0.0},"947":{"depth":0.19444,"height":0.44444,"italic":0.06389,"skew":0.0},"948":{"depth":0.0,"height":0.69444,"italic":0.03819,"skew":0.0},"949":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"950":{"depth":0.19444,"height":0.69444,"italic":0.06215,"skew":0.0},"951":{"depth":0.19444,"height":0.44444,"italic":0.03704,"skew":0.0},"952":{"depth":0.0,"height":0.69444,"italic":0.03194,"skew":0.0},"953":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"954":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"955":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"956":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"957":{"depth":0.0,"height":0.44444,"italic":0.06898,"skew":0.0},"958":{"depth":0.19444,"height":0.69444,"italic":0.03021,"skew":0.0},"959":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"960":{"depth":0.0,"height":0.44444,"italic":0.03704,"skew":0.0},"961":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"962":{"depth":0.09722,"height":0.44444,"italic":0.07917,"skew":0.0},"963":{"depth":0.0,"height":0.44444,"italic":0.03704,"skew":0.0},"964":{"depth":0.0,"height":0.44444,"italic":0.13472,"skew":0.0},"965":{"depth":0.0,"height":0.44444,"italic":0.03704,"skew":0.0},"966":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"967":{"depth":0.19444,"height":0.44444,"italic":0.0,"skew":0.0},"968":{"depth":0.19444,"height":0.69444,"italic":0.03704,"skew":0.0},"969":{"depth":0.0,"height":0.44444,"italic":0.03704,"skew":0.0},"97":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0},"977":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"98":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"981":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"982":{"depth":0.0,"height":0.44444,"italic":0.03194,"skew":0.0},"99":{"depth":0.0,"height":0.44444,"italic":0.0,"skew":0.0}},"Math-Italic":{"100":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.16667},"1009":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"101":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"1013":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"102":{"depth":0.19444,"height":0.69444,"italic":0.10764,"skew":0.16667},"103":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.02778},"104":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"105":{"depth":0.0,"height":0.65952,"italic":0.0,"skew":0.0},"106":{"depth":0.19444,"height":0.65952,"italic":0.05724,"skew":0.0},"107":{"depth":0.0,"height":0.69444,"italic":0.03148,"skew":0.0},"108":{"depth":0.0,"height":0.69444,"italic":0.01968,"skew":0.08334},"109":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"110":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"111":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"112":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"113":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.08334},"114":{"depth":0.0,"height":0.43056,"italic":0.02778,"skew":0.05556},"115":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"116":{"depth":0.0,"height":0.61508,"italic":0.0,"skew":0.08334},"117":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.02778},"118":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.02778},"119":{"depth":0.0,"height":0.43056,"italic":0.02691,"skew":0.08334},"120":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.02778},"121":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.05556},"122":{"depth":0.0,"height":0.43056,"italic":0.04398,"skew":0.05556},"47":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.0},"65":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.13889},"66":{"depth":0.0,"height":0.68333,"italic":0.05017,"skew":0.08334},"67":{"depth":0.0,"height":0.68333,"italic":0.07153,"skew":0.08334},"68":{"depth":0.0,"height":0.68333,"italic":0.02778,"skew":0.05556},"69":{"depth":0.0,"height":0.68333,"italic":0.05764,"skew":0.08334},"70":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"71":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.08334},"72":{"depth":0.0,"height":0.68333,"italic":0.08125,"skew":0.05556},"73":{"depth":0.0,"height":0.68333,"italic":0.07847,"skew":0.11111},"74":{"depth":0.0,"height":0.68333,"italic":0.09618,"skew":0.16667},"75":{"depth":0.0,"height":0.68333,"italic":0.07153,"skew":0.05556},"76":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.02778},"77":{"depth":0.0,"height":0.68333,"italic":0.10903,"skew":0.08334},"78":{"depth":0.0,"height":0.68333,"italic":0.10903,"skew":0.08334},"79":{"depth":0.0,"height":0.68333,"italic":0.02778,"skew":0.08334},"80":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"81":{"depth":0.19444,"height":0.68333,"italic":0.0,"skew":0.08334},"82":{"depth":0.0,"height":0.68333,"italic":0.00773,"skew":0.08334},"83":{"depth":0.0,"height":0.68333,"italic":0.05764,"skew":0.08334},"84":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"85":{"depth":0.0,"height":0.68333,"italic":0.10903,"skew":0.02778},"86":{"depth":0.0,"height":0.68333,"italic":0.22222,"skew":0.0},"87":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.0},"88":{"depth":0.0,"height":0.68333,"italic":0.07847,"skew":0.08334},"89":{"depth":0.0,"height":0.68333,"italic":0.22222,"skew":0.0},"90":{"depth":0.0,"height":0.68333,"italic":0.07153,"skew":0.08334},"915":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"916":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.16667},"920":{"depth":0.0,"height":0.68333,"italic":0.02778,"skew":0.08334},"923":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.16667},"926":{"depth":0.0,"height":0.68333,"italic":0.07569,"skew":0.08334},"928":{"depth":0.0,"height":0.68333,"italic":0.08125,"skew":0.05556},"931":{"depth":0.0,"height":0.68333,"italic":0.05764,"skew":0.08334},"933":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.05556},"934":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.08334},"936":{"depth":0.0,"height":0.68333,"italic":0.11,"skew":0.05556},"937":{"depth":0.0,"height":0.68333,"italic":0.05017,"skew":0.08334},"945":{"depth":0.0,"height":0.43056,"italic":0.0037,"skew":0.02778},"946":{"depth":0.19444,"height":0.69444,"italic":0.05278,"skew":0.08334},"947":{"depth":0.19444,"height":0.43056,"italic":0.05556,"skew":0.0},"948":{"depth":0.0,"height":0.69444,"italic":0.03785,"skew":0.05556},"949":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.08334},"950":{"depth":0.19444,"height":0.69444,"italic":0.07378,"skew":0.08334},"951":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.05556},"952":{"depth":0.0,"height":0.69444,"italic":0.02778,"skew":0.08334},"953":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"954":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"955":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"956":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.02778},"957":{"depth":0.0,"height":0.43056,"italic":0.06366,"skew":0.02778},"958":{"depth":0.19444,"height":0.69444,"italic":0.04601,"skew":0.11111},"959":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"960":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.0},"961":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"962":{"depth":0.09722,"height":0.43056,"italic":0.07986,"skew":0.08334},"963":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.0},"964":{"depth":0.0,"height":0.43056,"italic":0.1132,"skew":0.02778},"965":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.02778},"966":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"967":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.05556},"968":{"depth":0.19444,"height":0.69444,"italic":0.03588,"skew":0.11111},"969":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.0},"97":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"977":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.08334},"98":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"981":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.08334},"982":{"depth":0.0,"height":0.43056,"italic":0.02778,"skew":0.0},"99":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556}},"Math-Regular":{"100":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.16667},"1009":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"101":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"1013":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"102":{"depth":0.19444,"height":0.69444,"italic":0.10764,"skew":0.16667},"103":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.02778},"104":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"105":{"depth":0.0,"height":0.65952,"italic":0.0,"skew":0.0},"106":{"depth":0.19444,"height":0.65952,"italic":0.05724,"skew":0.0},"107":{"depth":0.0,"height":0.69444,"italic":0.03148,"skew":0.0},"108":{"depth":0.0,"height":0.69444,"italic":0.01968,"skew":0.08334},"109":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"110":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"111":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"112":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"113":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.08334},"114":{"depth":0.0,"height":0.43056,"italic":0.02778,"skew":0.05556},"115":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"116":{"depth":0.0,"height":0.61508,"italic":0.0,"skew":0.08334},"117":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.02778},"118":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.02778},"119":{"depth":0.0,"height":0.43056,"italic":0.02691,"skew":0.08334},"120":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.02778},"121":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.05556},"122":{"depth":0.0,"height":0.43056,"italic":0.04398,"skew":0.05556},"65":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.13889},"66":{"depth":0.0,"height":0.68333,"italic":0.05017,"skew":0.08334},"67":{"depth":0.0,"height":0.68333,"italic":0.07153,"skew":0.08334},"68":{"depth":0.0,"height":0.68333,"italic":0.02778,"skew":0.05556},"69":{"depth":0.0,"height":0.68333,"italic":0.05764,"skew":0.08334},"70":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"71":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.08334},"72":{"depth":0.0,"height":0.68333,"italic":0.08125,"skew":0.05556},"73":{"depth":0.0,"height":0.68333,"italic":0.07847,"skew":0.11111},"74":{"depth":0.0,"height":0.68333,"italic":0.09618,"skew":0.16667},"75":{"depth":0.0,"height":0.68333,"italic":0.07153,"skew":0.05556},"76":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.02778},"77":{"depth":0.0,"height":0.68333,"italic":0.10903,"skew":0.08334},"78":{"depth":0.0,"height":0.68333,"italic":0.10903,"skew":0.08334},"79":{"depth":0.0,"height":0.68333,"italic":0.02778,"skew":0.08334},"80":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"81":{"depth":0.19444,"height":0.68333,"italic":0.0,"skew":0.08334},"82":{"depth":0.0,"height":0.68333,"italic":0.00773,"skew":0.08334},"83":{"depth":0.0,"height":0.68333,"italic":0.05764,"skew":0.08334},"84":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"85":{"depth":0.0,"height":0.68333,"italic":0.10903,"skew":0.02778},"86":{"depth":0.0,"height":0.68333,"italic":0.22222,"skew":0.0},"87":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.0},"88":{"depth":0.0,"height":0.68333,"italic":0.07847,"skew":0.08334},"89":{"depth":0.0,"height":0.68333,"italic":0.22222,"skew":0.0},"90":{"depth":0.0,"height":0.68333,"italic":0.07153,"skew":0.08334},"915":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.08334},"916":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.16667},"920":{"depth":0.0,"height":0.68333,"italic":0.02778,"skew":0.08334},"923":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.16667},"926":{"depth":0.0,"height":0.68333,"italic":0.07569,"skew":0.08334},"928":{"depth":0.0,"height":0.68333,"italic":0.08125,"skew":0.05556},"931":{"depth":0.0,"height":0.68333,"italic":0.05764,"skew":0.08334},"933":{"depth":0.0,"height":0.68333,"italic":0.13889,"skew":0.05556},"934":{"depth":0.0,"height":0.68333,"italic":0.0,"skew":0.08334},"936":{"depth":0.0,"height":0.68333,"italic":0.11,"skew":0.05556},"937":{"depth":0.0,"height":0.68333,"italic":0.05017,"skew":0.08334},"945":{"depth":0.0,"height":0.43056,"italic":0.0037,"skew":0.02778},"946":{"depth":0.19444,"height":0.69444,"italic":0.05278,"skew":0.08334},"947":{"depth":0.19444,"height":0.43056,"italic":0.05556,"skew":0.0},"948":{"depth":0.0,"height":0.69444,"italic":0.03785,"skew":0.05556},"949":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.08334},"950":{"depth":0.19444,"height":0.69444,"italic":0.07378,"skew":0.08334},"951":{"depth":0.19444,"height":0.43056,"italic":0.03588,"skew":0.05556},"952":{"depth":0.0,"height":0.69444,"italic":0.02778,"skew":0.08334},"953":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"954":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"955":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"956":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.02778},"957":{"depth":0.0,"height":0.43056,"italic":0.06366,"skew":0.02778},"958":{"depth":0.19444,"height":0.69444,"italic":0.04601,"skew":0.11111},"959":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556},"960":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.0},"961":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"962":{"depth":0.09722,"height":0.43056,"italic":0.07986,"skew":0.08334},"963":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.0},"964":{"depth":0.0,"height":0.43056,"italic":0.1132,"skew":0.02778},"965":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.02778},"966":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.08334},"967":{"depth":0.19444,"height":0.43056,"italic":0.0,"skew":0.05556},"968":{"depth":0.19444,"height":0.69444,"italic":0.03588,"skew":0.11111},"969":{"depth":0.0,"height":0.43056,"italic":0.03588,"skew":0.0},"97":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.0},"977":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.08334},"98":{"depth":0.0,"height":0.69444,"italic":0.0,"skew":0.0},"981":{"depth":0.19444,"height":0.69444,"italic":0.0,"skew":0.08334},"982":{"depth":0.0,"height":0.43056,"italic":0.02778,"skew":0.0},"99":{"depth":0.0,"height":0.43056,"italic":0.0,"skew":0.05556}},"Size1-Regular":{"8748":{"depth":0.306,"height":0.805,"italic":0.19445,"skew":0.0},"8749":{"depth":0.306,"height":0.805,"italic":0.19445,"skew":0.0},"10216":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"10217":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"10752":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"10753":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"10754":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"10756":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"10758":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"123":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"125":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"40":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"41":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"47":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.72222,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.72222,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.72222,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.72222,"italic":0.0,"skew":0.0},"8214":{"depth":-0.00099,"height":0.601,"italic":0.0,"skew":0.0},"8593":{"depth":1e-05,"height":0.6,"italic":0.0,"skew":0.0},"8595":{"depth":1e-05,"height":0.6,"italic":0.0,"skew":0.0},"8657":{"depth":1e-05,"height":0.6,"italic":0.0,"skew":0.0},"8659":{"depth":1e-05,"height":0.6,"italic":0.0,"skew":0.0},"8719":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8720":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8721":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8730":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"8739":{"depth":-0.00599,"height":0.606,"italic":0.0,"skew":0.0},"8741":{"depth":-0.00599,"height":0.606,"italic":0.0,"skew":0.0},"8747":{"depth":0.30612,"height":0.805,"italic":0.19445,"skew":0.0},"8750":{"depth":0.30612,"height":0.805,"italic":0.19445,"skew":0.0},"8896":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8897":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8898":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8899":{"depth":0.25001,"height":0.75,"italic":0.0,"skew":0.0},"8968":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"8969":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"8970":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"8971":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"91":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"9168":{"depth":-0.00099,"height":0.601,"italic":0.0,"skew":0.0},"92":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0},"93":{"depth":0.35001,"height":0.85,"italic":0.0,"skew":0.0}},"Size2-Regular":{"8748":{"depth":0.862,"height":1.36,"italic":0.44445,"skew":0.0},"8749":{"depth":0.862,"height":1.36,"italic":0.44445,"skew":0.0},"10216":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"10217":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"10752":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"10753":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"10754":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"10756":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"10758":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"123":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"125":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"40":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"41":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"47":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"8719":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8720":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8721":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8730":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"8747":{"depth":0.86225,"height":1.36,"italic":0.44445,"skew":0.0},"8750":{"depth":0.86225,"height":1.36,"italic":0.44445,"skew":0.0},"8896":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8897":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8898":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8899":{"depth":0.55001,"height":1.05,"italic":0.0,"skew":0.0},"8968":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"8969":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"8970":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"8971":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"91":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"92":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"93":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0}},"Size3-Regular":{"10216":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"10217":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"123":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"125":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"40":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"41":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"47":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.75,"italic":0.0,"skew":0.0},"8730":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"8968":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"8969":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"8970":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"8971":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"91":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"92":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0},"93":{"depth":0.95003,"height":1.45,"italic":0.0,"skew":0.0}},"Size4-Regular":{"10216":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"10217":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"123":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"125":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"40":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"41":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"47":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"57344":{"depth":-0.00499,"height":0.605,"italic":0.0,"skew":0.0},"57345":{"depth":-0.00499,"height":0.605,"italic":0.0,"skew":0.0},"57680":{"depth":0.0,"height":0.12,"italic":0.0,"skew":0.0},"57681":{"depth":0.0,"height":0.12,"italic":0.0,"skew":0.0},"57682":{"depth":0.0,"height":0.12,"italic":0.0,"skew":0.0},"57683":{"depth":0.0,"height":0.12,"italic":0.0,"skew":0.0},"710":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"732":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"770":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"771":{"depth":0.0,"height":0.825,"italic":0.0,"skew":0.0},"8730":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"8968":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"8969":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"8970":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"8971":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"91":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"9115":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9116":{"depth":1e-05,"height":0.6,"italic":0.0,"skew":0.0},"9117":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9118":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9119":{"depth":1e-05,"height":0.6,"italic":0.0,"skew":0.0},"9120":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9121":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9122":{"depth":-0.00099,"height":0.601,"italic":0.0,"skew":0.0},"9123":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9124":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9125":{"depth":-0.00099,"height":0.601,"italic":0.0,"skew":0.0},"9126":{"depth":0.64502,"height":1.155,"italic":0.0,"skew":0.0},"9127":{"depth":1e-05,"height":0.9,"italic":0.0,"skew":0.0},"9128":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"9129":{"depth":0.90001,"height":0.0,"italic":0.0,"skew":0.0},"9130":{"depth":0.0,"height":0.3,"italic":0.0,"skew":0.0},"9131":{"depth":1e-05,"height":0.9,"italic":0.0,"skew":0.0},"9132":{"depth":0.65002,"height":1.15,"italic":0.0,"skew":0.0},"9133":{"depth":0.90001,"height":0.0,"italic":0.0,"skew":0.0},"9143":{"depth":0.88502,"height":0.915,"italic":0.0,"skew":0.0},"92":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0},"93":{"depth":1.25003,"height":1.75,"italic":0.0,"skew":0.0}}};
+
+	/**
+	 * This function is a convience function for looking up information in the
+	 * metricMap table. It takes a character as a string, and a style
+	 */
+	var getCharacterMetrics = function(character, style) {
+	    return metricMap[style][character.charCodeAt(0)];
+	};
+
+	module.exports = {
+	    metrics: metrics,
+	    getCharacterMetrics: getCharacterMetrics
+	};
+
+
+/***/ },
+/* 100 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var functions = __webpack_require__(148);
+	var Lexer = __webpack_require__(149);
+	var symbols = __webpack_require__(147);
+	var utils = __webpack_require__(31);
+
+	var ParseError = __webpack_require__(28);
+
+	/**
+	 * This file contains the parser used to parse out a TeX expression from the
+	 * input. Since TeX isn't context-free, standard parsers don't work particularly
+	 * well.
+	 *
+	 * The strategy of this parser is as such:
+	 *
+	 * The main functions (the `.parse...` ones) take a position in the current
+	 * parse string to parse tokens from. The lexer (found in Lexer.js, stored at
+	 * this.lexer) also supports pulling out tokens at arbitrary places. When
+	 * individual tokens are needed at a position, the lexer is called to pull out a
+	 * token, which is then used.
+	 *
+	 * The main functions also take a mode that the parser is currently in
+	 * (currently "math" or "text"), which denotes whether the current environment
+	 * is a math-y one or a text-y one (e.g. inside \text). Currently, this serves
+	 * to limit the functions which can be used in text mode.
+	 *
+	 * The main functions then return an object which contains the useful data that
+	 * was parsed at its given point, and a new position at the end of the parsed
+	 * data. The main functions can call each other and continue the parsing by
+	 * using the returned position as a new starting point.
+	 *
+	 * There are also extra `.handle...` functions, which pull out some reused
+	 * functionality into self-contained functions.
+	 *
+	 * The earlier functions return `ParseResult`s, which contain a ParseNode and a
+	 * new position.
+	 *
+	 * The later functions (which are called deeper in the parse) sometimes return
+	 * ParseFuncOrArgument, which contain a ParseResult as well as some data about
+	 * whether the parsed object is a function which is missing some arguments, or a
+	 * standalone object which can be used as an argument to another function.
+	 */
+
+	/**
+	 * Main Parser class
+	 */
+	function Parser(input) {
+	    // Make a new lexer
+	    this.lexer = new Lexer(input);
+	}
+
+	/**
+	 * The resulting parse tree nodes of the parse tree.
+	 */
+	function ParseNode(type, value, mode) {
+	    this.type = type;
+	    this.value = value;
+	    this.mode = mode;
+	}
+
+	/**
+	 * A result and final position returned by the `.parse...` functions.
+	 */
+	function ParseResult(result, newPosition) {
+	    this.result = result;
+	    this.position = newPosition;
+	}
+
+	/**
+	 * An initial function (without its arguments), or an argument to a function.
+	 * The `result` argument should be a ParseResult.
+	 */
+	function ParseFuncOrArgument(result, isFunction, allowedInText, numArgs, numOptionalArgs, argTypes) {
+	    this.result = result;
+	    // Is this a function (i.e. is it something defined in functions.js)?
+	    this.isFunction = isFunction;
+	    // Is it allowed in text mode?
+	    this.allowedInText = allowedInText;
+	    // How many arguments?
+	    this.numArgs = numArgs;
+	    // How many optional arguments?
+	    this.numOptionalArgs = numOptionalArgs;
+	    // What types of arguments?
+	    this.argTypes = argTypes;
+	}
+
+	/**
+	 * Checks a result to make sure it has the right type, and throws an
+	 * appropriate error otherwise.
+	 */
+	Parser.prototype.expect = function(result, text) {
+	    if (result.text !== text) {
+	        throw new ParseError(
+	            "Expected '" + text + "', got '" + result.text + "'",
+	            this.lexer, result.position
+	        );
+	    }
+	};
+
+	/**
+	 * Main parsing function, which parses an entire input.
+	 *
+	 * @return {?Array.<ParseNode>}
+	 */
+	Parser.prototype.parse = function(input) {
+	    // Try to parse the input
+	    var parse = this.parseInput(0, "math");
+	    return parse.result;
+	};
+
+	/**
+	 * Parses an entire input tree.
+	 */
+	Parser.prototype.parseInput = function(pos, mode) {
+	    // Parse an expression
+	    var expression = this.parseExpression(pos, mode, false, null);
+	    // If we succeeded, make sure there's an EOF at the end
+	    var EOF = this.lexer.lex(expression.position, mode);
+	    this.expect(EOF, "EOF");
+	    return expression;
+	};
+
+	/**
+	 * Parses an "expression", which is a list of atoms.
+	 *
+	 * @param {boolean} breakOnInfix Should the parsing stop when we hit infix
+	 *                  nodes? This happens when functions have higher precendence
+	 *                  than infix nodes in implicit parses.
+	 *
+	 * @param {?string} breakOnToken The token that the expression should end with,
+	 *                  or `null` if something else should end the expression.
+	 *
+	 * @return {ParseResult}
+	 */
+	Parser.prototype.parseExpression = function(pos, mode, breakOnInfix, breakOnToken) {
+	    var body = [];
+	    // Keep adding atoms to the body until we can't parse any more atoms (either
+	    // we reached the end, a }, or a \right)
+	    while (true) {
+	        var lex = this.lexer.lex(pos, mode);
+	        if (breakOnToken != null && lex.text === breakOnToken) {
+	            break;
+	        }
+	        var atom = this.parseAtom(pos, mode);
+	        if (!atom) {
+	            break;
+	        }
+	        if (breakOnInfix && atom.result.type === "infix") {
+	            break;
+	        }
+	        body.push(atom.result);
+	        pos = atom.position;
+	    }
+	    return new ParseResult(this.handleInfixNodes(body, mode), pos);
+	};
+
+	/**
+	 * Rewrites infix operators such as \over with corresponding commands such
+	 * as \frac.
+	 *
+	 * There can only be one infix operator per group.  If there's more than one
+	 * then the expression is ambiguous.  This can be resolved by adding {}.
+	 *
+	 * @returns {Array}
+	 */
+	Parser.prototype.handleInfixNodes = function (body, mode) {
+	    var overIndex = -1;
+	    var func;
+	    var funcName;
+
+	    for (var i = 0; i < body.length; i++) {
+	        var node = body[i];
+	        if (node.type === "infix") {
+	            if (overIndex !== -1) {
+	                throw new ParseError("only one infix operator per group",
+	                    this.lexer, -1);
+	            }
+	            overIndex = i;
+	            funcName = node.value.replaceWith;
+	            func = functions.funcs[funcName];
+	        }
+	    }
+
+	    if (overIndex !== -1) {
+	        var numerNode, denomNode;
+
+	        var numerBody = body.slice(0, overIndex);
+	        var denomBody = body.slice(overIndex + 1);
+
+	        if (numerBody.length === 1 && numerBody[0].type === "ordgroup") {
+	            numerNode = numerBody[0];
+	        } else {
+	            numerNode = new ParseNode("ordgroup", numerBody, mode);
+	        }
+
+	        if (denomBody.length === 1 && denomBody[0].type === "ordgroup") {
+	            denomNode = denomBody[0];
+	        } else {
+	            denomNode = new ParseNode("ordgroup", denomBody, mode);
+	        }
+
+	        var value = func.handler(funcName, numerNode, denomNode);
+	        return [new ParseNode(value.type, value, mode)];
+	    } else {
+	        return body;
+	    }
+	};
+
+	// The greediness of a superscript or subscript
+	var SUPSUB_GREEDINESS = 1;
+
+	/**
+	 * Handle a subscript or superscript with nice errors.
+	 */
+	Parser.prototype.handleSupSubscript = function(pos, mode, symbol, name) {
+	    var group = this.parseGroup(pos, mode);
+
+	    if (!group) {
+	        throw new ParseError(
+	            "Expected group after '" + symbol + "'", this.lexer, pos);
+	    } else if (group.numArgs > 0) {
+	        // ^ and _ have a greediness, so handle interactions with functions'
+	        // greediness
+	        var funcGreediness = functions.getGreediness(group.result.result);
+	        if (funcGreediness > SUPSUB_GREEDINESS) {
+	            return this.parseFunction(pos, mode);
+	        } else {
+	            throw new ParseError(
+	                "Got function '" + group.result.result + "' with no arguments " +
+	                    "as " + name,
+	                this.lexer, pos);
+	        }
+	    } else {
+	        return group.result;
+	    }
+	};
+
+	/**
+	 * Parses a group with optional super/subscripts.
+	 *
+	 * @return {?ParseResult}
+	 */
+	Parser.prototype.parseAtom = function(pos, mode) {
+	    // The body of an atom is an implicit group, so that things like
+	    // \left(x\right)^2 work correctly.
+	    var base = this.parseImplicitGroup(pos, mode);
+
+	    // In text mode, we don't have superscripts or subscripts
+	    if (mode === "text") {
+	        return base;
+	    }
+
+	    // Handle an empty base
+	    var currPos;
+	    if (!base) {
+	        currPos = pos;
+	        base = undefined;
+	    } else {
+	        currPos = base.position;
+	    }
+
+	    var superscript;
+	    var subscript;
+	    var result;
+	    while (true) {
+	        // Lex the first token
+	        var lex = this.lexer.lex(currPos, mode);
+
+	        if (lex.text === "^") {
+	            // We got a superscript start
+	            if (superscript) {
+	                throw new ParseError(
+	                    "Double superscript", this.lexer, currPos);
+	            }
+	            result = this.handleSupSubscript(
+	                lex.position, mode, lex.text, "superscript");
+	            currPos = result.position;
+	            superscript = result.result;
+	        } else if (lex.text === "_") {
+	            // We got a subscript start
+	            if (subscript) {
+	                throw new ParseError(
+	                    "Double subscript", this.lexer, currPos);
+	            }
+	            result = this.handleSupSubscript(
+	                lex.position, mode, lex.text, "subscript");
+	            currPos = result.position;
+	            subscript = result.result;
+	        } else if (lex.text === "'") {
+	            // We got a prime
+	            var prime = new ParseNode("textord", "\\prime", mode);
+
+	            // Many primes can be grouped together, so we handle this here
+	            var primes = [prime];
+	            currPos = lex.position;
+	            // Keep lexing tokens until we get something that's not a prime
+	            while ((lex = this.lexer.lex(currPos, mode)).text === "'") {
+	                // For each one, add another prime to the list
+	                primes.push(prime);
+	                currPos = lex.position;
+	            }
+	            // Put them into an ordgroup as the superscript
+	            superscript = new ParseNode("ordgroup", primes, mode);
+	        } else {
+	            // If it wasn't ^, _, or ', stop parsing super/subscripts
+	            break;
+	        }
+	    }
+
+	    if (superscript || subscript) {
+	        // If we got either a superscript or subscript, create a supsub
+	        return new ParseResult(
+	            new ParseNode("supsub", {
+	                base: base && base.result,
+	                sup: superscript,
+	                sub: subscript
+	            }, mode),
+	            currPos);
+	    } else {
+	        // Otherwise return the original body
+	        return base;
+	    }
+	};
+
+	// A list of the size-changing functions, for use in parseImplicitGroup
+	var sizeFuncs = [
+	    "\\tiny", "\\scriptsize", "\\footnotesize", "\\small", "\\normalsize",
+	    "\\large", "\\Large", "\\LARGE", "\\huge", "\\Huge"
+	];
+
+	// A list of the style-changing functions, for use in parseImplicitGroup
+	var styleFuncs = [
+	    "\\displaystyle", "\\textstyle", "\\scriptstyle", "\\scriptscriptstyle"
+	];
+
+	/**
+	 * Parses an implicit group, which is a group that starts at the end of a
+	 * specified, and ends right before a higher explicit group ends, or at EOL. It
+	 * is used for functions that appear to affect the current style, like \Large or
+	 * \textrm, where instead of keeping a style we just pretend that there is an
+	 * implicit grouping after it until the end of the group. E.g.
+	 *   small text {\Large large text} small text again
+	 * It is also used for \left and \right to get the correct grouping.
+	 *
+	 * @return {?ParseResult}
+	 */
+	Parser.prototype.parseImplicitGroup = function(pos, mode) {
+	    var start = this.parseSymbol(pos, mode);
+
+	    if (!start || !start.result) {
+	        // If we didn't get anything we handle, fall back to parseFunction
+	        return this.parseFunction(pos, mode);
+	    }
+
+	    var func = start.result.result;
+	    var body;
+
+	    if (func === "\\left") {
+	        // If we see a left:
+	        // Parse the entire left function (including the delimiter)
+	        var left = this.parseFunction(pos, mode);
+	        // Parse out the implicit body
+	        body = this.parseExpression(left.position, mode, false, "}");
+	        // Check the next token
+	        var rightLex = this.parseSymbol(body.position, mode);
+
+	        if (rightLex && rightLex.result.result === "\\right") {
+	            // If it's a \right, parse the entire right function (including the delimiter)
+	            var right = this.parseFunction(body.position, mode);
+
+	            return new ParseResult(
+	                new ParseNode("leftright", {
+	                    body: body.result,
+	                    left: left.result.value.value,
+	                    right: right.result.value.value
+	                }, mode),
+	                right.position);
+	        } else {
+	            throw new ParseError("Missing \\right", this.lexer, body.position);
+	        }
+	    } else if (func === "\\right") {
+	        // If we see a right, explicitly fail the parsing here so the \left
+	        // handling ends the group
+	        return null;
+	    } else if (utils.contains(sizeFuncs, func)) {
+	        // If we see a sizing function, parse out the implict body
+	        body = this.parseExpression(start.result.position, mode, false, "}");
+	        return new ParseResult(
+	            new ParseNode("sizing", {
+	                // Figure out what size to use based on the list of functions above
+	                size: "size" + (utils.indexOf(sizeFuncs, func) + 1),
+	                value: body.result
+	            }, mode),
+	            body.position);
+	    } else if (utils.contains(styleFuncs, func)) {
+	        // If we see a styling function, parse out the implict body
+	        body = this.parseExpression(start.result.position, mode, true, "}");
+	        return new ParseResult(
+	            new ParseNode("styling", {
+	                // Figure out what style to use by pulling out the style from
+	                // the function name
+	                style: func.slice(1, func.length - 5),
+	                value: body.result
+	            }, mode),
+	            body.position);
+	    } else {
+	        // Defer to parseFunction if it's not a function we handle
+	        return this.parseFunction(pos, mode);
+	    }
+	};
+
+	/**
+	 * Parses an entire function, including its base and all of its arguments
+	 *
+	 * @return {?ParseResult}
+	 */
+	Parser.prototype.parseFunction = function(pos, mode) {
+	    var baseGroup = this.parseGroup(pos, mode);
+
+	    if (baseGroup) {
+	        if (baseGroup.isFunction) {
+	            var func = baseGroup.result.result;
+	            if (mode === "text" && !baseGroup.allowedInText) {
+	                throw new ParseError(
+	                    "Can't use function '" + func + "' in text mode",
+	                    this.lexer, baseGroup.position);
+	            }
+
+	            var newPos = baseGroup.result.position;
+	            var result;
+
+	            var totalArgs = baseGroup.numArgs + baseGroup.numOptionalArgs;
+
+	            if (totalArgs > 0) {
+	                var baseGreediness = functions.getGreediness(func);
+	                var args = [func];
+	                var positions = [newPos];
+
+	                for (var i = 0; i < totalArgs; i++) {
+	                    var argType = baseGroup.argTypes && baseGroup.argTypes[i];
+	                    var arg;
+	                    if (i < baseGroup.numOptionalArgs) {
+	                        if (argType) {
+	                            arg = this.parseSpecialGroup(newPos, argType, mode, true);
+	                        } else {
+	                            arg = this.parseOptionalGroup(newPos, mode);
+	                        }
+	                        if (!arg) {
+	                            args.push(null);
+	                            positions.push(newPos);
+	                            continue;
+	                        }
+	                    } else {
+	                        if (argType) {
+	                            arg = this.parseSpecialGroup(newPos, argType, mode);
+	                        } else {
+	                            arg = this.parseGroup(newPos, mode);
+	                        }
+	                        if (!arg) {
+	                            throw new ParseError(
+	                                "Expected group after '" + baseGroup.result.result +
+	                                    "'",
+	                                this.lexer, newPos);
+	                        }
+	                    }
+	                    var argNode;
+	                    if (arg.numArgs > 0) {
+	                        var argGreediness = functions.getGreediness(arg.result.result);
+	                        if (argGreediness > baseGreediness) {
+	                            argNode = this.parseFunction(newPos, mode);
+	                        } else {
+	                            throw new ParseError(
+	                                "Got function '" + arg.result.result + "' as " +
+	                                    "argument to function '" +
+	                                    baseGroup.result.result + "'",
+	                                this.lexer, arg.result.position - 1);
+	                        }
+	                    } else {
+	                        argNode = arg.result;
+	                    }
+	                    args.push(argNode.result);
+	                    positions.push(argNode.position);
+	                    newPos = argNode.position;
+	                }
+
+	                args.push(positions);
+
+	                result = functions.funcs[func].handler.apply(this, args);
+	            } else {
+	                result = functions.funcs[func].handler.apply(this, [func]);
+	            }
+
+	            return new ParseResult(
+	                new ParseNode(result.type, result, mode),
+	                newPos);
+	        } else {
+	            return baseGroup.result;
+	        }
+	    } else {
+	        return null;
+	    }
+	};
+
+	/**
+	 * Parses a group when the mode is changing. Takes a position, a new mode, and
+	 * an outer mode that is used to parse the outside.
+	 *
+	 * @return {?ParseFuncOrArgument}
+	 */
+	Parser.prototype.parseSpecialGroup = function(pos, mode, outerMode, optional) {
+	    if (mode === "color" || mode === "size") {
+	        // color and size modes are special because they should have braces and
+	        // should only lex a single symbol inside
+	        var openBrace = this.lexer.lex(pos, outerMode);
+	        if (optional && openBrace.text !== "[") {
+	            // optional arguments should return null if they don't exist
+	            return null;
+	        }
+	        this.expect(openBrace, optional ? "[" : "{");
+	        var inner = this.lexer.lex(openBrace.position, mode);
+	        var data;
+	        if (mode === "color") {
+	            data = inner.text;
+	        } else {
+	            data = inner.data;
+	        }
+	        var closeBrace = this.lexer.lex(inner.position, outerMode);
+	        this.expect(closeBrace, optional ? "]" : "}");
+	        return new ParseFuncOrArgument(
+	            new ParseResult(
+	                new ParseNode(mode, data, outerMode),
+	                closeBrace.position),
+	            false);
+	    } else if (mode === "text") {
+	        // text mode is special because it should ignore the whitespace before
+	        // it
+	        var whitespace = this.lexer.lex(pos, "whitespace");
+	        pos = whitespace.position;
+	    }
+
+	    if (optional) {
+	        return this.parseOptionalGroup(pos, mode);
+	    } else {
+	        return this.parseGroup(pos, mode);
+	    }
+	};
+
+	/**
+	 * Parses a group, which is either a single nucleus (like "x") or an expression
+	 * in braces (like "{x+y}")
+	 *
+	 * @return {?ParseFuncOrArgument}
+	 */
+	Parser.prototype.parseGroup = function(pos, mode) {
+	    var start = this.lexer.lex(pos, mode);
+	    // Try to parse an open brace
+	    if (start.text === "{") {
+	        // If we get a brace, parse an expression
+	        var expression = this.parseExpression(start.position, mode, false, "}");
+	        // Make sure we get a close brace
+	        var closeBrace = this.lexer.lex(expression.position, mode);
+	        this.expect(closeBrace, "}");
+	        return new ParseFuncOrArgument(
+	            new ParseResult(
+	                new ParseNode("ordgroup", expression.result, mode),
+	                closeBrace.position),
+	            false);
+	    } else {
+	        // Otherwise, just return a nucleus
+	        return this.parseSymbol(pos, mode);
+	    }
+	};
+
+	/**
+	 * Parses a group, which is an expression in brackets (like "[x+y]")
+	 *
+	 * @return {?ParseFuncOrArgument}
+	 */
+	Parser.prototype.parseOptionalGroup = function(pos, mode) {
+	    var start = this.lexer.lex(pos, mode);
+	    // Try to parse an open bracket
+	    if (start.text === "[") {
+	        // If we get a brace, parse an expression
+	        var expression = this.parseExpression(start.position, mode, false, "]");
+	        // Make sure we get a close bracket
+	        var closeBracket = this.lexer.lex(expression.position, mode);
+	        this.expect(closeBracket, "]");
+	        return new ParseFuncOrArgument(
+	            new ParseResult(
+	                new ParseNode("ordgroup", expression.result, mode),
+	                closeBracket.position),
+	            false);
+	    } else {
+	        // Otherwise, return null,
+	        return null;
+	    }
+	};
+
+	/**
+	 * Parse a single symbol out of the string. Here, we handle both the functions
+	 * we have defined, as well as the single character symbols
+	 *
+	 * @return {?ParseFuncOrArgument}
+	 */
+	Parser.prototype.parseSymbol = function(pos, mode) {
+	    var nucleus = this.lexer.lex(pos, mode);
+
+	    if (functions.funcs[nucleus.text]) {
+	        // If there is a function with this name, we use its data
+	        var func = functions.funcs[nucleus.text];
+
+	        // Here, we replace "original" argTypes with the current mode
+	        var argTypes = func.argTypes;
+	        if (argTypes) {
+	            argTypes = argTypes.slice();
+	            for (var i = 0; i < argTypes.length; i++) {
+	                if (argTypes[i] === "original") {
+	                    argTypes[i] = mode;
+	                }
+	            }
+	        }
+
+	        return new ParseFuncOrArgument(
+	            new ParseResult(nucleus.text, nucleus.position),
+	            true, func.allowedInText, func.numArgs, func.numOptionalArgs, argTypes);
+	    } else if (symbols[mode][nucleus.text]) {
+	        // Otherwise if this is a no-argument function, find the type it
+	        // corresponds to in the symbols map
+	        return new ParseFuncOrArgument(
+	            new ParseResult(
+	                new ParseNode(symbols[mode][nucleus.text].group,
+	                              nucleus.text, mode),
+	                nucleus.position),
+	            false);
+	    } else {
+	        return null;
+	    }
+	};
+
+	module.exports = Parser;
+
+
+/***/ },
+/* 101 */,
+/* 102 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -13526,10 +16998,10 @@
 
 	module.exports = emptyObject;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 91 */
+/* 103 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -13552,10 +17024,10 @@
 
 	"use strict";
 
-	var PooledClass = __webpack_require__(34);
+	var PooledClass = __webpack_require__(39);
 
-	var invariant = __webpack_require__(33);
-	var mixInto = __webpack_require__(47);
+	var invariant = __webpack_require__(38);
+	var mixInto = __webpack_require__(52);
 
 	/**
 	 * A specialized pseudo-event module to help keep track of components waiting to
@@ -13636,10 +17108,10 @@
 
 	module.exports = CallbackQueue;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 92 */
+/* 104 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -13662,7 +17134,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * `Transaction` creates a black box that is able to wrap any method such that
@@ -13887,10 +17359,10 @@
 
 	module.exports = Transaction;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 93 */
+/* 105 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -13940,7 +17412,7 @@
 
 
 /***/ },
-/* 94 */
+/* 106 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -13965,8 +17437,8 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
-	var keyMirror = __webpack_require__(38);
+	var invariant = __webpack_require__(38);
+	var keyMirror = __webpack_require__(43);
 
 	/**
 	 * Maximum number of levels to traverse. Will catch circular structures.
@@ -14091,10 +17563,258 @@
 
 	module.exports = mergeHelpers;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 95 */
+/* 107 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule CSSProperty
+	 */
+
+	"use strict";
+
+	/**
+	 * CSS properties which accept numbers but are not in units of "px".
+	 */
+	var isUnitlessNumber = {
+	  columnCount: true,
+	  fillOpacity: true,
+	  flex: true,
+	  flexGrow: true,
+	  flexShrink: true,
+	  fontWeight: true,
+	  lineClamp: true,
+	  lineHeight: true,
+	  opacity: true,
+	  order: true,
+	  orphans: true,
+	  widows: true,
+	  zIndex: true,
+	  zoom: true
+	};
+
+	/**
+	 * @param {string} prefix vendor-specific prefix, eg: Webkit
+	 * @param {string} key style name, eg: transitionDuration
+	 * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
+	 * WebkitTransitionDuration
+	 */
+	function prefixKey(prefix, key) {
+	  return prefix + key.charAt(0).toUpperCase() + key.substring(1);
+	}
+
+	/**
+	 * Support style names that may come passed in prefixed by adding permutations
+	 * of vendor prefixes.
+	 */
+	var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
+
+	// Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
+	// infinite loop, because it iterates over the newly added props too.
+	Object.keys(isUnitlessNumber).forEach(function(prop) {
+	  prefixes.forEach(function(prefix) {
+	    isUnitlessNumber[prefixKey(prefix, prop)] = isUnitlessNumber[prop];
+	  });
+	});
+
+	/**
+	 * Most style properties can be unset by doing .style[prop] = '' but IE8
+	 * doesn't like doing that with shorthand properties so for the properties that
+	 * IE8 breaks on, which are listed here, we instead unset each of the
+	 * individual properties. See http://bugs.jquery.com/ticket/12385.
+	 * The 4-value 'clock' properties like margin, padding, border-width seem to
+	 * behave without any problems. Curiously, list-style works too without any
+	 * special prodding.
+	 */
+	var shorthandPropertyExpansions = {
+	  background: {
+	    backgroundImage: true,
+	    backgroundPosition: true,
+	    backgroundRepeat: true,
+	    backgroundColor: true
+	  },
+	  border: {
+	    borderWidth: true,
+	    borderStyle: true,
+	    borderColor: true
+	  },
+	  borderBottom: {
+	    borderBottomWidth: true,
+	    borderBottomStyle: true,
+	    borderBottomColor: true
+	  },
+	  borderLeft: {
+	    borderLeftWidth: true,
+	    borderLeftStyle: true,
+	    borderLeftColor: true
+	  },
+	  borderRight: {
+	    borderRightWidth: true,
+	    borderRightStyle: true,
+	    borderRightColor: true
+	  },
+	  borderTop: {
+	    borderTopWidth: true,
+	    borderTopStyle: true,
+	    borderTopColor: true
+	  },
+	  font: {
+	    fontStyle: true,
+	    fontVariant: true,
+	    fontWeight: true,
+	    fontSize: true,
+	    lineHeight: true,
+	    fontFamily: true
+	  }
+	};
+
+	var CSSProperty = {
+	  isUnitlessNumber: isUnitlessNumber,
+	  shorthandPropertyExpansions: shorthandPropertyExpansions
+	};
+
+	module.exports = CSSProperty;
+
+
+/***/ },
+/* 108 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule dangerousStyleValue
+	 * @typechecks static-only
+	 */
+
+	"use strict";
+
+	var CSSProperty = __webpack_require__(107);
+
+	var isUnitlessNumber = CSSProperty.isUnitlessNumber;
+
+	/**
+	 * Convert a value into the proper css writable value. The style name `name`
+	 * should be logical (no hyphens), as specified
+	 * in `CSSProperty.isUnitlessNumber`.
+	 *
+	 * @param {string} name CSS property name such as `topMargin`.
+	 * @param {*} value CSS property value such as `10px`.
+	 * @return {string} Normalized style value with dimensions applied.
+	 */
+	function dangerousStyleValue(name, value) {
+	  // Note that we've removed escapeTextForBrowser() calls here since the
+	  // whole string will be escaped when the attribute is injected into
+	  // the markup. If you provide unsafe user data here they can inject
+	  // arbitrary CSS which may be problematic (I couldn't repro this):
+	  // https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
+	  // http://www.thespanner.co.uk/2007/11/26/ultimate-xss-css-injection/
+	  // This is not an XSS hole but instead a potential CSS injection issue
+	  // which has lead to a greater discussion about how we're going to
+	  // trust URLs moving forward. See #2115901
+
+	  var isEmpty = value == null || typeof value === 'boolean' || value === '';
+	  if (isEmpty) {
+	    return '';
+	  }
+
+	  var isNonNumeric = isNaN(value);
+	  if (isNonNumeric || value === 0 ||
+	      isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
+	    return '' + value; // cast to string
+	  }
+
+	  if (typeof value === 'string') {
+	    value = value.trim();
+	  }
+	  return value + 'px';
+	}
+
+	module.exports = dangerousStyleValue;
+
+
+/***/ },
+/* 109 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule hyphenateStyleName
+	 * @typechecks
+	 */
+
+	"use strict";
+
+	var hyphenate = __webpack_require__(150);
+
+	var msPattern = /^ms-/;
+
+	/**
+	 * Hyphenates a camelcased CSS property name, for example:
+	 *
+	 *   > hyphenate('backgroundColor')
+	 *   < "background-color"
+	 *   > hyphenate('MozTransition')
+	 *   < "-moz-transition"
+	 *   > hyphenate('msTransition')
+	 *   < "-ms-transition"
+	 *
+	 * As Modernizr suggests (http://modernizr.com/docs/#prefixed), an `ms` prefix
+	 * is converted to `-ms-`.
+	 *
+	 * @param {string} string
+	 * @return {string}
+	 */
+	function hyphenateStyleName(string) {
+	  return hyphenate(string).replace(msPattern, '-ms-');
+	}
+
+	module.exports = hyphenateStyleName;
+
+
+/***/ },
+/* 110 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -14117,14 +17837,14 @@
 
 	"use strict";
 
-	var EventPluginRegistry = __webpack_require__(96);
-	var EventPluginUtils = __webpack_require__(9);
+	var EventPluginRegistry = __webpack_require__(111);
+	var EventPluginUtils = __webpack_require__(8);
 
-	var accumulate = __webpack_require__(135);
-	var forEachAccumulated = __webpack_require__(136);
-	var invariant = __webpack_require__(33);
-	var isEventSupported = __webpack_require__(99);
-	var monitorCodeUse = __webpack_require__(48);
+	var accumulate = __webpack_require__(151);
+	var forEachAccumulated = __webpack_require__(152);
+	var invariant = __webpack_require__(38);
+	var isEventSupported = __webpack_require__(114);
+	var monitorCodeUse = __webpack_require__(53);
 
 	/**
 	 * Internal store for event listeners
@@ -14388,10 +18108,10 @@
 
 	module.exports = EventPluginHub;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 96 */
+/* 111 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -14415,7 +18135,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Injectable ordering of event plugins.
@@ -14678,10 +18398,10 @@
 
 	module.exports = EventPluginRegistry;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 97 */
+/* 112 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -14704,7 +18424,7 @@
 
 	"use strict";
 
-	var EventPluginHub = __webpack_require__(95);
+	var EventPluginHub = __webpack_require__(110);
 
 	function runEventQueueInBatch(events) {
 	  EventPluginHub.enqueueEvents(events);
@@ -14742,7 +18462,7 @@
 
 
 /***/ },
-/* 98 */
+/* 113 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -14765,7 +18485,7 @@
 
 	"use strict";
 
-	var getUnboundedScrollPosition = __webpack_require__(119);
+	var getUnboundedScrollPosition = __webpack_require__(131);
 
 	var ViewportMetrics = {
 
@@ -14785,7 +18505,7 @@
 
 
 /***/ },
-/* 99 */
+/* 114 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -14808,7 +18528,7 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
 	var useHasFeature;
 	if (ExecutionEnvironment.canUseDOM) {
@@ -14861,255 +18581,7 @@
 
 
 /***/ },
-/* 100 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule CSSProperty
-	 */
-
-	"use strict";
-
-	/**
-	 * CSS properties which accept numbers but are not in units of "px".
-	 */
-	var isUnitlessNumber = {
-	  columnCount: true,
-	  fillOpacity: true,
-	  flex: true,
-	  flexGrow: true,
-	  flexShrink: true,
-	  fontWeight: true,
-	  lineClamp: true,
-	  lineHeight: true,
-	  opacity: true,
-	  order: true,
-	  orphans: true,
-	  widows: true,
-	  zIndex: true,
-	  zoom: true
-	};
-
-	/**
-	 * @param {string} prefix vendor-specific prefix, eg: Webkit
-	 * @param {string} key style name, eg: transitionDuration
-	 * @return {string} style name prefixed with `prefix`, properly camelCased, eg:
-	 * WebkitTransitionDuration
-	 */
-	function prefixKey(prefix, key) {
-	  return prefix + key.charAt(0).toUpperCase() + key.substring(1);
-	}
-
-	/**
-	 * Support style names that may come passed in prefixed by adding permutations
-	 * of vendor prefixes.
-	 */
-	var prefixes = ['Webkit', 'ms', 'Moz', 'O'];
-
-	// Using Object.keys here, or else the vanilla for-in loop makes IE8 go into an
-	// infinite loop, because it iterates over the newly added props too.
-	Object.keys(isUnitlessNumber).forEach(function(prop) {
-	  prefixes.forEach(function(prefix) {
-	    isUnitlessNumber[prefixKey(prefix, prop)] = isUnitlessNumber[prop];
-	  });
-	});
-
-	/**
-	 * Most style properties can be unset by doing .style[prop] = '' but IE8
-	 * doesn't like doing that with shorthand properties so for the properties that
-	 * IE8 breaks on, which are listed here, we instead unset each of the
-	 * individual properties. See http://bugs.jquery.com/ticket/12385.
-	 * The 4-value 'clock' properties like margin, padding, border-width seem to
-	 * behave without any problems. Curiously, list-style works too without any
-	 * special prodding.
-	 */
-	var shorthandPropertyExpansions = {
-	  background: {
-	    backgroundImage: true,
-	    backgroundPosition: true,
-	    backgroundRepeat: true,
-	    backgroundColor: true
-	  },
-	  border: {
-	    borderWidth: true,
-	    borderStyle: true,
-	    borderColor: true
-	  },
-	  borderBottom: {
-	    borderBottomWidth: true,
-	    borderBottomStyle: true,
-	    borderBottomColor: true
-	  },
-	  borderLeft: {
-	    borderLeftWidth: true,
-	    borderLeftStyle: true,
-	    borderLeftColor: true
-	  },
-	  borderRight: {
-	    borderRightWidth: true,
-	    borderRightStyle: true,
-	    borderRightColor: true
-	  },
-	  borderTop: {
-	    borderTopWidth: true,
-	    borderTopStyle: true,
-	    borderTopColor: true
-	  },
-	  font: {
-	    fontStyle: true,
-	    fontVariant: true,
-	    fontWeight: true,
-	    fontSize: true,
-	    lineHeight: true,
-	    fontFamily: true
-	  }
-	};
-
-	var CSSProperty = {
-	  isUnitlessNumber: isUnitlessNumber,
-	  shorthandPropertyExpansions: shorthandPropertyExpansions
-	};
-
-	module.exports = CSSProperty;
-
-
-/***/ },
-/* 101 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule dangerousStyleValue
-	 * @typechecks static-only
-	 */
-
-	"use strict";
-
-	var CSSProperty = __webpack_require__(100);
-
-	var isUnitlessNumber = CSSProperty.isUnitlessNumber;
-
-	/**
-	 * Convert a value into the proper css writable value. The style name `name`
-	 * should be logical (no hyphens), as specified
-	 * in `CSSProperty.isUnitlessNumber`.
-	 *
-	 * @param {string} name CSS property name such as `topMargin`.
-	 * @param {*} value CSS property value such as `10px`.
-	 * @return {string} Normalized style value with dimensions applied.
-	 */
-	function dangerousStyleValue(name, value) {
-	  // Note that we've removed escapeTextForBrowser() calls here since the
-	  // whole string will be escaped when the attribute is injected into
-	  // the markup. If you provide unsafe user data here they can inject
-	  // arbitrary CSS which may be problematic (I couldn't repro this):
-	  // https://www.owasp.org/index.php/XSS_Filter_Evasion_Cheat_Sheet
-	  // http://www.thespanner.co.uk/2007/11/26/ultimate-xss-css-injection/
-	  // This is not an XSS hole but instead a potential CSS injection issue
-	  // which has lead to a greater discussion about how we're going to
-	  // trust URLs moving forward. See #2115901
-
-	  var isEmpty = value == null || typeof value === 'boolean' || value === '';
-	  if (isEmpty) {
-	    return '';
-	  }
-
-	  var isNonNumeric = isNaN(value);
-	  if (isNonNumeric || value === 0 ||
-	      isUnitlessNumber.hasOwnProperty(name) && isUnitlessNumber[name]) {
-	    return '' + value; // cast to string
-	  }
-
-	  if (typeof value === 'string') {
-	    value = value.trim();
-	  }
-	  return value + 'px';
-	}
-
-	module.exports = dangerousStyleValue;
-
-
-/***/ },
-/* 102 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule hyphenateStyleName
-	 * @typechecks
-	 */
-
-	"use strict";
-
-	var hyphenate = __webpack_require__(137);
-
-	var msPattern = /^ms-/;
-
-	/**
-	 * Hyphenates a camelcased CSS property name, for example:
-	 *
-	 *   > hyphenate('backgroundColor')
-	 *   < "background-color"
-	 *   > hyphenate('MozTransition')
-	 *   < "-moz-transition"
-	 *   > hyphenate('msTransition')
-	 *   < "-ms-transition"
-	 *
-	 * As Modernizr suggests (http://modernizr.com/docs/#prefixed), an `ms` prefix
-	 * is converted to `-ms-`.
-	 *
-	 * @param {string} string
-	 * @return {string}
-	 */
-	function hyphenateStyleName(string) {
-	  return hyphenate(string).replace(msPattern, '-ms-');
-	}
-
-	module.exports = hyphenateStyleName;
-
-
-/***/ },
-/* 103 */
+/* 115 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -15132,11 +18604,11 @@
 
 	"use strict";
 
-	var EventConstants = __webpack_require__(32);
-	var EventPluginHub = __webpack_require__(95);
+	var EventConstants = __webpack_require__(37);
+	var EventPluginHub = __webpack_require__(110);
 
-	var accumulate = __webpack_require__(135);
-	var forEachAccumulated = __webpack_require__(136);
+	var accumulate = __webpack_require__(151);
+	var forEachAccumulated = __webpack_require__(152);
 
 	var PropagationPhases = EventConstants.PropagationPhases;
 	var getListener = EventPluginHub.getListener;
@@ -15256,10 +18728,10 @@
 
 	module.exports = EventPropagators;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 104 */
+/* 116 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15283,7 +18755,7 @@
 
 	"use strict";
 
-	var SyntheticEvent = __webpack_require__(105);
+	var SyntheticEvent = __webpack_require__(117);
 
 	/**
 	 * @interface Event
@@ -15317,7 +18789,7 @@
 
 
 /***/ },
-/* 105 */
+/* 117 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15341,12 +18813,12 @@
 
 	"use strict";
 
-	var PooledClass = __webpack_require__(34);
+	var PooledClass = __webpack_require__(39);
 
-	var emptyFunction = __webpack_require__(86);
-	var getEventTarget = __webpack_require__(118);
-	var merge = __webpack_require__(39);
-	var mergeInto = __webpack_require__(51);
+	var emptyFunction = __webpack_require__(91);
+	var getEventTarget = __webpack_require__(130);
+	var merge = __webpack_require__(44);
+	var mergeInto = __webpack_require__(56);
 
 	/**
 	 * @interface Event
@@ -15487,7 +18959,7 @@
 
 
 /***/ },
-/* 106 */
+/* 118 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15542,7 +19014,7 @@
 
 
 /***/ },
-/* 107 */
+/* 119 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15565,11 +19037,11 @@
 
 	"use strict";
 
-	var ReactDOMSelection = __webpack_require__(138);
+	var ReactDOMSelection = __webpack_require__(153);
 
-	var containsNode = __webpack_require__(82);
-	var focusNode = __webpack_require__(139);
-	var getActiveElement = __webpack_require__(120);
+	var containsNode = __webpack_require__(87);
+	var focusNode = __webpack_require__(154);
+	var getActiveElement = __webpack_require__(132);
 
 	function isInDocument(node) {
 	  return containsNode(document.documentElement, node);
@@ -15689,7 +19161,7 @@
 
 
 /***/ },
-/* 108 */
+/* 120 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15713,7 +19185,7 @@
 
 	"use strict";
 
-	var SyntheticEvent = __webpack_require__(105);
+	var SyntheticEvent = __webpack_require__(117);
 
 	/**
 	 * @interface Event
@@ -15746,7 +19218,7 @@
 
 
 /***/ },
-/* 109 */
+/* 121 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15769,7 +19241,7 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
 	var contentKey = null;
 
@@ -15794,7 +19266,7 @@
 
 
 /***/ },
-/* 110 */
+/* 122 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -15818,10 +19290,10 @@
 
 	"use strict";
 
-	var SyntheticUIEvent = __webpack_require__(127);
-	var ViewportMetrics = __webpack_require__(98);
+	var SyntheticUIEvent = __webpack_require__(139);
+	var ViewportMetrics = __webpack_require__(113);
 
-	var getEventModifierState = __webpack_require__(140);
+	var getEventModifierState = __webpack_require__(155);
 
 	/**
 	 * @interface MouseEvent
@@ -15888,7 +19360,7 @@
 
 
 /***/ },
-/* 111 */
+/* 123 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -15914,14 +19386,14 @@
 
 	"use strict";
 
-	var CSSPropertyOperations = __webpack_require__(52);
-	var DOMChildrenOperations = __webpack_require__(141);
-	var DOMPropertyOperations = __webpack_require__(8);
-	var ReactMount = __webpack_require__(20);
-	var ReactPerf = __webpack_require__(22);
+	var CSSPropertyOperations = __webpack_require__(57);
+	var DOMChildrenOperations = __webpack_require__(156);
+	var DOMPropertyOperations = __webpack_require__(7);
+	var ReactMount = __webpack_require__(19);
+	var ReactPerf = __webpack_require__(21);
 
-	var invariant = __webpack_require__(33);
-	var setInnerHTML = __webpack_require__(113);
+	var invariant = __webpack_require__(38);
+	var setInnerHTML = __webpack_require__(125);
 
 	/**
 	 * Errors for properties that should not be updated with `updatePropertyById()`.
@@ -16081,10 +19553,10 @@
 
 	module.exports = ReactDOMIDOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 112 */
+/* 124 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16108,14 +19580,14 @@
 
 	"use strict";
 
-	var CallbackQueue = __webpack_require__(91);
-	var PooledClass = __webpack_require__(34);
-	var ReactBrowserEventEmitter = __webpack_require__(54);
-	var ReactInputSelection = __webpack_require__(107);
-	var ReactPutListenerQueue = __webpack_require__(134);
-	var Transaction = __webpack_require__(92);
+	var CallbackQueue = __webpack_require__(103);
+	var PooledClass = __webpack_require__(39);
+	var ReactBrowserEventEmitter = __webpack_require__(59);
+	var ReactInputSelection = __webpack_require__(119);
+	var ReactPutListenerQueue = __webpack_require__(146);
+	var Transaction = __webpack_require__(104);
 
-	var mixInto = __webpack_require__(47);
+	var mixInto = __webpack_require__(52);
 
 	/**
 	 * Ensures that, when possible, the selection range (currently selected text
@@ -16272,7 +19744,7 @@
 
 
 /***/ },
-/* 113 */
+/* 125 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16295,7 +19767,7 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
 	/**
 	 * Set the innerHTML property of a node, ensuring that whitespace is preserved
@@ -16363,7 +19835,7 @@
 
 
 /***/ },
-/* 114 */
+/* 126 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16387,7 +19859,7 @@
 
 	"use strict";
 
-	var focusNode = __webpack_require__(139);
+	var focusNode = __webpack_require__(154);
 
 	var AutoFocusMixin = {
 	  componentDidMount: function() {
@@ -16401,7 +19873,7 @@
 
 
 /***/ },
-/* 115 */
+/* 127 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -16424,11 +19896,11 @@
 
 	"use strict";
 
-	var ReactBrowserEventEmitter = __webpack_require__(54);
+	var ReactBrowserEventEmitter = __webpack_require__(59);
 
-	var accumulate = __webpack_require__(135);
-	var forEachAccumulated = __webpack_require__(136);
-	var invariant = __webpack_require__(33);
+	var accumulate = __webpack_require__(151);
+	var forEachAccumulated = __webpack_require__(152);
+	var invariant = __webpack_require__(38);
 
 	function remove(event) {
 	  event.remove();
@@ -16457,10 +19929,10 @@
 
 	module.exports = LocalEventTrapMixin;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 116 */
+/* 128 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -16484,9 +19956,9 @@
 
 	"use strict";
 
-	var ReactPropTypes = __webpack_require__(23);
+	var ReactPropTypes = __webpack_require__(22);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	var hasReadOnlyValue = {
 	  'button': true,
@@ -16623,10 +20095,10 @@
 
 	module.exports = LinkedValueUtils;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 117 */
+/* 129 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -16634,7 +20106,7 @@
 	 * @typechecks
 	 */
 
-	var emptyFunction = __webpack_require__(86);
+	var emptyFunction = __webpack_require__(91);
 
 	/**
 	 * Upstream version of event listener. Does not take into account specific
@@ -16702,10 +20174,10 @@
 
 	module.exports = EventListener;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 118 */
+/* 130 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16747,7 +20219,7 @@
 
 
 /***/ },
-/* 119 */
+/* 131 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16798,7 +20270,7 @@
 
 
 /***/ },
-/* 120 */
+/* 132 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16838,7 +20310,7 @@
 
 
 /***/ },
-/* 121 */
+/* 133 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16893,7 +20365,7 @@
 
 
 /***/ },
-/* 122 */
+/* 134 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16917,7 +20389,7 @@
 
 	"use strict";
 
-	var SyntheticEvent = __webpack_require__(105);
+	var SyntheticEvent = __webpack_require__(117);
 
 	/**
 	 * @interface Event
@@ -16950,7 +20422,7 @@
 
 
 /***/ },
-/* 123 */
+/* 135 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -16974,7 +20446,7 @@
 
 	"use strict";
 
-	var SyntheticUIEvent = __webpack_require__(127);
+	var SyntheticUIEvent = __webpack_require__(139);
 
 	/**
 	 * @interface FocusEvent
@@ -17000,7 +20472,7 @@
 
 
 /***/ },
-/* 124 */
+/* 136 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17024,10 +20496,10 @@
 
 	"use strict";
 
-	var SyntheticUIEvent = __webpack_require__(127);
+	var SyntheticUIEvent = __webpack_require__(139);
 
-	var getEventKey = __webpack_require__(142);
-	var getEventModifierState = __webpack_require__(140);
+	var getEventKey = __webpack_require__(157);
+	var getEventModifierState = __webpack_require__(155);
 
 	/**
 	 * @interface KeyboardEvent
@@ -17093,7 +20565,7 @@
 
 
 /***/ },
-/* 125 */
+/* 137 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17117,7 +20589,7 @@
 
 	"use strict";
 
-	var SyntheticMouseEvent = __webpack_require__(110);
+	var SyntheticMouseEvent = __webpack_require__(122);
 
 	/**
 	 * @interface DragEvent
@@ -17143,7 +20615,7 @@
 
 
 /***/ },
-/* 126 */
+/* 138 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17167,9 +20639,9 @@
 
 	"use strict";
 
-	var SyntheticUIEvent = __webpack_require__(127);
+	var SyntheticUIEvent = __webpack_require__(139);
 
-	var getEventModifierState = __webpack_require__(140);
+	var getEventModifierState = __webpack_require__(155);
 
 	/**
 	 * @interface TouchEvent
@@ -17202,7 +20674,7 @@
 
 
 /***/ },
-/* 127 */
+/* 139 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17226,9 +20698,9 @@
 
 	"use strict";
 
-	var SyntheticEvent = __webpack_require__(105);
+	var SyntheticEvent = __webpack_require__(117);
 
-	var getEventTarget = __webpack_require__(118);
+	var getEventTarget = __webpack_require__(130);
 
 	/**
 	 * @interface UIEvent
@@ -17275,7 +20747,7 @@
 
 
 /***/ },
-/* 128 */
+/* 140 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17299,7 +20771,7 @@
 
 	"use strict";
 
-	var SyntheticMouseEvent = __webpack_require__(110);
+	var SyntheticMouseEvent = __webpack_require__(122);
 
 	/**
 	 * @interface WheelEvent
@@ -17347,7 +20819,7 @@
 
 
 /***/ },
-/* 129 */
+/* 141 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17368,7 +20840,7 @@
 	 * @providesModule ReactDefaultPerfAnalysis
 	 */
 
-	var merge = __webpack_require__(39);
+	var merge = __webpack_require__(44);
 
 	// Don't try to save users less than 1.2ms (a number I made up)
 	var DONT_CARE_THRESHOLD = 1.2;
@@ -17556,7 +21028,7 @@
 
 
 /***/ },
-/* 130 */
+/* 142 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17578,7 +21050,7 @@
 	 * @typechecks
 	 */
 
-	var performance = __webpack_require__(143);
+	var performance = __webpack_require__(158);
 
 	/**
 	 * Detect if we can use `window.performance.now()` and gracefully fallback to
@@ -17595,7 +21067,7 @@
 
 
 /***/ },
-/* 131 */
+/* 143 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17617,7 +21089,7 @@
 	 * @typechecks
 	 */
 
-	var isNode = __webpack_require__(144);
+	var isNode = __webpack_require__(159);
 
 	/**
 	 * @param {*} object The object to check.
@@ -17631,7 +21103,7 @@
 
 
 /***/ },
-/* 132 */
+/* 144 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -17689,10 +21161,10 @@
 
 	module.exports = copyProperties;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 133 */
+/* 145 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17737,7 +21209,7 @@
 
 
 /***/ },
-/* 134 */
+/* 146 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17760,10 +21232,10 @@
 
 	"use strict";
 
-	var PooledClass = __webpack_require__(34);
-	var ReactBrowserEventEmitter = __webpack_require__(54);
+	var PooledClass = __webpack_require__(39);
+	var ReactBrowserEventEmitter = __webpack_require__(59);
 
-	var mixInto = __webpack_require__(47);
+	var mixInto = __webpack_require__(52);
 
 	function ReactPutListenerQueue() {
 	  this.listenersToPut = [];
@@ -17804,110 +21276,1760 @@
 
 
 /***/ },
-/* 135 */
+/* 147 */
 /***/ function(module, exports, __webpack_require__) {
 
-	/* WEBPACK VAR INJECTION */(function(process) {/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule accumulate
-	 */
-
-	"use strict";
-
-	var invariant = __webpack_require__(33);
-
 	/**
-	 * Accumulates items that must not be null or undefined.
+	 * This file holds a list of all no-argument functions and single-character
+	 * symbols (like 'a' or ';').
 	 *
-	 * This is used to conserve memory by avoiding array allocations.
+	 * For each of the symbols, there are three properties they can have:
+	 * - font (required): the font to be used for this symbol. Either "main" (the
+	     normal font), or "ams" (the ams fonts).
+	 * - group (required): the ParseNode group type the symbol should have (i.e.
+	     "textord", "mathord", etc).
+	 * - replace (optional): the character that this symbol or function should be
+	 *   replaced with (i.e. "\phi" has a replace value of "\u03d5", the phi
+	 *   character in the main font).
 	 *
-	 * @return {*|array<*>} An accumulation of items.
+	 * The outermost map in the table indicates what mode the symbols should be
+	 * accepted in (e.g. "math" or "text").
 	 */
-	function accumulate(current, next) {
-	  ("production" !== process.env.NODE_ENV ? invariant(
-	    next != null,
-	    'accumulate(...): Accumulated items must be not be null or undefined.'
-	  ) : invariant(next != null));
-	  if (current == null) {
-	    return next;
-	  } else {
-	    // Both are not empty. Warning: Never call x.concat(y) when you are not
-	    // certain that x is an Array (x could be a string with concat method).
-	    var currentIsArray = Array.isArray(current);
-	    var nextIsArray = Array.isArray(next);
-	    if (currentIsArray) {
-	      return current.concat(next);
-	    } else {
-	      if (nextIsArray) {
-	        return [current].concat(next);
-	      } else {
-	        return [current, next];
-	      }
+
+	var symbols = {
+	    "math": {
+	        "`": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2018"
+	        },
+	        "\\$": {
+	            font: "main",
+	            group: "textord",
+	            replace: "$"
+	        },
+	        "\\%": {
+	            font: "main",
+	            group: "textord",
+	            replace: "%"
+	        },
+	        "\\_": {
+	            font: "main",
+	            group: "textord",
+	            replace: "_"
+	        },
+	        "\\angle": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2220"
+	        },
+	        "\\infty": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u221e"
+	        },
+	        "\\prime": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2032"
+	        },
+	        "\\triangle": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u25b3"
+	        },
+	        "\\Gamma": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u0393"
+	        },
+	        "\\Delta": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u0394"
+	        },
+	        "\\Theta": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u0398"
+	        },
+	        "\\Lambda": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u039b"
+	        },
+	        "\\Xi": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u039e"
+	        },
+	        "\\Pi": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u03a0"
+	        },
+	        "\\Sigma": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u03a3"
+	        },
+	        "\\Upsilon": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u03a5"
+	        },
+	        "\\Phi": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u03a6"
+	        },
+	        "\\Psi": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u03a8"
+	        },
+	        "\\Omega": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u03a9"
+	        },
+	        "\\neg": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u00ac"
+	        },
+	        "\\lnot": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u00ac"
+	        },
+	        "\\top": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u22a4"
+	        },
+	        "\\bot": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u22a5"
+	        },
+	        "\\emptyset": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2205"
+	        },
+	        "\\varnothing": {
+	            font: "ams",
+	            group: "textord",
+	            replace: "\u2205"
+	        },
+	        "\\alpha": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b1"
+	        },
+	        "\\beta": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b2"
+	        },
+	        "\\gamma": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b3"
+	        },
+	        "\\delta": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b4"
+	        },
+	        "\\epsilon": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03f5"
+	        },
+	        "\\zeta": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b6"
+	        },
+	        "\\eta": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b7"
+	        },
+	        "\\theta": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b8"
+	        },
+	        "\\iota": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b9"
+	        },
+	        "\\kappa": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03ba"
+	        },
+	        "\\lambda": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03bb"
+	        },
+	        "\\mu": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03bc"
+	        },
+	        "\\nu": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03bd"
+	        },
+	        "\\xi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03be"
+	        },
+	        "\\omicron": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "o"
+	        },
+	        "\\pi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c0"
+	        },
+	        "\\rho": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c1"
+	        },
+	        "\\sigma": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c3"
+	        },
+	        "\\tau": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c4"
+	        },
+	        "\\upsilon": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c5"
+	        },
+	        "\\phi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03d5"
+	        },
+	        "\\chi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c7"
+	        },
+	        "\\psi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c8"
+	        },
+	        "\\omega": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c9"
+	        },
+	        "\\varepsilon": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03b5"
+	        },
+	        "\\vartheta": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03d1"
+	        },
+	        "\\varpi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03d6"
+	        },
+	        "\\varrho": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03f1"
+	        },
+	        "\\varsigma": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c2"
+	        },
+	        "\\varphi": {
+	            font: "main",
+	            group: "mathord",
+	            replace: "\u03c6"
+	        },
+	        "*": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2217"
+	        },
+	        "+": {
+	            font: "main",
+	            group: "bin"
+	        },
+	        "-": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2212"
+	        },
+	        "\\cdot": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u22c5"
+	        },
+	        "\\circ": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2218"
+	        },
+	        "\\div": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u00f7"
+	        },
+	        "\\pm": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u00b1"
+	        },
+	        "\\times": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u00d7"
+	        },
+	        "\\cap": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2229"
+	        },
+	        "\\cup": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u222a"
+	        },
+	        "\\setminus": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2216"
+	        },
+	        "\\land": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2227"
+	        },
+	        "\\lor": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2228"
+	        },
+	        "\\wedge": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2227"
+	        },
+	        "\\vee": {
+	            font: "main",
+	            group: "bin",
+	            replace: "\u2228"
+	        },
+	        "\\surd": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u221a"
+	        },
+	        "(": {
+	            font: "main",
+	            group: "open"
+	        },
+	        "[": {
+	            font: "main",
+	            group: "open"
+	        },
+	        "\\langle": {
+	            font: "main",
+	            group: "open",
+	            replace: "\u27e8"
+	        },
+	        "\\lvert": {
+	            font: "main",
+	            group: "open",
+	            replace: "\u2223"
+	        },
+	        ")": {
+	            font: "main",
+	            group: "close"
+	        },
+	        "]": {
+	            font: "main",
+	            group: "close"
+	        },
+	        "?": {
+	            font: "main",
+	            group: "close"
+	        },
+	        "!": {
+	            font: "main",
+	            group: "close"
+	        },
+	        "\\rangle": {
+	            font: "main",
+	            group: "close",
+	            replace: "\u27e9"
+	        },
+	        "\\rvert": {
+	            font: "main",
+	            group: "close",
+	            replace: "\u2223"
+	        },
+	        "=": {
+	            font: "main",
+	            group: "rel"
+	        },
+	        "<": {
+	            font: "main",
+	            group: "rel"
+	        },
+	        ">": {
+	            font: "main",
+	            group: "rel"
+	        },
+	        ":": {
+	            font: "main",
+	            group: "rel"
+	        },
+	        "\\approx": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2248"
+	        },
+	        "\\cong": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2245"
+	        },
+	        "\\ge": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2265"
+	        },
+	        "\\geq": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2265"
+	        },
+	        "\\gets": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2190"
+	        },
+	        "\\in": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2208"
+	        },
+	        "\\notin": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2209"
+	        },
+	        "\\subset": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2282"
+	        },
+	        "\\supset": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2283"
+	        },
+	        "\\subseteq": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2286"
+	        },
+	        "\\supseteq": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2287"
+	        },
+	        "\\nsubseteq": {
+	            font: "ams",
+	            group: "rel",
+	            replace: "\u2288"
+	        },
+	        "\\nsupseteq": {
+	            font: "ams",
+	            group: "rel",
+	            replace: "\u2289"
+	        },
+	        "\\models": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u22a8"
+	        },
+	        "\\leftarrow": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2190"
+	        },
+	        "\\le": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2264"
+	        },
+	        "\\leq": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2264"
+	        },
+	        "\\ne": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2260"
+	        },
+	        "\\neq": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2260"
+	        },
+	        "\\rightarrow": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2192"
+	        },
+	        "\\to": {
+	            font: "main",
+	            group: "rel",
+	            replace: "\u2192"
+	        },
+	        "\\ngeq": {
+	            font: "ams",
+	            group: "rel",
+	            replace: "\u2271"
+	        },
+	        "\\nleq": {
+	            font: "ams",
+	            group: "rel",
+	            replace: "\u2270"
+	        },
+	        "\\!": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\ ": {
+	            font: "main",
+	            group: "spacing",
+	            replace: "\u00a0"
+	        },
+	        "~": {
+	            font: "main",
+	            group: "spacing",
+	            replace: "\u00a0"
+	        },
+	        "\\,": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\:": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\;": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\enspace": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\qquad": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\quad": {
+	            font: "main",
+	            group: "spacing"
+	        },
+	        "\\space": {
+	            font: "main",
+	            group: "spacing",
+	            replace: "\u00a0"
+	        },
+	        ",": {
+	            font: "main",
+	            group: "punct"
+	        },
+	        ";": {
+	            font: "main",
+	            group: "punct"
+	        },
+	        "\\colon": {
+	            font: "main",
+	            group: "punct",
+	            replace: ":"
+	        },
+	        "\\barwedge": {
+	            font: "ams",
+	            group: "textord",
+	            replace: "\u22bc"
+	        },
+	        "\\veebar": {
+	            font: "ams",
+	            group: "textord",
+	            replace: "\u22bb"
+	        },
+	        "\\odot": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2299"
+	        },
+	        "\\oplus": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2295"
+	        },
+	        "\\otimes": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2297"
+	        },
+	        "\\partial":{
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2202"
+	        },
+	        "\\oslash": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2298"
+	        },
+	        "\\circledcirc": {
+	            font: "ams",
+	            group: "textord",
+	            replace: "\u229a"
+	        },
+	        "\\boxdot": {
+	            font: "ams",
+	            group: "textord",
+	            replace: "\u22a1"
+	        },
+	        "\\bigtriangleup": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u25b3"
+	        },
+	        "\\bigtriangledown": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u25bd"
+	        },
+	        "\\dagger": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2020"
+	        },
+	        "\\diamond": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u22c4"
+	        },
+	        "\\star": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u22c6"
+	        },
+	        "\\triangleleft": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u25c3"
+	        },
+	        "\\triangleright": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u25b9"
+	        },
+	        "\\{": {
+	            font: "main",
+	            group: "open",
+	            replace: "{"
+	        },
+	        "\\}": {
+	            font: "main",
+	            group: "close",
+	            replace: "}"
+	        },
+	        "\\lbrace": {
+	            font: "main",
+	            group: "open",
+	            replace: "{"
+	        },
+	        "\\rbrace": {
+	            font: "main",
+	            group: "close",
+	            replace: "}"
+	        },
+	        "\\lbrack": {
+	            font: "main",
+	            group: "open",
+	            replace: "["
+	        },
+	        "\\rbrack": {
+	            font: "main",
+	            group: "close",
+	            replace: "]"
+	        },
+	        "\\lfloor": {
+	            font: "main",
+	            group: "open",
+	            replace: "\u230a"
+	        },
+	        "\\rfloor": {
+	            font: "main",
+	            group: "close",
+	            replace: "\u230b"
+	        },
+	        "\\lceil": {
+	            font: "main",
+	            group: "open",
+	            replace: "\u2308"
+	        },
+	        "\\rceil": {
+	            font: "main",
+	            group: "close",
+	            replace: "\u2309"
+	        },
+	        "\\backslash": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\\"
+	        },
+	        "|": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2223"
+	        },
+	        "\\vert": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2223"
+	        },
+	        "\\|": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2225"
+	        },
+	        "\\Vert": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2225"
+	        },
+	        "\\uparrow": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2191"
+	        },
+	        "\\Uparrow": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u21d1"
+	        },
+	        "\\downarrow": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2193"
+	        },
+	        "\\Downarrow": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u21d3"
+	        },
+	        "\\updownarrow": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u2195"
+	        },
+	        "\\Updownarrow": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u21d5"
+	        },
+	        "\\coprod": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2210"
+	        },
+	        "\\bigvee": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u22c1"
+	        },
+	        "\\bigwedge": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u22c0"
+	        },
+	        "\\biguplus": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2a04"
+	        },
+	        "\\bigcap": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u22c2"
+	        },
+	        "\\bigcup": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u22c3"
+	        },
+	        "\\int": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u222b"
+	        },
+	        "\\intop": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u222b"
+	        },
+	        "\\iint": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u222c"
+	        },
+	        "\\iiint": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u222d"
+	        },
+	        "\\prod": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u220f"
+	        },
+	        "\\sum": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2211"
+	        },
+	        "\\bigotimes": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2a02"
+	        },
+	        "\\bigoplus": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2a01"
+	        },
+	        "\\bigodot": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2a00"
+	        },
+	        "\\oint": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u222e"
+	        },
+	        "\\bigsqcup": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u2a06"
+	        },
+	        "\\smallint": {
+	            font: "math",
+	            group: "op",
+	            replace: "\u222b"
+	        },
+	        "\\ldots": {
+	            font: "main",
+	            group: "punct",
+	            replace: "\u2026"
+	        },
+	        "\\cdots": {
+	            font: "main",
+	            group: "inner",
+	            replace: "\u22ef"
+	        },
+	        "\\ddots": {
+	            font: "main",
+	            group: "inner",
+	            replace: "\u22f1"
+	        },
+	        "\\vdots": {
+	            font: "main",
+	            group: "textord",
+	            replace: "\u22ee"
+	        },
+	        "\\acute": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u00b4"
+	        },
+	        "\\grave": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u0060"
+	        },
+	        "\\ddot": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u00a8"
+	        },
+	        "\\tilde": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u007e"
+	        },
+	        "\\bar": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u00af"
+	        },
+	        "\\breve": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u02d8"
+	        },
+	        "\\check": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u02c7"
+	        },
+	        "\\hat": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u005e"
+	        },
+	        "\\vec": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u20d7"
+	        },
+	        "\\dot": {
+	            font: "main",
+	            group: "accent",
+	            replace: "\u02d9"
+	        }
+	    },
+	    "text": {
+	        "\\ ": {
+	            font: "main",
+	            group: "spacing",
+	            replace: "\u00a0"
+	        },
+	        " ": {
+	            font: "main",
+	            group: "spacing",
+	            replace: "\u00a0"
+	        },
+	        "~": {
+	            font: "main",
+	            group: "spacing",
+	            replace: "\u00a0"
+	        }
 	    }
-	  }
-	}
-
-	module.exports = accumulate;
-	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
-
-/***/ },
-/* 136 */
-/***/ function(module, exports, __webpack_require__) {
-
-	/**
-	 * Copyright 2013-2014 Facebook, Inc.
-	 *
-	 * Licensed under the Apache License, Version 2.0 (the "License");
-	 * you may not use this file except in compliance with the License.
-	 * You may obtain a copy of the License at
-	 *
-	 * http://www.apache.org/licenses/LICENSE-2.0
-	 *
-	 * Unless required by applicable law or agreed to in writing, software
-	 * distributed under the License is distributed on an "AS IS" BASIS,
-	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-	 * See the License for the specific language governing permissions and
-	 * limitations under the License.
-	 *
-	 * @providesModule forEachAccumulated
-	 */
-
-	"use strict";
-
-	/**
-	 * @param {array} an "accumulation" of items which is either an Array or
-	 * a single item. Useful when paired with the `accumulate` module. This is a
-	 * simple utility that allows us to reason about a collection of items, but
-	 * handling the case when there is exactly one item (and we do not need to
-	 * allocate an array).
-	 */
-	var forEachAccumulated = function(arr, cb, scope) {
-	  if (Array.isArray(arr)) {
-	    arr.forEach(cb, scope);
-	  } else if (arr) {
-	    cb.call(scope, arr);
-	  }
 	};
 
-	module.exports = forEachAccumulated;
+	// There are lots of symbols which are the same, so we add them in afterwards.
+
+	// All of these are textords in math mode
+	var mathTextSymbols = "0123456789/@.\"";
+	for (var i = 0; i < mathTextSymbols.length; i++) {
+	    var ch = mathTextSymbols.charAt(i);
+	    symbols.math[ch] = {
+	        font: "main",
+	        group: "textord"
+	    };
+	}
+
+	// All of these are textords in text mode
+	var textSymbols = "0123456789`!@*()-=+[]'\";:?/.,";
+	for (var i = 0; i < textSymbols.length; i++) {
+	    var ch = textSymbols.charAt(i);
+	    symbols.text[ch] = {
+	        font: "main",
+	        group: "textord"
+	    };
+	}
+
+	// All of these are textords in text mode, and mathords in math mode
+	var letters = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	for (var i = 0; i < letters.length; i++) {
+	    var ch = letters.charAt(i);
+	    symbols.math[ch] = {
+	        font: "main",
+	        group: "mathord"
+	    };
+	    symbols.text[ch] = {
+	        font: "main",
+	        group: "textord"
+	    };
+	}
+
+	module.exports = symbols;
 
 
 /***/ },
-/* 137 */
+/* 148 */
+/***/ function(module, exports, __webpack_require__) {
+
+	var utils = __webpack_require__(31);
+	var ParseError = __webpack_require__(28);
+
+	// This file contains a list of functions that we parse. The functions map
+	// contains the following data:
+
+	/*
+	 * Keys are the name of the functions to parse
+	 * The data contains the following keys:
+	 *  - numArgs: The number of arguments the function takes.
+	 *  - argTypes: (optional) An array corresponding to each argument of the
+	 *              function, giving the type of argument that should be parsed. Its
+	 *              length should be equal to `numArgs + numOptionalArgs`. Valid
+	 *              types:
+	 *               - "size": A size-like thing, such as "1em" or "5ex"
+	 *               - "color": An html color, like "#abc" or "blue"
+	 *               - "original": The same type as the environment that the
+	 *                             function being parsed is in (e.g. used for the
+	 *                             bodies of functions like \color where the first
+	 *                             argument is special and the second argument is
+	 *                             parsed normally)
+	 *              Other possible types (probably shouldn't be used)
+	 *               - "text": Text-like (e.g. \text)
+	 *               - "math": Normal math
+	 *              If undefined, this will be treated as an appropriate length
+	 *              array of "original" strings
+	 *  - greediness: (optional) The greediness of the function to use ungrouped
+	 *                arguments.
+	 *
+	 *                E.g. if you have an expression
+	 *                  \sqrt \frac 1 2
+	 *                since \frac has greediness=2 vs \sqrt's greediness=1, \frac
+	 *                will use the two arguments '1' and '2' as its two arguments,
+	 *                then that whole function will be used as the argument to
+	 *                \sqrt. On the other hand, the expressions
+	 *                  \frac \frac 1 2 3
+	 *                and
+	 *                  \frac \sqrt 1 2
+	 *                will fail because \frac and \frac have equal greediness
+	 *                and \sqrt has a lower greediness than \frac respectively. To
+	 *                make these parse, we would have to change them to:
+	 *                  \frac {\frac 1 2} 3
+	 *                and
+	 *                  \frac {\sqrt 1} 2
+	 *
+	 *                The default value is `1`
+	 *  - allowedInText: (optional) Whether or not the function is allowed inside
+	 *                   text mode (default false)
+	 *  - numOptionalArgs: (optional) The number of optional arguments the function
+	 *                     should parse. If the optional arguments aren't found,
+	 *                     `null` will be passed to the handler in their place.
+	 *                     (default 0)
+	 *  - handler: The function that is called to handle this function and its
+	 *             arguments. The arguments are:
+	 *              - func: the text of the function
+	 *              - [args]: the next arguments are the arguments to the function,
+	 *                        of which there are numArgs of them
+	 *              - positions: the positions in the overall string of the function
+	 *                           and the arguments. Should only be used to produce
+	 *                           error messages
+	 *             The function should return an object with the following keys:
+	 *              - type: The type of element that this is. This is then used in
+	 *                      buildTree to determine which function should be called
+	 *                      to build this node into a DOM node
+	 *             Any other data can be added to the object, which will be passed
+	 *             in to the function in buildTree as `group.value`.
+	 */
+
+	var functions = {
+	    // A normal square root
+	    "\\sqrt": {
+	        numArgs: 1,
+	        numOptionalArgs: 1,
+	        handler: function(func, optional, body, positions) {
+	            if (optional != null) {
+	                throw new ParseError(
+	                    "Optional arguments to \\sqrt aren't supported yet",
+	                    this.lexer, positions[1] - 1);
+	            }
+
+	            return {
+	                type: "sqrt",
+	                body: body
+	            };
+	        }
+	    },
+
+	    // Some non-mathy text
+	    "\\text": {
+	        numArgs: 1,
+	        argTypes: ["text"],
+	        greediness: 2,
+	        handler: function(func, body) {
+	            // Since the corresponding buildTree function expects a list of
+	            // elements, we normalize for different kinds of arguments
+	            // TODO(emily): maybe this should be done somewhere else
+	            var inner;
+	            if (body.type === "ordgroup") {
+	                inner = body.value;
+	            } else {
+	                inner = [body];
+	            }
+
+	            return {
+	                type: "text",
+	                body: inner
+	            };
+	        }
+	    },
+
+	    // A two-argument custom color
+	    "\\color": {
+	        numArgs: 2,
+	        allowedInText: true,
+	        argTypes: ["color", "original"],
+	        handler: function(func, color, body) {
+	            // Normalize the different kinds of bodies (see \text above)
+	            var inner;
+	            if (body.type === "ordgroup") {
+	                inner = body.value;
+	            } else {
+	                inner = [body];
+	            }
+
+	            return {
+	                type: "color",
+	                color: color.value,
+	                value: inner
+	            };
+	        }
+	    },
+
+	    // An overline
+	    "\\overline": {
+	        numArgs: 1,
+	        handler: function(func, body) {
+	            return {
+	                type: "overline",
+	                body: body
+	            };
+	        }
+	    },
+
+	    // A box of the width and height
+	    "\\rule": {
+	        numArgs: 2,
+	        numOptionalArgs: 1,
+	        argTypes: ["size", "size", "size"],
+	        handler: function(func, shift, width, height) {
+	            return {
+	                type: "rule",
+	                shift: shift && shift.value,
+	                width: width.value,
+	                height: height.value
+	            };
+	        }
+	    },
+
+	    // A KaTeX logo
+	    "\\KaTeX": {
+	        numArgs: 0,
+	        handler: function(func) {
+	            return {
+	                type: "katex"
+	            };
+	        }
+	    }
+	};
+
+	// Extra data needed for the delimiter handler down below
+	var delimiterSizes = {
+	    "\\bigl" : {type: "open",    size: 1},
+	    "\\Bigl" : {type: "open",    size: 2},
+	    "\\biggl": {type: "open",    size: 3},
+	    "\\Biggl": {type: "open",    size: 4},
+	    "\\bigr" : {type: "close",   size: 1},
+	    "\\Bigr" : {type: "close",   size: 2},
+	    "\\biggr": {type: "close",   size: 3},
+	    "\\Biggr": {type: "close",   size: 4},
+	    "\\bigm" : {type: "rel",     size: 1},
+	    "\\Bigm" : {type: "rel",     size: 2},
+	    "\\biggm": {type: "rel",     size: 3},
+	    "\\Biggm": {type: "rel",     size: 4},
+	    "\\big"  : {type: "textord", size: 1},
+	    "\\Big"  : {type: "textord", size: 2},
+	    "\\bigg" : {type: "textord", size: 3},
+	    "\\Bigg" : {type: "textord", size: 4}
+	};
+
+	var delimiters = [
+	    "(", ")", "[", "\\lbrack", "]", "\\rbrack",
+	    "\\{", "\\lbrace", "\\}", "\\rbrace",
+	    "\\lfloor", "\\rfloor", "\\lceil", "\\rceil",
+	    "<", ">", "\\langle", "\\rangle",
+	    "/", "\\backslash",
+	    "|", "\\vert", "\\|", "\\Vert",
+	    "\\uparrow", "\\Uparrow",
+	    "\\downarrow", "\\Downarrow",
+	    "\\updownarrow", "\\Updownarrow",
+	    "."
+	];
+
+	/*
+	 * This is a list of functions which each have the same function but have
+	 * different names so that we don't have to duplicate the data a bunch of times.
+	 * Each element in the list is an object with the following keys:
+	 *  - funcs: A list of function names to be associated with the data
+	 *  - data: An objecty with the same data as in each value of the `function`
+	 *          table above
+	 */
+	var duplicatedFunctions = [
+	    // Single-argument color functions
+	    {
+	        funcs: [
+	            "\\blue", "\\orange", "\\pink", "\\red",
+	            "\\green", "\\gray", "\\purple"
+	        ],
+	        data: {
+	            numArgs: 1,
+	            allowedInText: true,
+	            handler: function(func, body) {
+	                var atoms;
+	                if (body.type === "ordgroup") {
+	                    atoms = body.value;
+	                } else {
+	                    atoms = [body];
+	                }
+
+	                return {
+	                    type: "color",
+	                    color: "katex-" + func.slice(1),
+	                    value: atoms
+	                };
+	            }
+	        }
+	    },
+
+	    // There are 2 flags for operators; whether they produce limits in
+	    // displaystyle, and whether they are symbols and should grow in
+	    // displaystyle. These four groups cover the four possible choices.
+
+	    // No limits, not symbols
+	    {
+	        funcs: [
+	            "\\arcsin", "\\arccos", "\\arctan", "\\arg", "\\cos", "\\cosh",
+	            "\\cot", "\\coth", "\\csc", "\\deg", "\\dim", "\\exp", "\\hom",
+	            "\\ker", "\\lg", "\\ln", "\\log", "\\sec", "\\sin", "\\sinh",
+	            "\\tan","\\tanh"
+	        ],
+	        data: {
+	            numArgs: 0,
+	            handler: function(func) {
+	                return {
+	                    type: "op",
+	                    limits: false,
+	                    symbol: false,
+	                    body: func
+	                };
+	            }
+	        }
+	    },
+
+	    // Limits, not symbols
+	    {
+	        funcs: [
+	            "\\det", "\\gcd", "\\inf", "\\lim", "\\liminf", "\\limsup", "\\max",
+	            "\\min", "\\Pr", "\\sup"
+	        ],
+	        data: {
+	            numArgs: 0,
+	            handler: function(func) {
+	                return {
+	                    type: "op",
+	                    limits: true,
+	                    symbol: false,
+	                    body: func
+	                };
+	            }
+	        }
+	    },
+
+	    // No limits, symbols
+	    {
+	        funcs: [
+	            "\\int", "\\iint", "\\iiint", "\\oint"
+	        ],
+	        data: {
+	            numArgs: 0,
+	            handler: function(func) {
+	                return {
+	                    type: "op",
+	                    limits: false,
+	                    symbol: true,
+	                    body: func
+	                };
+	            }
+	        }
+	    },
+
+	    // Limits, symbols
+	    {
+	        funcs: [
+	            "\\coprod", "\\bigvee", "\\bigwedge", "\\biguplus", "\\bigcap",
+	            "\\bigcup", "\\intop", "\\prod", "\\sum", "\\bigotimes",
+	            "\\bigoplus", "\\bigodot", "\\bigsqcup", "\\smallint"
+	        ],
+	        data: {
+	            numArgs: 0,
+	            handler: function(func) {
+	                return {
+	                    type: "op",
+	                    limits: true,
+	                    symbol: true,
+	                    body: func
+	                };
+	            }
+	        }
+	    },
+
+	    // Fractions
+	    {
+	        funcs: [
+	            "\\dfrac", "\\frac", "\\tfrac",
+	            "\\dbinom", "\\binom", "\\tbinom"
+	        ],
+	        data: {
+	            numArgs: 2,
+	            greediness: 2,
+	            handler: function(func, numer, denom) {
+	                var hasBarLine;
+	                var leftDelim = null;
+	                var rightDelim = null;
+	                var size = "auto";
+
+	                switch (func) {
+	                    case "\\dfrac":
+	                    case "\\frac":
+	                    case "\\tfrac":
+	                        hasBarLine = true;
+	                        break;
+	                    case "\\dbinom":
+	                    case "\\binom":
+	                    case "\\tbinom":
+	                        hasBarLine = false;
+	                        leftDelim = "(";
+	                        rightDelim = ")";
+	                        break;
+	                    default:
+	                        throw new Error("Unrecognized genfrac command");
+	                }
+
+	                switch (func) {
+	                    case "\\dfrac":
+	                    case "\\dbinom":
+	                        size = "display";
+	                        break;
+	                    case "\\tfrac":
+	                    case "\\tbinom":
+	                        size = "text";
+	                        break;
+	                }
+
+	                return {
+	                    type: "genfrac",
+	                    numer: numer,
+	                    denom: denom,
+	                    hasBarLine: hasBarLine,
+	                    leftDelim: leftDelim,
+	                    rightDelim: rightDelim,
+	                    size: size
+	                };
+	            }
+	        }
+	    },
+
+	    // Left and right overlap functions
+	    {
+	        funcs: ["\\llap", "\\rlap"],
+	        data: {
+	            numArgs: 1,
+	            allowedInText: true,
+	            handler: function(func, body) {
+	                return {
+	                    type: func.slice(1),
+	                    body: body
+	                };
+	            }
+	        }
+	    },
+
+	    // Delimiter functions
+	    {
+	        funcs: [
+	            "\\bigl", "\\Bigl", "\\biggl", "\\Biggl",
+	            "\\bigr", "\\Bigr", "\\biggr", "\\Biggr",
+	            "\\bigm", "\\Bigm", "\\biggm", "\\Biggm",
+	            "\\big",  "\\Big",  "\\bigg",  "\\Bigg",
+	            "\\left", "\\right"
+	        ],
+	        data: {
+	            numArgs: 1,
+	            handler: function(func, delim, positions) {
+	                if (!utils.contains(delimiters, delim.value)) {
+	                    throw new ParseError(
+	                        "Invalid delimiter: '" + delim.value + "' after '" +
+	                            func + "'",
+	                        this.lexer, positions[1]);
+	                }
+
+	                // left and right are caught somewhere in Parser.js, which is
+	                // why this data doesn't match what is in buildTree
+	                if (func === "\\left" || func === "\\right") {
+	                    return {
+	                        type: "leftright",
+	                        value: delim.value
+	                    };
+	                } else {
+	                    return {
+	                        type: "delimsizing",
+	                        size: delimiterSizes[func].size,
+	                        delimType: delimiterSizes[func].type,
+	                        value: delim.value
+	                    };
+	                }
+	            }
+	        }
+	    },
+
+	    // Sizing functions (handled in Parser.js explicitly, hence no handler)
+	    {
+	        funcs: [
+	            "\\tiny", "\\scriptsize", "\\footnotesize", "\\small",
+	            "\\normalsize", "\\large", "\\Large", "\\LARGE", "\\huge", "\\Huge"
+	        ],
+	        data: {
+	            numArgs: 0
+	        }
+	    },
+
+	    // Style changing functions (handled in Parser.js explicitly, hence no
+	    // handler)
+	    {
+	        funcs: [
+	            "\\displaystyle", "\\textstyle", "\\scriptstyle",
+	            "\\scriptscriptstyle"
+	        ],
+	        data: {
+	            numArgs: 0
+	        }
+	    },
+
+	    // Accents
+	    {
+	        funcs: [
+	            "\\acute", "\\grave", "\\ddot", "\\tilde", "\\bar", "\\breve",
+	            "\\check", "\\hat", "\\vec", "\\dot"
+	            // We don't support expanding accents yet
+	            // "\\widetilde", "\\widehat"
+	        ],
+	        data: {
+	            numArgs: 1,
+	            handler: function(func, base) {
+	                return {
+	                    type: "accent",
+	                    accent: func,
+	                    base: base
+	                };
+	            }
+	        }
+	    },
+
+	    // Infix generalized fractions
+	    {
+	        funcs: ["\\over", "\\choose"],
+	        data: {
+	            numArgs: 0,
+	            handler: function (func) {
+	                var replaceWith;
+	                switch (func) {
+	                    case "\\over":
+	                        replaceWith = "\\frac";
+	                        break;
+	                    case "\\choose":
+	                        replaceWith = "\\binom";
+	                        break;
+	                    default:
+	                        throw new Error("Unrecognized infix genfrac command");
+	                }
+	                return {
+	                    type: "infix",
+	                    replaceWith: replaceWith
+	                };
+	            }
+	        }
+	    }
+	];
+
+	var addFuncsWithData = function(funcs, data) {
+	    for (var i = 0; i < funcs.length; i++) {
+	        functions[funcs[i]] = data;
+	    }
+	};
+
+	// Add all of the functions in duplicatedFunctions to the functions map
+	for (var i = 0; i < duplicatedFunctions.length; i++) {
+	    addFuncsWithData(duplicatedFunctions[i].funcs, duplicatedFunctions[i].data);
+	}
+
+	// Returns the greediness of a given function. Since greediness is optional, we
+	// use this function to put in the default value if it is undefined.
+	var getGreediness = function(func) {
+	    if (functions[func].greediness === undefined) {
+	        return 1;
+	    } else {
+	        return functions[func].greediness;
+	    }
+	};
+
+	// Set default values of functions
+	for (var f in functions) {
+	    if (functions.hasOwnProperty(f)) {
+	        var func = functions[f];
+
+	        functions[f] = {
+	            numArgs: func.numArgs,
+	            argTypes: func.argTypes,
+	            greediness: (func.greediness === undefined) ? 1 : func.greediness,
+	            allowedInText: func.allowedInText ? func.allowedInText : false,
+	            numOptionalArgs: (func.numOptionalArgs === undefined) ? 0 :
+	                func.numOptionalArgs,
+	            handler: func.handler
+	        };
+	    }
+	}
+
+	module.exports = {
+	    funcs: functions,
+	    getGreediness: getGreediness
+	};
+
+
+/***/ },
+/* 149 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * The Lexer class handles tokenizing the input in various ways. Since our
+	 * parser expects us to be able to backtrack, the lexer allows lexing from any
+	 * given starting point.
+	 *
+	 * Its main exposed function is the `lex` function, which takes a position to
+	 * lex from and a type of token to lex. It defers to the appropriate `_innerLex`
+	 * function.
+	 *
+	 * The various `_innerLex` functions perform the actual lexing of different
+	 * kinds.
+	 */
+
+	var ParseError = __webpack_require__(28);
+
+	// The main lexer class
+	function Lexer(input) {
+	    this._input = input;
+	}
+
+	// The resulting token returned from `lex`.
+	function Token(text, data, position) {
+	    this.text = text;
+	    this.data = data;
+	    this.position = position;
+	}
+
+	// "normal" types of tokens. These are tokens which can be matched by a simple
+	// regex
+	var mathNormals = [
+	    /^[/|@.""`0-9a-zA-Z]/, // ords
+	    /^[*+-]/, // bins
+	    /^[=<>:]/, // rels
+	    /^[,;]/, // punctuation
+	    /^['\^_{}]/, // misc
+	    /^[(\[]/, // opens
+	    /^[)\]?!]/, // closes
+	    /^~/ // spacing
+	];
+
+	// These are "normal" tokens like above, but should instead be parsed in text
+	// mode.
+	var textNormals = [
+	    /^[a-zA-Z0-9`!@*()-=+\[\]'";:?\/.,]/, // ords
+	    /^[{}]/, // grouping
+	    /^~/ // spacing
+	];
+
+	// Regexes for matching whitespace
+	var whitespaceRegex = /^\s*/;
+	var whitespaceConcatRegex = /^( +|\\  +)/;
+
+	// This regex matches any other TeX function, which is a backslash followed by a
+	// word or a single symbol
+	var anyFunc = /^\\(?:[a-zA-Z]+|.)/;
+
+	/**
+	 * This function lexes a single normal token. It takes a position, a list of
+	 * "normal" tokens to try, and whether it should completely ignore whitespace or
+	 * not.
+	 */
+	Lexer.prototype._innerLex = function(pos, normals, ignoreWhitespace) {
+	    var input = this._input.slice(pos);
+	    var whitespace;
+
+	    if (ignoreWhitespace) {
+	        // Get rid of whitespace.
+	        whitespace = input.match(whitespaceRegex)[0];
+	        pos += whitespace.length;
+	        input = input.slice(whitespace.length);
+	    } else {
+	        // Do the funky concatenation of whitespace that happens in text mode.
+	        whitespace = input.match(whitespaceConcatRegex);
+	        if (whitespace !== null) {
+	            return new Token(" ", null, pos + whitespace[0].length);
+	        }
+	    }
+
+	    // If there's no more input to parse, return an EOF token
+	    if (input.length === 0) {
+	        return new Token("EOF", null, pos);
+	    }
+
+	    var match;
+	    if ((match = input.match(anyFunc))) {
+	        // If we match a function token, return it
+	        return new Token(match[0], null, pos + match[0].length);
+	    } else {
+	        // Otherwise, we look through the normal token regexes and see if it's
+	        // one of them.
+	        for (var i = 0; i < normals.length; i++) {
+	            var normal = normals[i];
+
+	            if ((match = input.match(normal))) {
+	                // If it is, return it
+	                return new Token(
+	                    match[0], null, pos + match[0].length);
+	            }
+	        }
+	    }
+
+	    throw new ParseError("Unexpected character: '" + input[0] +
+	        "'", this, pos);
+	};
+
+	// A regex to match a CSS color (like #ffffff or BlueViolet)
+	var cssColor = /^(#[a-z0-9]+|[a-z]+)/i;
+
+	/**
+	 * This function lexes a CSS color.
+	 */
+	Lexer.prototype._innerLexColor = function(pos) {
+	    var input = this._input.slice(pos);
+
+	    // Ignore whitespace
+	    var whitespace = input.match(whitespaceRegex)[0];
+	    pos += whitespace.length;
+	    input = input.slice(whitespace.length);
+
+	    var match;
+	    if ((match = input.match(cssColor))) {
+	        // If we look like a color, return a color
+	        return new Token(match[0], null, pos + match[0].length);
+	    } else {
+	        throw new ParseError("Invalid color", this, pos);
+	    }
+	};
+
+	// A regex to match a dimension. Dimensions look like
+	// "1.2em" or ".4pt" or "1 ex"
+	var sizeRegex = /^(-?)\s*(\d+(?:\.\d*)?|\.\d+)\s*([a-z]{2})/;
+
+	/**
+	 * This function lexes a dimension.
+	 */
+	Lexer.prototype._innerLexSize = function(pos) {
+	    var input = this._input.slice(pos);
+
+	    // Ignore whitespace
+	    var whitespace = input.match(whitespaceRegex)[0];
+	    pos += whitespace.length;
+	    input = input.slice(whitespace.length);
+
+	    var match;
+	    if ((match = input.match(sizeRegex))) {
+	        var unit = match[3];
+	        // We only currently handle "em" and "ex" units
+	        if (unit !== "em" && unit !== "ex") {
+	            throw new ParseError("Invalid unit: '" + unit + "'", this, pos);
+	        }
+	        return new Token(match[0], {
+	                number: +(match[1] + match[2]),
+	                unit: unit
+	            }, pos + match[0].length);
+	    }
+
+	    throw new ParseError("Invalid size", this, pos);
+	};
+
+	/**
+	 * This function lexes a string of whitespace.
+	 */
+	Lexer.prototype._innerLexWhitespace = function(pos) {
+	    var input = this._input.slice(pos);
+
+	    var whitespace = input.match(whitespaceRegex)[0];
+	    pos += whitespace.length;
+
+	    return new Token(whitespace, null, pos);
+	};
+
+	/**
+	 * This function lexes a single token starting at `pos` and of the given mode.
+	 * Based on the mode, we defer to one of the `_innerLex` functions.
+	 */
+	Lexer.prototype.lex = function(pos, mode) {
+	    if (mode === "math") {
+	        return this._innerLex(pos, mathNormals, true);
+	    } else if (mode === "text") {
+	        return this._innerLex(pos, textNormals, false);
+	    } else if (mode === "color") {
+	        return this._innerLexColor(pos);
+	    } else if (mode === "size") {
+	        return this._innerLexSize(pos);
+	    } else if (mode === "whitespace") {
+	        return this._innerLexWhitespace(pos);
+	    }
+	};
+
+	module.exports = Lexer;
+
+
+/***/ },
+/* 150 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17951,7 +23073,110 @@
 
 
 /***/ },
-/* 138 */
+/* 151 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/* WEBPACK VAR INJECTION */(function(process) {/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule accumulate
+	 */
+
+	"use strict";
+
+	var invariant = __webpack_require__(38);
+
+	/**
+	 * Accumulates items that must not be null or undefined.
+	 *
+	 * This is used to conserve memory by avoiding array allocations.
+	 *
+	 * @return {*|array<*>} An accumulation of items.
+	 */
+	function accumulate(current, next) {
+	  ("production" !== process.env.NODE_ENV ? invariant(
+	    next != null,
+	    'accumulate(...): Accumulated items must be not be null or undefined.'
+	  ) : invariant(next != null));
+	  if (current == null) {
+	    return next;
+	  } else {
+	    // Both are not empty. Warning: Never call x.concat(y) when you are not
+	    // certain that x is an Array (x could be a string with concat method).
+	    var currentIsArray = Array.isArray(current);
+	    var nextIsArray = Array.isArray(next);
+	    if (currentIsArray) {
+	      return current.concat(next);
+	    } else {
+	      if (nextIsArray) {
+	        return [current].concat(next);
+	      } else {
+	        return [current, next];
+	      }
+	    }
+	  }
+	}
+
+	module.exports = accumulate;
+	
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
+
+/***/ },
+/* 152 */
+/***/ function(module, exports, __webpack_require__) {
+
+	/**
+	 * Copyright 2013-2014 Facebook, Inc.
+	 *
+	 * Licensed under the Apache License, Version 2.0 (the "License");
+	 * you may not use this file except in compliance with the License.
+	 * You may obtain a copy of the License at
+	 *
+	 * http://www.apache.org/licenses/LICENSE-2.0
+	 *
+	 * Unless required by applicable law or agreed to in writing, software
+	 * distributed under the License is distributed on an "AS IS" BASIS,
+	 * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+	 * See the License for the specific language governing permissions and
+	 * limitations under the License.
+	 *
+	 * @providesModule forEachAccumulated
+	 */
+
+	"use strict";
+
+	/**
+	 * @param {array} an "accumulation" of items which is either an Array or
+	 * a single item. Useful when paired with the `accumulate` module. This is a
+	 * simple utility that allows us to reason about a collection of items, but
+	 * handling the case when there is exactly one item (and we do not need to
+	 * allocate an array).
+	 */
+	var forEachAccumulated = function(arr, cb, scope) {
+	  if (Array.isArray(arr)) {
+	    arr.forEach(cb, scope);
+	  } else if (arr) {
+	    cb.call(scope, arr);
+	  }
+	};
+
+	module.exports = forEachAccumulated;
+
+
+/***/ },
+/* 153 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -17974,10 +23199,10 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
-	var getNodeForCharacterOffset = __webpack_require__(145);
-	var getTextContentAccessor = __webpack_require__(109);
+	var getNodeForCharacterOffset = __webpack_require__(160);
+	var getTextContentAccessor = __webpack_require__(121);
 
 	/**
 	 * While `isCollapsed` is available on the Selection object and `collapsed`
@@ -18171,7 +23396,7 @@
 
 
 /***/ },
-/* 139 */
+/* 154 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -18210,7 +23435,7 @@
 
 
 /***/ },
-/* 140 */
+/* 155 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -18268,7 +23493,7 @@
 
 
 /***/ },
-/* 141 */
+/* 156 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -18292,11 +23517,11 @@
 
 	"use strict";
 
-	var Danger = __webpack_require__(146);
-	var ReactMultiChildUpdateTypes = __webpack_require__(84);
+	var Danger = __webpack_require__(161);
+	var ReactMultiChildUpdateTypes = __webpack_require__(89);
 
-	var getTextContentAccessor = __webpack_require__(109);
-	var invariant = __webpack_require__(33);
+	var getTextContentAccessor = __webpack_require__(121);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * The DOM property to use when setting text content.
@@ -18450,10 +23675,10 @@
 
 	module.exports = DOMChildrenOperations;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 142 */
+/* 157 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -18477,7 +23702,7 @@
 
 	"use strict";
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Normalization of deprecated HTML5 `key` values
@@ -18572,10 +23797,10 @@
 
 	module.exports = getEventKey;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 143 */
+/* 158 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -18599,7 +23824,7 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
 	var performance;
 
@@ -18614,7 +23839,7 @@
 
 
 /***/ },
-/* 144 */
+/* 159 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -18653,7 +23878,7 @@
 
 
 /***/ },
-/* 145 */
+/* 160 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -18739,7 +23964,7 @@
 
 
 /***/ },
-/* 146 */
+/* 161 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -18765,12 +23990,12 @@
 
 	"use strict";
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
-	var createNodesFromMarkup = __webpack_require__(147);
-	var emptyFunction = __webpack_require__(86);
-	var getMarkupWrap = __webpack_require__(148);
-	var invariant = __webpack_require__(33);
+	var createNodesFromMarkup = __webpack_require__(162);
+	var emptyFunction = __webpack_require__(91);
+	var getMarkupWrap = __webpack_require__(163);
+	var invariant = __webpack_require__(38);
 
 	var OPEN_TAG_NAME_EXP = /^(<[^ \/>]+)/;
 	var RESULT_INDEX_ATTR = 'data-danger-index';
@@ -18930,10 +24155,10 @@
 
 	module.exports = Danger;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 147 */
+/* 162 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -18957,11 +24182,11 @@
 
 	/*jslint evil: true, sub: true */
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
-	var createArrayFrom = __webpack_require__(149);
-	var getMarkupWrap = __webpack_require__(148);
-	var invariant = __webpack_require__(33);
+	var createArrayFrom = __webpack_require__(164);
+	var getMarkupWrap = __webpack_require__(163);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Dummy container used to render all markup.
@@ -19030,10 +24255,10 @@
 
 	module.exports = createNodesFromMarkup;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 148 */
+/* 163 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -19054,9 +24279,9 @@
 	 * @providesModule getMarkupWrap
 	 */
 
-	var ExecutionEnvironment = __webpack_require__(28);
+	var ExecutionEnvironment = __webpack_require__(27);
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Dummy container used to detect which wraps are necessary.
@@ -19157,10 +24382,10 @@
 
 	module.exports = getMarkupWrap;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ },
-/* 149 */
+/* 164 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/**
@@ -19182,7 +24407,7 @@
 	 * @typechecks
 	 */
 
-	var toArray = __webpack_require__(150);
+	var toArray = __webpack_require__(165);
 
 	/**
 	 * Perform a heuristic test to determine if an object is "array-like".
@@ -19257,7 +24482,7 @@
 
 
 /***/ },
-/* 150 */
+/* 165 */
 /***/ function(module, exports, __webpack_require__) {
 
 	/* WEBPACK VAR INJECTION */(function(process) {/**
@@ -19279,7 +24504,7 @@
 	 * @typechecks
 	 */
 
-	var invariant = __webpack_require__(33);
+	var invariant = __webpack_require__(38);
 
 	/**
 	 * Convert array-like objects to arrays.
@@ -19336,7 +24561,7 @@
 
 	module.exports = toArray;
 	
-	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(89)))
+	/* WEBPACK VAR INJECTION */}.call(exports, __webpack_require__(32)))
 
 /***/ }
 /******/ ])

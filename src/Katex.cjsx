@@ -1,5 +1,5 @@
-require '../lib/katex-0.1.1/katex.min.css'
-katex = require '../lib/katex-0.1.1/katex.min.js'
+require '../lib/KaTeX/static/katex.less'
+katex = require '../lib/KaTeX/katex.js'
 React = require 'react'
 
 

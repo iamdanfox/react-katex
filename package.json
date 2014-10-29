@@ -1,5 +1,5 @@
 {
-  "name": "katex-react-component",
+  "name": "react-katex",
   "version": "0.1.0",
   "description": "React wrapper for KaTeX",
   "dependencies": {
