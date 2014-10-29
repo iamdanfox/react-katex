@@ -1,29 +1,9 @@
 React = require 'react'
+KaTeX = require './Katex.cjsx'
 
 window.React = React
 
-
-KaTeX = React.createClass
-  displayName: 'KaTeX'
-
-  propTypes:
-    tex: React.PropTypes.string
-    children: React.PropTypes.string
-
-  getTex: ->
-    @props.tex or @props.children
-
-  componentDidMount: ->
-    window.katex.render @getTex(), @refs.container.getDOMNode()
-
-  render: ->
-    <div className='katex-react-component' ref='container'></div>
-
-
-
-
 App = React.createClass
-
   render: ->
     <div>
       <h1>KaTeX React Component</h1>
