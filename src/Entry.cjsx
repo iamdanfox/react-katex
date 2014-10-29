@@ -7,35 +7,30 @@ KaTeX = React.createClass
   displayName: 'KaTeX'
 
   propTypes:
-    string: React.PropTypes.string.isRequired
+    tex: React.PropTypes.string
+    children: React.PropTypes.string
 
-  shouldComponentUpdate: (nextProps, nextState) ->
-    return @props.string isnt nextProps.string
+  getTex: ->
+    @props.tex or @props.children
+
+  componentDidMount: ->
+    window.katex.render @getTex(), @refs.container.getDOMNode()
 
   render: ->
-    console.log "'#{@props.string}'"
-    rawMarkup = window.katex.renderToString @props.string
-    <div className='katex-react-component' ref='container' dangerouslySetInnerHTML={{__html: rawMarkup}}></div>
+    <div className='katex-react-component' ref='container'></div>
 
 
 
 
 App = React.createClass
-  getInitialState: ->
-    x: 0
-
-  componentDidMount: ->
-    setInterval =>
-      @setState x: @state.x + 1
-    , 1000
 
   render: ->
     <div>
       <h1>KaTeX React Component</h1>
-      <KaTeX fake={@state.x} string="c = \\sqrt{a^2 + b^2}"></KaTeX>
+      <KaTeX tex="c = \\pm\\sqrt{a^2 + b^2}"></KaTeX>
+      <KaTeX>y = x^2 + 2x + 1</KaTeX>
+      <KaTeX>{'d = \\sqrt{x^2 + y^2 + z^2}'}</KaTeX>
     </div>
 
 window.onload = ->
-  # React.renderComponent <App />, document.querySelector('#test')
-
-  window.katex.render "c = a^2 + b^2", document.querySelector('#test2')
+  React.renderComponent <App />, document.querySelector('#test')
