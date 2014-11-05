@@ -85,7 +85,7 @@
 	      "className": 'demo'
 	    }, React.createElement(KaTeX, null, 'd = \\sqrt{x^2 + y^2 + z^2}'), React.createElement(React.DOM.pre, null, '<KaTeX>{\'d = \\sqrt{x^2 + y^2 + z^2}\'}</KaTeX>')), React.createElement(React.DOM.p, null, "Would you use this? ", React.createElement(React.DOM.a, {
 	      "href": "https://twitter.com/iamdanfox"
-	    }, "Tweet me"), " and I\'ll publish to npm"));
+	    }, "Tweet me"), " and I\'ll publish this somehow."));
 	  }
 	});
 

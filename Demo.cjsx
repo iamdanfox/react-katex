@@ -43,7 +43,7 @@ Demo = React.createClass
         <pre>{'<KaTeX>{\'d = \\sqrt{x^2 + y^2 + z^2}\'}</KaTeX>'}</pre>
       </div>
 
-      <p>Would you use this? <a href="https://twitter.com/iamdanfox">Tweet me</a> and I&apos;ll publish to npm</p>
+      <p>Would you use this? <a href="https://twitter.com/iamdanfox">Tweet me</a> and I&apos;ll publish this somehow.</p>
     </div>
 
 window.onload = ->
