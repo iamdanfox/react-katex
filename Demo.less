@@ -1,0 +1,48 @@
+body {
+  margin: 0;
+  background: #fff2e7;
+}
+
+.app {
+  padding: 40px;
+  width: 40em;
+  margin: 1em auto;
+
+  header {
+    text-align: center;
+    color: #cc7a6f;
+
+    h1 {
+      font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+      font-size: 48px;
+      font-weight: normal;
+    }
+  }
+
+  .demo {
+    margin: 2em 0;
+    box-shadow: 1px 2px 4px 1px fade(black, 5%);
+    font-size: 120%;
+
+    .react-katex-component {
+      display: block;
+      background: white;
+      padding: 40px;
+    }
+
+    pre {
+      display: block;
+      margin: 0;
+      background: lighten(#FF851B, 40%);
+      color: #666;
+      background: fade(#329894, 30%);
+      color: white;
+      padding: 40px;
+      transition: all 300ms;
+    }
+
+    &:hover pre {
+      background: fade(#329894, 100%);
+    }
+  }
+}
