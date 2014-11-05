@@ -61,15 +61,31 @@
 	      "className": 'app'
 	    }, React.createElement(React.DOM.header, null, React.createElement(React.DOM.h1, null, React.createElement(KaTeX, {
 	      "tex": '\\KaTeX'
-	    }), " React Component")), React.createElement(React.DOM.div, {
+	    }), " React Component"), React.createElement(React.DOM.iframe, {
+	      "src": "http://ghbtns.com/github-btn.html?user=iamdanfox&repo=react-katex&type=watch&count=true",
+	      "allowtransparency": "true",
+	      "scrolling": "0",
+	      "width": "110",
+	      "height": "20"
+	    })), React.createElement(React.DOM.div, {
+	      "className": 'demo'
+	    }, React.createElement(KaTeX, null, "y = x^2 + 2x + 1"), React.createElement(React.DOM.pre, null, "<KaTeX>\n  y = x^2 + 2x + 1\n</KaTeX>")), React.createElement(React.DOM.p, null, "Embed maths in your ", React.createElement(React.DOM.a, {
+	      "href": "http://facebook.github.io/react/"
+	    }, "React\ncomponents"), " with ", React.createElement(React.DOM.a, {
+	      "href": "https://khan.github.io/KaTeX/"
+	    }, "KaTeX")), React.createElement(React.DOM.div, {
 	      "className": 'demo'
 	    }, React.createElement(KaTeX, {
 	      "tex": "c = \\pm\\sqrt{a^2 + b^2}"
-	    }), React.createElement(React.DOM.pre, null, '<KaTeX tex="c = \\pm\\sqrt{a^2 + b^2}" />')), React.createElement(React.DOM.div, {
+	    }), React.createElement(React.DOM.pre, null, '<KaTeX tex="c = \\pm\\sqrt{a^2 + b^2}" />')), React.createElement(React.DOM.p, null, "Works awesomely with ", React.createElement(React.DOM.a, {
+	      "href": "https://github.com/petehunt/webpack-howto"
+	    }, "webpack"), ": only one ", React.createElement(React.DOM.code, null, "require"), " involved."), React.createElement(React.DOM.p, null, "(See my ", React.createElement(React.DOM.code, null, React.createElement(React.DOM.a, {
+	      "href": "https://github.com/iamdanfox/react-katex/blob/master/webpack.config.js"
+	    }, "webpack.config.js")), ")"), React.createElement(React.DOM.div, {
 	      "className": 'demo'
-	    }, React.createElement(KaTeX, null, "y = x^2 + 2x + 1"), React.createElement(React.DOM.pre, null, "<KaTeX>\n  y = x^2 + 2x + 1\n</KaTeX>")), React.createElement(React.DOM.div, {
-	      "className": 'demo'
-	    }, React.createElement(KaTeX, null, 'd = \\sqrt{x^2 + y^2 + z^2}'), React.createElement(React.DOM.pre, null, '<KaTeX>{\'d = \\sqrt{x^2 + y^2 + z^2}\'}</KaTeX>')));
+	    }, React.createElement(KaTeX, null, 'd = \\sqrt{x^2 + y^2 + z^2}'), React.createElement(React.DOM.pre, null, '<KaTeX>{\'d = \\sqrt{x^2 + y^2 + z^2}\'}</KaTeX>')), React.createElement(React.DOM.p, null, "Would you use this? ", React.createElement(React.DOM.a, {
+	      "href": "https://twitter.com/iamdanfox"
+	    }, "Tweet me"), " and I\'ll publish to npm"));
 	  }
 	});
 
@@ -25207,7 +25223,7 @@
 /***/ function(module, exports, __webpack_require__) {
 
 	exports = module.exports = __webpack_require__(148)();
-	exports.push([module.id, "body {\n  margin: 0;\n  background: #fff2e7;\n}\n.app {\n  padding: 40px;\n  width: 40em;\n  margin: 1em auto;\n}\n.app header {\n  text-align: center;\n  color: #cc7a6f;\n}\n.app header h1 {\n  font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;\n  font-size: 48px;\n  font-weight: normal;\n}\n.app .demo {\n  margin: 2em 0;\n  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.05);\n  font-size: 120%;\n}\n.app .demo .react-katex-component {\n  display: block;\n  background: white;\n  padding: 40px;\n}\n.app .demo pre {\n  display: block;\n  margin: 0;\n  background: #fff2e7;\n  color: #666;\n  background: rgba(50, 152, 148, 0.3);\n  color: white;\n  padding: 40px;\n  transition: all 300ms;\n}\n.app .demo:hover pre {\n  background: #329894;\n}\n", ""]);
+	exports.push([module.id, "body {\n  margin: 0;\n  background: #fff2e7;\n}\n.app {\n  padding: 40px;\n  width: 41em;\n  max-width: 90%;\n  margin: 1em auto;\n  font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;\n  line-height: 170%;\n}\n.app header {\n  text-align: center;\n  color: #cc7a6f;\n}\n.app header h1 {\n  font-size: 48px;\n  font-weight: normal;\n  margin: 0;\n}\n.app header iframe {\n  border: 0;\n  opacity: 0.5;\n  transition: all 150ms;\n}\n.app header iframe:hover {\n  opacity: 1;\n}\n.app .demo {\n  margin: 2em 0;\n  box-shadow: 1px 2px 4px 1px rgba(0, 0, 0, 0.05);\n  font-size: 120%;\n}\n.app .demo .react-katex-component {\n  display: block;\n  background: white;\n  padding: 40px;\n}\n.app .demo pre {\n  display: block;\n  margin: 0;\n  color: white;\n  background: rgba(50, 152, 148, 0.45);\n  padding: 40px;\n  transition: all 300ms;\n}\n.app .demo:hover pre {\n  background: #329894;\n}\n.app p {\n  padding: 0 40px;\n  font-size: 20px;\n}\n.app p a {\n  color: inherit;\n  transition: all 150ms;\n}\n.app p a:hover {\n  color: #0074D9;\n}\n.app p code {\n  color: rgba(156, 9, 0, 0.9);\n  background: #f9f2f4;\n  border-radius: 4px;\n  padding: 2px 4px;\n}\n", ""]);
 
 /***/ }
 /******/ ])

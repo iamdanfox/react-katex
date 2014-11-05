@@ -5,17 +5,30 @@ body {
 
 .app {
   padding: 40px;
-  width: 40em;
+  width: 41em;
+  max-width: 90%;
   margin: 1em auto;
+  font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
+  line-height: 170%;
 
   header {
     text-align: center;
     color: #cc7a6f;
 
     h1 {
-      font-family: 'Helvetica Neue', Helvetica, Roboto, Arial, sans-serif;
       font-size: 48px;
       font-weight: normal;
+      margin: 0;
+    }
+
+    iframe {
+      border: 0;
+      opacity: 0.5;
+      transition: all 150ms;
+
+      &:hover {
+        opacity: 1;
+      }
     }
   }
 
@@ -33,16 +46,35 @@ body {
     pre {
       display: block;
       margin: 0;
-      background: lighten(#FF851B, 40%);
-      color: #666;
-      background: fade(#329894, 30%);
       color: white;
+      background: fade(#329894, 45%);
       padding: 40px;
       transition: all 300ms;
     }
 
     &:hover pre {
       background: fade(#329894, 100%);
+    }
+  }
+
+  p {
+    padding: 0 40px;
+    font-size: 20px;
+
+    a {
+      color: inherit;
+      transition: all 150ms;
+
+      &:hover {
+        color: #0074D9;
+      }
+    }
+
+    code {
+      color: fade(darken(#FF4136, 30%),90%);
+      background: #f9f2f4;
+      border-radius: 4px;
+      padding: 2px 4px;
     }
   }
 }
