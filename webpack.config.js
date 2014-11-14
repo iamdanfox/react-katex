@@ -3,7 +3,7 @@ var webpack = require('webpack');
 module.exports = {
   entry: {
     demo: './Demo.cjsx',
-    vendor: ['react'],
+    vendor: ['react', './lib/KaTeX/katex.js'],
   },
   output: {
     filename: 'bundle.js',
