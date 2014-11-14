@@ -18,5 +18,9 @@ module.exports = KaTeX = React.createClass
   componentDidMount: ->
     katex.render @getTex(), @refs.container.getDOMNode()
 
+  componentWillReceiveProps: (nextProps) ->
+    if (nextProps.tex or nextProps.children) isnt @getTex()
+      katex.render @getTex(), @refs.container.getDOMNode()
+
   render: ->
     <span className='react-katex-component' ref='container' />

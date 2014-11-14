@@ -7,6 +7,14 @@ window.React = React
 Demo = React.createClass
   displayName: 'Demo'
 
+  getInitialState: ->
+    ticks: 0
+
+  componentDidMount: ->
+    setInterval =>
+      @setState ticks: @state.ticks + 1
+    , 1000
+
   render: ->
     <div className='app'>
       <header>
@@ -29,8 +37,8 @@ Demo = React.createClass
       </p>
 
       <div className='demo'>
-        <KaTeX tex="c = \\pm\\sqrt{a^2 + b^2}" />
-        <pre>{'<KaTeX tex="c = \\pm\\sqrt{a^2 + b^2}" />'}</pre>
+        <KaTeX tex="c = \\pm\\sqrt{a^2 + b^2} + #{@state.ticks}" />
+        <pre>{'<KaTeX tex="c = \\pm\\sqrt{a^2 + b^2} + #{@state.ticks}" />'}</pre>
       </div>
 
       <p>Works awesomely with <a href="https://github.com/petehunt/webpack-howto">

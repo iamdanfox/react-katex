@@ -1,10 +1,16 @@
 var webpack = require('webpack');
 
 module.exports = {
-  entry: './Demo.cjsx',
+  entry: {
+    demo: './Demo.cjsx',
+    vendor: ['react'],
+  },
   output: {
     filename: 'bundle.js',
   },
+  plugins: [
+    new webpack.optimize.CommonsChunkPlugin('vendor', 'vendor.bundle.js')
+  ],
   module: {
     loaders: [
       { test: /\.(woff2|woff|eot|ttf)$/, loaders: ['file-loader?name=[path][name].[ext]'] },
